@@ -15,7 +15,7 @@ public class ConnectionPostgresql {
 	private static final String _JDBC = "jdbc:postgresql://";
 	private static final String _HOST = "127.0.0.1:5432";
 
-	private static final String _DB_NAME = "bdexample";
+	private static final String _DB_NAME = "estacionamiento";
 
 	private static final String _USER = "postgres";
 	private static final String _PASSWORD = "123456789";
