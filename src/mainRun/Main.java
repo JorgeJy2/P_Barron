@@ -24,6 +24,8 @@ public class Main {
 
 			// lambda
 			daoPeople.getAll().stream().forEach(System.out::println);
+			
+			
 
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
