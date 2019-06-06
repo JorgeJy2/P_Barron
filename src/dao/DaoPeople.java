@@ -3,6 +3,7 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import connection.ConnectionPostgresql;
@@ -18,73 +19,107 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	private static final String _UPDATE = "UPDATE persona SET nombre=?,"
 			+ "apellido_paterno=?,apellido_materno=?,telefono=?,correo=?";
 
+	// Métodos implementados de la interface DaoInterface
 	@Override
 	public Object add(DtoPeople dto) throws SQLException, ClassNotFoundException {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_ADD);
+		preparedStatement.setString(1, dto.getName());
+		preparedStatement.setString(2, dto.getFirstName());
+		preparedStatement.setString(3, dto.getLastName());
+		preparedStatement.setString(4, dto.getTelephone());
+		preparedStatement.setString(5, dto.getEmail());
 
-		PreparedStatement statement = connectionPostgresql.getStatement(_ADD);
-		statement.setString(1, dto.getName());
-		statement.setString(2, dto.getFirstName());
-		statement.setString(3, dto.getLastName());
-		statement.setString(4, dto.getTelephone());
-		statement.setString(5, dto.getEmail());
-		
-		ResultSet resultSet = statement.executeQuery();
-		
-		int idResult = -1; // Aquí se va a almacenar el id que retorne la sentencia
+		ResultSet result = preparedStatement.executeQuery();
 
-		while (resultSet.next()) {
-			idResult = resultSet.getInt(1);
+		int idResult = -1;
+
+		while (result.next()) {
+			idResult = result.getInt(1);
 		}
 
-		resultSet.close();
-		statement.close();
-
+		result.close();
+		preparedStatement.close();
 		return idResult;
 	}
 
 	@Override
 	public boolean update(DtoPeople dto) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
+		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_UPDATE);
+
+		preparedStatement.setString(1, dto.getName());
+		preparedStatement.setString(2, dto.getFirstName());
+		preparedStatement.setString(3, dto.getLastName());
+		preparedStatement.setString(4, dto.getTelephone());
+		preparedStatement.setString(5, dto.getEmail());
+		preparedStatement.setInt(6, dto.getId());
+
+		int tuplasChange = preparedStatement.executeUpdate();
+		preparedStatement.close();
+
+		return (tuplasChange > 0);
 	}
 
 	@Override
 	public boolean delete(DtoPeople dto) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
+		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_DELETE);
+
+		preparedStatement.setInt(1, dto.getId());
+
+		int result = preparedStatement.executeUpdate();
+		preparedStatement.close();
+
+		return (result > 0);
 	}
 
 	@Override
 	public DtoPeople get(Object key) throws SQLException, ClassNotFoundException {
-		
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
-		
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ONE);
-		
-		int id = (int) key;
 
-		preparedStatement.setInt(1, id);
+		preparedStatement.setInt(1, (int) key);
 		
 		ResultSet resultSet = preparedStatement.executeQuery();
-		
-		DtoPeople daoPeople = new DtoPeople();
-		
-		while(resultSet.next()) {
-			daoPeople.setId(resultSet.getInt(1));
-			daoPeople.setName(resultSet.getString(2));
-			daoPeople.setFirstName(resultSet.getString(3));
-			daoPeople.setLastName(resultSet.getString(4));
-			daoPeople.setTelephone(resultSet.getString(5));
-			daoPeople.setEmail(resultSet.getString(6));
+
+		DtoPeople dtoPeople = new DtoPeople();
+
+		while (resultSet.next()) {
+			// dtoPeople.setId(resultSet.getInt(1));
+			dtoPeople.setName(resultSet.getString(1));
+			dtoPeople.setFirstName(resultSet.getString(2));
+			dtoPeople.setLastName(resultSet.getString(3));
+			dtoPeople.setTelephone(resultSet.getString(4));
+			dtoPeople.setEmail(resultSet.getString(5));
 		}
-		
-		return daoPeople;
+
+		resultSet.close();
+		preparedStatement.close();
+		return dtoPeople;
 	}
 
 	@Override
 	public List<DtoPeople> getAll() throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ALL);
+
+		ResultSet tableResultSet = preparedStatement.executeQuery();
+
+		DtoPeople dtoPeople;
+
+		List<DtoPeople> listPeople = new ArrayList<DtoPeople>();
+
+		while (tableResultSet.next()) {
+			dtoPeople = new DtoPeople();
+			dtoPeople.setId(tableResultSet.getInt(1));
+			dtoPeople.setName(tableResultSet.getString(2));
+			listPeople.add(dtoPeople);
+		}
+
+		tableResultSet.close();
+		preparedStatement.close();
+
+		return listPeople;
 	}
 }
