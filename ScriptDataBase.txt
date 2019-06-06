@@ -1,0 +1,36 @@
+CREATE DATABASE estacionamiento WITH ENCODING = 'UTF8'; 
+\c estacionamiento
+
+/*TABLES*/
+
+CREATE TABLE persona(
+    id SERIAL PRIMARY KEY NOT NULL,
+    nombre VARCHAR (50) NOT NULL,
+    apellido_paterno VARCHAR (20) NOT NULL,
+    apellido_materno VARCHAR (20),
+    telefono VARCHAR (15),
+    correo VARCHAR (30) NOT NULL	
+);
+
+
+CREATE TABLE automovil(
+    id SERIAL PRIMARY KEY NOT NULL,
+    modelo VARCHAR (30) NOT NULL,
+    placa VARCHAR (15) NOT NULL,
+    color VARCHAR (20)	
+);
+
+
+CREATE TYPE estatus_boleto AS ENUM ('Pagado','En espera','Perdido');
+
+CREATE TABLE boleto(
+    id SERIAL PRIMARY KEY NOT NULL,
+    id_auto INT NOT NULL,
+    id_persona  INT NOT NULL,
+    fecha_entrada TIMESTAMP DEFAULT now(),
+    fecha_salida TIMESTAMP,
+    total_pago DECIMAL DEFAULT 0.0,
+    estatus estatus_boleto DEFAULT 'En espera', 
+    FOREIGN KEY (id_auto) REFERENCES automovil (id),
+    FOREIGN KEY (id_persona) REFERENCES persona (id)
+);
