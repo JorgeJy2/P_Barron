@@ -10,7 +10,7 @@ public interface DaoInterface<Model> {
 
 	boolean update(Model dto) throws SQLException, ClassNotFoundException;
 
-	boolean delete(Model dto) throws SQLException, ClassNotFoundException;
+	boolean delete(Object key) throws SQLException, ClassNotFoundException;
 
 	Model get(Object key) throws SQLException, ClassNotFoundException;
 

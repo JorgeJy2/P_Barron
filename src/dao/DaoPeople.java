@@ -19,7 +19,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	private static final String _UPDATE = "UPDATE persona SET nombre=?,"
 			+ "apellido_paterno=?,apellido_materno=?,telefono=?,correo=?";
 
-	// Métodos implementados de la interface DaoInterface
+	// Mï¿½todos implementados de la interface DaoInterface
 	@Override
 	public Object add(DtoPeople dto) throws SQLException, ClassNotFoundException {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
@@ -62,11 +62,11 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	}
 
 	@Override
-	public boolean delete(DtoPeople dto) throws SQLException, ClassNotFoundException {
+	public boolean delete(Object key) throws SQLException, ClassNotFoundException {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_DELETE);
 
-		preparedStatement.setInt(1, dto.getId());
+		preparedStatement.setInt(1, (int) key);
 
 		int result = preparedStatement.executeUpdate();
 		preparedStatement.close();
@@ -114,6 +114,11 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 			dtoPeople = new DtoPeople();
 			dtoPeople.setId(tableResultSet.getInt(1));
 			dtoPeople.setName(tableResultSet.getString(2));
+			dtoPeople.setFirstName(tableResultSet.getString(3));
+			dtoPeople.setLastName(tableResultSet.getString(4));
+			dtoPeople.setTelephone(tableResultSet.getString(5));
+			dtoPeople.setEmail(tableResultSet.getString(6));
+			
 			listPeople.add(dtoPeople);
 		}
 
