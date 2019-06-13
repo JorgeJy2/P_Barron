@@ -1,4 +1,4 @@
-package model;
+package model.list;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import dao.DaoInterface;
 import dao.DaoPeople;
+import model.dto.DtoPeople;
 
 public class ListPeople {
 

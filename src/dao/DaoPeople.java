@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.ConnectionPostgresql;
-import model.DtoPeople;
+import model.dto.DtoPeople;
 
 public class DaoPeople implements DaoInterface<DtoPeople> {
 

@@ -6,8 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import connection.ConnectionPostgresql;
-
-import model.DtoAuto;
+import model.dto.DtoAuto;
 
 public class DaoAuto implements DaoInterface<DtoAuto> {
 
@@ -42,21 +41,21 @@ public class DaoAuto implements DaoInterface<DtoAuto> {
 
 	@Override
 	public boolean update(DtoAuto dto) throws SQLException, ClassNotFoundException {
-		
+
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
-		
+
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_UPDATE);
-		
+
 		preparedStatement.setString(1, dto.getModelo());
 		preparedStatement.setString(2, dto.getPlaca());
 		preparedStatement.setString(3, dto.getColor());
 		preparedStatement.setInt(4, dto.getId());
-		
+
 		int resultUpdate = preparedStatement.executeUpdate();
-		
+
 		preparedStatement.close();
-		
-		return ( resultUpdate > 0 );
+
+		return (resultUpdate > 0);
 	}
 
 	@Override
