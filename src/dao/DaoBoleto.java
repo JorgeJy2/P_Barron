@@ -49,7 +49,7 @@ public class DaoBoleto implements DaoInterface<DtoBoleto> {
 	public boolean update(DtoBoleto dto) throws SQLException, ClassNotFoundException {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_UPDATE);
-		
+		///
 		preparedStatement.setString(1, dto.getFecha_salida());
 		preparedStatement.setDouble(2, dto.getTotal_pago());
 		preparedStatement.setString(3, dto.getEstatus());
