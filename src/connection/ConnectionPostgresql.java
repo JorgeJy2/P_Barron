@@ -20,6 +20,7 @@ public class ConnectionPostgresql {
 	private static final String _USER = "postgres";
 	private static final String _PASSWORD = "123456789";
 
+	
 	private ConnectionPostgresql() {}
 
 	public static ConnectionPostgresql getInstance() throws ClassNotFoundException, SQLException {

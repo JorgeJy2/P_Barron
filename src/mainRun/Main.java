@@ -44,6 +44,7 @@ public class Main {
 			
 			auto.getAll().stream().forEach(System.out::println);
 			daoPeople.getAll().stream().forEach(System.out::println);
+
 			boleto.getAll().stream().forEach(System.out::println);
 			
 			//listPeople.add(new DtoPeople(1, "Jorge","Jacobo","Francisco","55-145-23-23","jorge@gmail.com"));
