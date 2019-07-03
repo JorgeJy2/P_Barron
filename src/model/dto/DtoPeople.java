@@ -1,9 +1,9 @@
-package model;
+package model.dto;
 
 /**
  * Clase DTO de People
  * 
- * Versión 1
+ * Versiï¿½n 1
  * 
  * @author jorge Date : 04/05/2019
  * 

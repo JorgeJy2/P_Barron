@@ -9,14 +9,14 @@ CREATE TABLE persona(
     apellido_paterno VARCHAR (20) NOT NULL,
     apellido_materno VARCHAR (20),
     telefono VARCHAR (15),
-    correo VARCHAR (30) NOT NULL	
+    correo VARCHAR (30) NOT NULL UNIQUE	
 );
 
 
 CREATE TABLE automovil(
     id SERIAL PRIMARY KEY NOT NULL,
     modelo VARCHAR (30) NOT NULL,
-    placa VARCHAR (15) NOT NULL,
+    placa VARCHAR (15) NOT NULL UNIQUE,
     color VARCHAR (20)	
 );
 

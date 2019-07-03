@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.ConnectionPostgresql;
-
-import model.DtoUser;
+import model.dto.DtoUser;
 
 public class DaoUser implements DaoInterface<DtoUser> {
 
@@ -64,7 +63,9 @@ public class DaoUser implements DaoInterface<DtoUser> {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_ONE_SQL);
-
+		
+		preparedStatement.setInt(1, (int) key);
+		
 		ResultSet resultSet = preparedStatement.executeQuery();
 
 		DtoUser dtoUser = new DtoUser();
@@ -106,13 +107,13 @@ public class DaoUser implements DaoInterface<DtoUser> {
 	}
 
 	@Override
-	public boolean delete(DtoUser dto) throws SQLException, ClassNotFoundException {
+	public boolean delete(Object key) throws SQLException, ClassNotFoundException {
 
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_DELETE_SQL);
 
-		preparedStatement.setInt(1, dto.getId());
+		preparedStatement.setInt(1, (int) key);
 
 		int result = preparedStatement.executeUpdate();
 

@@ -2,8 +2,8 @@ package view;
 
 import java.sql.SQLException;
 
-import model.DtoUser;
-import model.ListUser;
+import model.dto.DtoUser;
+import model.list.ListUser;
 
 public class ViewUser {
 
