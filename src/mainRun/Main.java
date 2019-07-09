@@ -1,9 +1,10 @@
 package mainRun;
 
 import java.sql.SQLException;
-import dao.DaoAuto;
-import dao.DaoBoleto;
+import dao.DaoCar;
+import dao.DaoTicket;
 import dao.DaoPeople;
+import model.dto.DtoPeople;
 
 public class Main {
 
@@ -13,16 +14,11 @@ public class Main {
 
 		// TEST MAIN
 
-		DaoPeople daoPeople = new DaoPeople();
-		DaoAuto auto = new DaoAuto();
-		DaoBoleto boleto = new DaoBoleto(); 
+	
+		DaoCar auto = new DaoCar();
+		DaoTicket boleto = new DaoTicket(); 
 		try {
-			/*
-			 int result = (int ) daoPeople.add(new DtoPeople(0, "Jacobo", "Jacobo",
-			 "Uribe", "5588821155", "amanda@gmail.com"));
-			 
-			 System.out.println(result);
-			 */
+			
 			//DtoPeople dto = daoPeople.get(2);
 			//System.out.println(dto);
 
@@ -43,8 +39,6 @@ public class Main {
 			//auto.update(auto2);
 			
 			auto.getAll().stream().forEach(System.out::println);
-			daoPeople.getAll().stream().forEach(System.out::println);
-
 			boleto.getAll().stream().forEach(System.out::println);
 			
 			//listPeople.add(new DtoPeople(1, "Jorge","Jacobo","Francisco","55-145-23-23","jorge@gmail.com"));

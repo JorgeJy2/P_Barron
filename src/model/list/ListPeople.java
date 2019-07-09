@@ -44,19 +44,17 @@ public class ListPeople {
 			_listPeople.add(dtoPeople);
 		}
 	}
-	public DtoPeople getOne(int posicon) {
-		return _listPeople.get(posicon);
+	public DtoPeople getOne(int position) {
+		return _listPeople.get(position);
 	}
 	
-	public void delete(int poscion) throws ClassNotFoundException, SQLException {
-		if(_daoPeople.delete(_listPeople.get(poscion))) {
-			_listPeople.remove(poscion);
-		}
+	public void delete(int position) throws ClassNotFoundException, SQLException {
+		if(_daoPeople.delete(_listPeople.get(position)))
+			_listPeople.remove(position);
 	}
 	
-	public void update(DtoPeople dtoPeople, int posicion) throws ClassNotFoundException, SQLException {
-		if(_daoPeople.update(dtoPeople)) {
-			_listPeople.set(posicion,dtoPeople);
-		}
+	public void update(DtoPeople dtoPeople, int position) throws ClassNotFoundException, SQLException {
+		if(_daoPeople.update(dtoPeople))
+			_listPeople.set(position,dtoPeople);
 	}
 }

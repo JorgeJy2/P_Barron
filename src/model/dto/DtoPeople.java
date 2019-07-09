@@ -1,18 +1,20 @@
 package model.dto;
 
 /**
- * Clase DTO de People
+ * Archivo: DtoPeople.java
  * 
- * Versi�n 1
- * 
- * @author jorge Date : 04/05/2019
- * 
+ * Objetivo: Representa la estructura de una persona en el mundo real.
+ *  
+ * @author jorge
+ *
  */
 
 public class DtoPeople {
-
-	/* Atributos */
-
+	
+	//Atributos
+	
+	//Atributos de clase
+	
 	private int id;
 	private String name;
 	private String firstName;
@@ -20,8 +22,10 @@ public class DtoPeople {
 	private String telephone;
 	private String email;
 
-	/* Constructores */
-	// Por defecto
+	//Constructores
+	
+	//Sin parametros
+	
 	public DtoPeople() {
 		id 			= 1;
 		name 		= "Juan";
@@ -42,9 +46,8 @@ public class DtoPeople {
 		this.email 		= email;
 	}
 
-	/* Metodos */
-
 	// Manejadores
+
 	public int getId() {
 		return id;
 	}
@@ -93,12 +96,19 @@ public class DtoPeople {
 		this.email = email;
 	}
 
+
+	/**
+	 * toString
+	 * 
+	 * Proporciona una vista del estado de la clase.
+	 * 
+	 * @return valores de los atributos que almacena la instancia. 
+	 */
+
 	@Override
 	public String toString() {
 		return "DtoPeople [id=" + id + ", name=" + name + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", telephone=" + telephone + ", email=" + email + "]";
 	}
-	
-	
 
 }// Fin de la clase
