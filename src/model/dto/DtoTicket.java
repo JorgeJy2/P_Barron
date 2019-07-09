@@ -1,10 +1,27 @@
 package model.dto;
 
-public class DtoBoleto {
+/**
+ * Archivo: DtoAuto.java
+ * 
+ * Objetivo: Representa la estructura de un  boleto en el mundo real.
+ *  
+ * @author jorge
+ * Contiene la composición de las clases: 
+ * 
+ * {@link DtoCar} 	 automovil que se ha estacionado. 
+ * {@link DtoPeople} persona que ha estacionado el automovil. 
+ * 
+ *
+ */
+public class DtoTicket {
 
+	//Atributos
+	
+	//Atributos de clase
+	
 	private int id;
 	
-	private DtoAuto auto;
+	private DtoCar auto;
 	private DtoPeople people;
 	
 	private String fecha_entrada;
@@ -12,9 +29,13 @@ public class DtoBoleto {
 	private double total_pago;
 	private String estatus;
 
-	public DtoBoleto() {
+	//Constructores
+	
+	//Sin parametro
+	
+	public DtoTicket() {
 		this.id = 1;
-		this.auto = new DtoAuto();
+		this.auto = new DtoCar();
 		this.people = new DtoPeople();
 		this.fecha_entrada = "13/06/2019";
 		this.fecha_salida = "14/06/2019";
@@ -22,7 +43,9 @@ public class DtoBoleto {
 		this.estatus = "Pagado";
 	}
 	
-	public DtoBoleto(int id, DtoAuto auto, DtoPeople people, String fecha_entrada, String fecha_salida,
+	//Con parametros
+	
+	public DtoTicket(int id, DtoCar auto, DtoPeople people, String fecha_entrada, String fecha_salida,
 			double total_pago,
 			String estatus) {
 		super();
@@ -44,11 +67,11 @@ public class DtoBoleto {
 	}
 
 	
-	public DtoAuto getAuto() {
+	public DtoCar getAuto() {
 		return auto;
 	}
 
-	public void setAuto(DtoAuto auto) {
+	public void setAuto(DtoCar auto) {
 		this.auto = auto;
 	}
 
@@ -92,13 +115,17 @@ public class DtoBoleto {
 		this.estatus = estatus_boleto;
 	}
 
+	/**
+	 * toString
+	 * 
+	 * Proporciona una vista del estado de la clase.
+	 * 
+	 * @return valores de los atributos que almacena la instancia. 
+	 */
 	@Override
 	public String toString() {
 		return "DtoBoleto [id=" + id + ", auto=" + auto + ", user=" + people + ", fecha_entrada=" + fecha_entrada
 				+ ", fecha_salida=" + fecha_salida + ", total_pago=" + total_pago + ", estatus=" + estatus + "]";
 	}
 	
-	
-	
-
-}
+}//End class

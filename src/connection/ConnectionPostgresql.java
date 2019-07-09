@@ -1,5 +1,15 @@
 package connection;
-
+/**
+ * Archivo: ConnectionPostgresql
+ * 
+ * Objestivo: Proporcionar al usuario una interfaz para la coneción a 
+ * la base de datos en el servidor postgresql.
+ * 
+ * @author jorge
+ * 
+ * @date 01/06/2019
+ * 
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,7 +17,13 @@ import java.sql.SQLException;
 
 public class ConnectionPostgresql {
 
+	// **Atributos**
+	// De clase
+	
 	private static ConnectionPostgresql instance;
+	
+	// Atributos de configuración para JDBC
+	
 	private static Connection connection;
 
 	private static final String _DRIVER = "org.postgresql.Driver";
@@ -20,30 +36,50 @@ public class ConnectionPostgresql {
 	private static final String _USER = "postgres";
 	private static final String _PASSWORD = "123456789";
 
-	
+	// Constructores
 	private ConnectionPostgresql() {}
 
+	/**
+	 * getInstancia
+	 * 
+	 * Retorna una instancia del objeto haciendo el uso del patron singleton. 
+	 * @return instancia esta misma clase  {@link Connection}
+	 * */
 	public static ConnectionPostgresql getInstance() throws ClassNotFoundException, SQLException {
 		String url = "";
-		if (instance == null) {
-			instance = new ConnectionPostgresql();
-			System.out.println("Good instance");
-		}
-		if (connection == null) {
+		if ( instance == null ) //Sí no existe una istancia de la misma clase
+			instance = new ConnectionPostgresql(); //Se crea una 
+		
+		if ( connection == null ) { //Sí no existe una instancia de conexión
 			Class.forName(_DRIVER);
 			url = _JDBC + _HOST + "/" + _DB_NAME;
 			connection = DriverManager.getConnection(url, _USER, _PASSWORD);
-			System.out.println("Good connection");
-		}
+		} //end if connection == null
+		
 		return instance;
-	}
+	}//end get instance
 
+	/** 
+	 * getStatement
+	 * 
+	 * Toma los objetos instanciados por el metodo getInstance
+	 * 
+	 * @param sql tipo string con la consulta SQL que se desea ejecutar.
+	 * @return PreparedStatement resultado de la sentencia SQL recibida.
+	 * @throws SQLException
+	 */
 	public PreparedStatement getStatement(String sql) throws SQLException {
 		return connection.prepareStatement(sql);
 	}
 
+	/**
+	 * close
+	 * 
+	 * Cierra la conexión a JDBC.
+	 * 
+	 * @throws SQLException
+	 */
 	public void close() throws SQLException {
-		System.out.println("Close");
 		connection.close();
 	}//End close
 

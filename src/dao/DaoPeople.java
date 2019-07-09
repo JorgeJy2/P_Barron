@@ -111,7 +111,9 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		List<DtoPeople> listPeople = new ArrayList<DtoPeople>();
 
 		while (tableResultSet.next()) {
+			
 			dtoPeople = new DtoPeople();
+			
 			dtoPeople.setId(tableResultSet.getInt(1));
 			dtoPeople.setName(tableResultSet.getString(2));
 			dtoPeople.setFirstName(tableResultSet.getString(3));

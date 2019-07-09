@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import connection.ConnectionPostgresql;
-import model.dto.DtoAuto;
+import model.dto.DtoCar;
 
-public class DaoAuto implements DaoInterface<DtoAuto> {
+public class DaoCar implements DaoInterface<DtoCar> {
 
 	private static final String _ADD = "INSERT INTO automovil(modelo,placa,color) VALUES (?,?,?) RETURNING id";
 	private static final String _UPDATE = "UPDATE automovil SET modelo = ? , placa = ?, color = ? WHERE id = ?";
@@ -17,7 +17,7 @@ public class DaoAuto implements DaoInterface<DtoAuto> {
 	private static final String _GET_ALL = "SELECT id,modelo,placa,color FROM automovil";
 
 	@Override
-	public Object add(DtoAuto dto) throws SQLException, ClassNotFoundException {
+	public Object add(DtoCar dto) throws SQLException, ClassNotFoundException {
 
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_ADD);
@@ -40,7 +40,7 @@ public class DaoAuto implements DaoInterface<DtoAuto> {
 	}
 
 	@Override
-	public boolean update(DtoAuto dto) throws SQLException, ClassNotFoundException {
+	public boolean update(DtoCar dto) throws SQLException, ClassNotFoundException {
 
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 
@@ -74,7 +74,7 @@ public class DaoAuto implements DaoInterface<DtoAuto> {
 	}
 
 	@Override
-	public DtoAuto get(Object key) throws SQLException, ClassNotFoundException {
+	public DtoCar get(Object key) throws SQLException, ClassNotFoundException {
 
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 
@@ -84,7 +84,7 @@ public class DaoAuto implements DaoInterface<DtoAuto> {
 
 		ResultSet resultSet = preparedStatement.executeQuery();
 
-		DtoAuto resultDao = new DtoAuto();
+		DtoCar resultDao = new DtoCar();
 
 		while (resultSet.next()) {
 
@@ -102,16 +102,16 @@ public class DaoAuto implements DaoInterface<DtoAuto> {
 	}
 
 	@Override
-	public List<DtoAuto> getAll() throws SQLException, ClassNotFoundException {
+	public List<DtoCar> getAll() throws SQLException, ClassNotFoundException {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ALL);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
-		List<DtoAuto> list = new ArrayList<DtoAuto>();
+		List<DtoCar> list = new ArrayList<DtoCar>();
 
 		while (resultSet.next()) {
-			DtoAuto auto = new DtoAuto();
+			DtoCar auto = new DtoCar();
 			auto.setId(resultSet.getInt(1));
 			auto.setModelo(resultSet.getString(2));
 			auto.setPlaca(resultSet.getString(3));
