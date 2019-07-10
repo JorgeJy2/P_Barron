@@ -120,7 +120,7 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 
 		ResultSet resultSet = preparedStatement.executeQuery();
 
-		List listaBoleto = new ArrayList<DtoTicket>();
+		List<DtoTicket> listaBoleto = new ArrayList<DtoTicket>();
 
 		// TODO Revisar como se manejan los objetos en auto y persona
 		// TODO cambiarlo.

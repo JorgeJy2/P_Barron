@@ -3,8 +3,8 @@ package mainRun;
 import java.sql.SQLException;
 import dao.DaoCar;
 import dao.DaoTicket;
-import dao.DaoPeople;
-import model.dto.DtoPeople;
+import gui.MainFrame;
+import gui.content.PeopleGui;
 
 public class Main {
 
@@ -19,6 +19,7 @@ public class Main {
 		DaoTicket boleto = new DaoTicket(); 
 		try {
 			
+			MainFrame frame = new MainFrame(new PeopleGui());
 			//DtoPeople dto = daoPeople.get(2);
 			//System.out.println(dto);
 

@@ -13,7 +13,7 @@ package model.dto;
  * 
  *
  */
-public class DtoTicket {
+public class DtoTicket  {
 
 	//Atributos
 	
