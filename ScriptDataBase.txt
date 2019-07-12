@@ -1,5 +1,5 @@
 CREATE DATABASE estacionamiento WITH ENCODING = 'UTF8'; 
-\c estacionamiento des
+\c estacionamiento
 
 /*TABLES*/
 
