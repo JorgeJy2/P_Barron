@@ -2,7 +2,11 @@ package mainRun;
 
 import java.sql.SQLException;
 import dao.DaoCar;
+import dao.DaoPeople;
 import dao.DaoTicket;
+import factory.FactoryCar;
+import factory.FactoryDao;
+import factory.FactoryPeople;
 import gui.MainFrame;
 import gui.content.PeopleGui;
 
@@ -16,10 +20,12 @@ public class Main {
 
 	
 		DaoCar auto = new DaoCar();
+		FactoryPeople factoryPeople = new FactoryPeople();
+		FactoryCar factoryCar = new FactoryCar();
 		DaoTicket boleto = new DaoTicket(); 
 		try {
 			
-			MainFrame frame = new MainFrame(new PeopleGui());
+			//MainFrame frame = new MainFrame(new PeopleGui());
 			//DtoPeople dto = daoPeople.get(2);
 			//System.out.println(dto);
 
@@ -38,6 +44,13 @@ public class Main {
 			//auto2.setModelo("Ferrari");
 			//auto2.setPlaca("Jorge");
 			//auto.update(auto2);
+		
+			
+		
+			FactoryDao.crearFabricaDao(factoryPeople);
+			FactoryDao.crearFabricaDao(factoryCar);
+			
+			
 			
 			auto.getAll().stream().forEach(System.out::println);
 			boleto.getAll().stream().forEach(System.out::println);
