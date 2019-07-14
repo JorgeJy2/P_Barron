@@ -24,6 +24,8 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	public Object add(DtoPeople dto) throws SQLException, ClassNotFoundException {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_ADD);
+		System.out.println(dto);
+		
 		preparedStatement.setString(1, dto.getName());
 		preparedStatement.setString(2, dto.getFirstName());
 		preparedStatement.setString(3, dto.getLastName());

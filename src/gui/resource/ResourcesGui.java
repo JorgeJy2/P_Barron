@@ -11,7 +11,7 @@ public class ResourcesGui {
 	public static final class COLOR {
 		
 		private static final Color SECOND_COLOR = Color.white;
-		private static final Color PRIMARY_COLOR = new Color(77, 205, 248);
+		private static final Color PRIMARY_COLOR = new Color(31, 97, 141);
 		private static final Color ACENT_COLOR = Color.gray.brighter();
 		
 		public static Color getSecondColor() {
@@ -72,9 +72,6 @@ public class ResourcesGui {
 			return BORDER_FORM;
 		}
 		
-		
-		
-		
 	}
 	
 	public static final class FONT {
@@ -88,7 +85,14 @@ public class ResourcesGui {
 
 		public static Font geFontTitle() {
 			return FONT_TITLE;
-		}
+		}	
+	}
+	
+	public static final class DIMENS {
+		private static final int DISTANCE_COMPONENTS = 10;
 		
+		public static int getDistanteComponent() {
+			return DISTANCE_COMPONENTS;
+		}
 	}
 }

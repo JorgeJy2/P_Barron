@@ -1,7 +1,6 @@
-package gui.content;
+package gui.content.people;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
@@ -25,10 +24,7 @@ public class PeopleGui extends JPanel{
 	private static final String TEXT_TELEPHONE = "Teléfono";
 	private static final String TEXT_EMAIL = "Correo";
 	
-	private static final String TITLE = "Agregar persona";
-
 	private static final String SRC_IMG = "imgs/people.png";
-	private static final String SRC_MENU = "imgs/ic_menu.png";
 
 	private static final int BORDER_BTNS_H = 10;
 	private static final int BORDER_BTNS_V = 10;
@@ -49,9 +45,8 @@ public class PeopleGui extends JPanel{
 	private JLabel lbLastName;
 	private JLabel lbTelephone;
 	private JLabel lbEmail;
-	private JLabel lbTitle;
+	
 	private JLabel lbImagen;
-	private JLabel lbMenu;
 	
 	
 	private JTextField txtName;
@@ -66,7 +61,6 @@ public class PeopleGui extends JPanel{
 	private JPanel contentButtons;
 	private JPanel contentForm;
 	private JPanel contentMain;
-	private JPanel panelTitle;
 	private JPanel panelImg;
 	
 	
@@ -79,23 +73,6 @@ public class PeopleGui extends JPanel{
 	
 		this.setLayout(new BorderLayout());
 		this.setBackground(ResourcesGui.COLOR.getSecondColor());
-		
-		panelTitle = new JPanel();
-		panelTitle.setLayout(new FlowLayout(FlowLayout.LEFT));
-		panelTitle.setBackground(ResourcesGui.COLOR.getPrimaryColor());
-		
-		lbTitle = new JLabel(TITLE);
-		lbTitle.setFont(ResourcesGui.FONT.geFontTitle());
-		lbTitle.setForeground( ResourcesGui.COLOR.getSecondColor());
-		lbTitle.setBorder(ResourcesGui.BORDER.getBorderTitle());
-		
-		lbMenu = new JLabel();
-		lbMenu.setIcon(new ImageIcon(SRC_MENU));
-		
-		panelTitle.add(lbMenu);
-		panelTitle.add(lbTitle);
-		
-		this.add(panelTitle, BorderLayout.PAGE_START);
 		
 		contentMain = new JPanel();
 		contentMain.setLayout(new BorderLayout());

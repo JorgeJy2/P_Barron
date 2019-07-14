@@ -8,7 +8,7 @@ CREATE TABLE persona(
     nombre VARCHAR (50) NOT NULL,
     apellido_paterno VARCHAR (20) NOT NULL,
     apellido_materno VARCHAR (20),
-    telefono VARCHAR (15),
+    telefono VARCHAR (20),
     correo VARCHAR (30) NOT NULL UNIQUE	
 );
 

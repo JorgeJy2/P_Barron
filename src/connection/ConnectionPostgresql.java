@@ -27,8 +27,14 @@ public class ConnectionPostgresql {
 	private static Connection connection;
 
 	private static final String _DRIVER = "org.postgresql.Driver";
-
+	
 	private static final String _JDBC = "jdbc:postgresql://";
+
+	/**
+	 * Local
+	 */
+	/*
+	
 	private static final String _HOST = "127.0.0.1:5432";
 
 	private static final String _DB_NAME = "estacionamiento";
@@ -36,6 +42,19 @@ public class ConnectionPostgresql {
 	private static final String _USER = "postgres";
 	private static final String _PASSWORD = "123456789";
 
+	 */
+	/**
+	 * Remote
+	 */
+	
+	private static final String _HOST = "raja.db.elephantsql.com";
+
+	private static final String _DB_NAME = "ipvbsaqa";
+
+	private static final String _USER = "ipvbsaqa";
+	private static final String _PASSWORD = "o0pMwJZa3u0DZPREY2sAG5Q3TetVUCs8";
+	
+	
 	// Constructores
 	private ConnectionPostgresql() {}
 
