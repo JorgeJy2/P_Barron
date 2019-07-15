@@ -15,18 +15,14 @@ import connection.ConnectionPostgresql;
 import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 
-public class MainFrame  extends JFrame {
-
-	/**
-	 * 
-	 */
+public class TicketFrame extends JFrame{
 	
 	private static final int MIN_V = 350;
 	private static final int MIN_H = 500;
 	
 	private static final String SRC_MENU = "imgs/ic_menu.png";
 
-	private static final String TITLE = "Persona";
+	private static final String TITLE = "Ticket ";
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPanel;
@@ -34,9 +30,8 @@ public class MainFrame  extends JFrame {
 	
 	private JLabel lbTitle;
 	private JLabel lbMenu;
-
 	
-	public MainFrame(JPanel contentPanel) {		
+	public TicketFrame(JPanel contentPanel) {		
 		this.contentPanel = contentPanel;
 		this.setLocationRelativeTo(null);
 		createGui();
@@ -67,7 +62,6 @@ public class MainFrame  extends JFrame {
 		this.setMinimumSize(new Dimension(MIN_V, MIN_H));
 		this.add(contentPanel, BorderLayout.CENTER);
 		this.pack();	
-		//this.setSize(600,500);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
@@ -85,5 +79,5 @@ public class MainFrame  extends JFrame {
 			}
 		});
 	}
-	
+
 }

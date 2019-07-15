@@ -1,5 +1,7 @@
 package model.dto;
 
+import observer.Observable;
+
 /**
  * Archivo: DtoPeople.java
  * 
@@ -9,7 +11,7 @@ package model.dto;
  *
  */
 
-public class DtoPeople {
+public class DtoPeople extends Observable{
 	
 	//Atributos
 	
@@ -54,6 +56,7 @@ public class DtoPeople {
 
 	public void setId(int id) {
 		this.id = id;
+		this.notifyIObservers();
 	}
 
 	public String getName() {
@@ -62,6 +65,7 @@ public class DtoPeople {
 
 	public void setName(String name) {
 		this.name = name;
+		this.notifyIObservers();
 	}
 
 	public String getFirstName() {
@@ -70,6 +74,7 @@ public class DtoPeople {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+		this.notifyIObservers();
 	}
 
 	public String getLastName() {
@@ -78,6 +83,7 @@ public class DtoPeople {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+		this.notifyIObservers();
 	}
 
 	public String getTelephone() {
@@ -86,6 +92,7 @@ public class DtoPeople {
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+		this.notifyIObservers();
 	}
 
 	public String getEmail() {
@@ -94,6 +101,7 @@ public class DtoPeople {
 
 	public void setEmail(String email) {
 		this.email = email;
+		this.notifyIObservers();
 	}
 
 

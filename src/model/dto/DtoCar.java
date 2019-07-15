@@ -1,4 +1,7 @@
 package model.dto;
+
+import observer.Observable;
+
 /**
  * Archivo: DtoAuto.java
  * 
@@ -7,7 +10,7 @@ package model.dto;
  * @author jorge
  *
  */
-public class DtoCar {
+public class DtoCar extends Observable{
 
 	//Atributos
 	
@@ -44,6 +47,7 @@ public class DtoCar {
 
 	public void setId(int id) {
 		this.id = id;
+		this.notifyIObservers();
 	}
 
 	public String getModelo() {
@@ -52,6 +56,7 @@ public class DtoCar {
 
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
+		this.notifyIObservers();
 	}
 
 	public String getPlaca() {
@@ -60,6 +65,7 @@ public class DtoCar {
 
 	public void setPlaca(String placa) {
 		this.placa = placa;
+		this.notifyIObservers();
 	}
 
 	public String getColor() {
@@ -68,6 +74,7 @@ public class DtoCar {
 
 	public void setColor(String color) {
 		this.color = color;
+		this.notifyIObservers();
 	}
 
 	/**

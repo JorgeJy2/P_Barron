@@ -18,8 +18,9 @@ import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 import model.dto.DtoPeople;
 import model.list.ListPeople;
+import observer.IObserver;
 
-public class PeopleGuiView  extends  JPanel{
+public class PeopleGuiView  extends  JPanel implements IObserver{
 
 	/**
 	 * 
@@ -131,5 +132,11 @@ public class PeopleGuiView  extends  JPanel{
         
         JScrollPane sp = new JScrollPane(table); 
         this.add(sp, BorderLayout.CENTER); 
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 }
