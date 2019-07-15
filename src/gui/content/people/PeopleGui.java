@@ -10,8 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import gui.resource.ResourcesGui;
+import observer.IObserver;
 
-public class PeopleGui extends JPanel{
+public class PeopleGui extends JPanel implements IObserver{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -166,6 +167,13 @@ public class PeopleGui extends JPanel{
 		contentMain.add(contentButtons, BorderLayout.PAGE_END);
 		
 		this.add(contentMain, BorderLayout.CENTER);
+		
+	}
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
 		
 	}
 }

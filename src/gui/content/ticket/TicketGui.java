@@ -9,8 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gui.resource.ResourcesGui;
+import observer.IObserver;
 
-public class TicketGui extends JPanel{
+public class TicketGui extends JPanel implements IObserver{
 	
 private static final long serialVersionUID = 1L;
 	
@@ -83,6 +84,13 @@ private static final long serialVersionUID = 1L;
 		contentMain.add(contentButtons, BorderLayout.PAGE_END);
 		
 		this.add(contentMain, BorderLayout.CENTER);
+		
+	}
+
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
 		
 	}
 

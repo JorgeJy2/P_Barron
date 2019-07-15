@@ -19,8 +19,9 @@ import gui.resource.ResourcesGui;
 import model.dto.DtoCar;
 import model.list.ListCar;
 import model.list.interador.Interator;
+import observer.IObserver;
 
-public class CarGuiView extends  JPanel{
+public class CarGuiView extends JPanel implements IObserver{
 
 	/**
 	 * 
@@ -133,5 +134,11 @@ public class CarGuiView extends  JPanel{
         
         JScrollPane sp = new JScrollPane(table); 
         this.add(sp, BorderLayout.CENTER); 
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,5 +1,7 @@
 package model.dto;
 
+import observer.Observable;
+
 /**
  * Archivo: DtoAuto.java
  * 
@@ -13,7 +15,7 @@ package model.dto;
  * 
  *
  */
-public class DtoTicket  {
+public class DtoTicket extends Observable{
 
 	//Atributos
 	
@@ -64,6 +66,7 @@ public class DtoTicket  {
 
 	public void setId(int id) {
 		this.id = id;
+		this.notifyIObservers();
 	}
 
 	
@@ -73,6 +76,7 @@ public class DtoTicket  {
 
 	public void setAuto(DtoCar auto) {
 		this.auto = auto;
+		this.notifyIObservers();
 	}
 
 	public DtoPeople getPeople() {
@@ -81,6 +85,7 @@ public class DtoTicket  {
 
 	public void setPeople(DtoPeople people) {
 		this.people = people;
+		this.notifyIObservers();
 	}
 
 	public String getFecha_entrada() {
@@ -89,6 +94,7 @@ public class DtoTicket  {
 
 	public void setFecha_entrada(String fecha_entrada) {
 		this.fecha_entrada = fecha_entrada;
+		this.notifyIObservers();
 	}
 
 	public String getFecha_salida() {
@@ -97,6 +103,7 @@ public class DtoTicket  {
 
 	public void setFecha_salida(String fecha_salida) {
 		this.fecha_salida = fecha_salida;
+		this.notifyIObservers();
 	}
 
 	public double getTotal_pago() {
@@ -105,6 +112,7 @@ public class DtoTicket  {
 
 	public void setTotal_pago(double total_pago) {
 		this.total_pago = total_pago;
+		this.notifyIObservers();
 	}
 
 	public String getEstatus() {
@@ -113,6 +121,7 @@ public class DtoTicket  {
 
 	public void setEstatus(String estatus_boleto) {
 		this.estatus = estatus_boleto;
+		this.notifyIObservers();
 	}
 
 	/**
