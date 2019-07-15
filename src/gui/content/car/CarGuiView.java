@@ -18,6 +18,7 @@ import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 import model.dto.DtoCar;
 import model.list.ListCar;
+import model.list.interador.Interator;
 
 public class CarGuiView extends  JPanel{
 
@@ -106,14 +107,17 @@ public class CarGuiView extends  JPanel{
         List<DtoCar> cars = listCar.getList();
         String[][] data= new String[cars.size()][5]; 
        
-        int countPeoples = -1;
-        for (DtoCar car: cars) {
-        	countPeoples ++;
-        	data[countPeoples][0] = car.getModelo();
-        	data[countPeoples][1] = car.getPlaca();
-        	data[countPeoples][2] = car.getColor();
-        }
         
+        Interator<DtoCar> inte =  listCar.getCars();
+		while(inte.hasNext()) {
+			int pointerCar = inte.now();
+			DtoCar car =inte.next();
+			data[pointerCar][0] = car.getModelo();
+        	data[pointerCar][1] = car.getPlaca();
+        	data[pointerCar][2] = car.getColor();
+		}
+
+   
         // Initializing the JTable 
         table = new JTable(data, COLUMN_NAMES); 
         table.setRowHeight(30);

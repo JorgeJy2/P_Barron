@@ -6,6 +6,8 @@ import java.util.List;
 import dao.DaoCar;
 import dao.DaoInterface;
 import model.dto.DtoCar;
+import model.list.interador.DaoInteractor;
+import model.list.interador.Interator;
 
 
 public class ListCar {
@@ -29,6 +31,10 @@ public class ListCar {
 	
 	public List<DtoCar> getList(){
 		return _listAuto;
+	}
+	
+	public Interator<DtoCar> getCars() {
+		return  new DaoInteractor<DtoCar>(_listAuto);
 	}
 	
 	public void loadList () throws ClassNotFoundException, SQLException{

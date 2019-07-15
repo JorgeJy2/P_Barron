@@ -6,7 +6,10 @@ import java.util.List;
 
 import dao.DaoInterface;
 import dao.DaoPeople;
+import model.dto.DtoCar;
 import model.dto.DtoPeople;
+import model.list.interador.DaoInteractor;
+import model.list.interador.Interator;
 
 public class ListPeople {
 
@@ -31,6 +34,10 @@ public class ListPeople {
 	
 	public List<DtoPeople> getList(){
 		return _listPeople;
+	}
+	
+	public Interator<DtoPeople> getPeople() {
+		return  new DaoInteractor<DtoPeople>(_listPeople);
 	}
 	
 	public void loadList () throws ClassNotFoundException, SQLException {
