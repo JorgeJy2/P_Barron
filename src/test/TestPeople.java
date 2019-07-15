@@ -72,4 +72,11 @@ public class TestPeople {
 			System.err.println(e.getLocalizedMessage());
 		}
 	}
+	
+	public DtoPeople getFirst() {
+		
+		Interator<DtoPeople> interator = listPeople.getAll();
+			return  interator.first();
+		
+	}
 }

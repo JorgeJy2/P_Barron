@@ -3,7 +3,6 @@ package gui.content.people;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
