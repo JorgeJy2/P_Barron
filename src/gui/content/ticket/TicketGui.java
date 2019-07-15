@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -18,23 +19,43 @@ private static final long serialVersionUID = 1L;
 	private static final String BTN_ADD = "Agregar";
 	private static final String BTN_CANCEL = "Cancelar";	
 	
+	private static final int BORDER_FORM_H = 20;
+	private static final int BORDER_FORM_V = 10;
+	
+	private static final int GRID_FORM_ROWS = 0;
+	private static final int GRID_FROM_COLS = 2;
+	
 	private static final String SRC_IMG = "imgs/ticket.png";
 
 	private static final int BORDER_BTNS_H = 10;
 	private static final int BORDER_BTNS_V = 10;
+	private static final String[] DATE_CAR = { "MY3445", "DJU234", "MIH432"}; 
+	private static final String[] DATE_PEOPLE = { "231ggg@gmail.com", "gahgg@gmail.com", "gkit@gmail.com"}; 
 	
 	
 	private static final int GRID_BTN_ROWS = 2;
 	private static final int GRID_BTN_COLS = 2;
+
+	private static final String TEXT_PEOPLE = "Email";
+
+	private static final String TEXT_CAR = "Placa";
 	
 	private JLabel lbImagen;
+	private JLabel lbPeople;
+	private JLabel lbCar;
 	
 	private JButton btnAdd;
 	private JButton btnCancel;
 	
+	private JComboBox<String> cbxPeople;
+	private JComboBox<String> cbxCar;
+	
 	private JPanel contentButtons;
 	private JPanel contentMain;
 	private JPanel panelImg;
+	private JPanel contentForm;
+
+	
 	
 	
 	public TicketGui() {
@@ -59,8 +80,28 @@ private static final long serialVersionUID = 1L;
 		lbImagen.setIcon(new ImageIcon(SRC_IMG));
 		
 		panelImg.add(lbImagen);
+			
 		
 		contentMain.add(panelImg, BorderLayout.PAGE_START);
+		
+		contentForm = new JPanel();
+		
+		contentForm.setLayout(new GridLayout(GRID_FORM_ROWS, GRID_FROM_COLS, BORDER_FORM_H, BORDER_FORM_V));
+		contentForm.setBorder(ResourcesGui.BORDER.getBorderForm());
+		contentForm.setBackground(ResourcesGui.COLOR.getSecondColor());
+		
+		lbPeople	= new JLabel(TEXT_PEOPLE, JLabel.RIGHT);
+		lbCar 	= new JLabel(TEXT_CAR, JLabel.RIGHT);
+		lbPeople.setFont(ResourcesGui.FONT.getFontText());
+		lbCar.setFont(ResourcesGui.FONT.getFontText());
+		contentForm.add(lbCar);
+		cbxCar = new JComboBox<>(DATE_CAR);
+		contentForm.add(cbxCar);
+		contentForm.add(lbPeople);
+		cbxPeople = new JComboBox<>(DATE_PEOPLE);
+		contentForm.add(cbxPeople);
+		
+		contentMain.add(contentForm, BorderLayout.CENTER);
 			
 		contentButtons = new JPanel();
 		contentButtons.setLayout(new GridLayout(GRID_BTN_ROWS, GRID_BTN_COLS, BORDER_BTNS_H, BORDER_BTNS_V));

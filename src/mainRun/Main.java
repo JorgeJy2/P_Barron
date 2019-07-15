@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import gui.MainFragment;
+import gui.TicketFrame;
 import gui.content.car.CarContainerMainGui;
+import gui.content.ticket.TicketContainerMainGui;
 import model.list.FilterCar;
 import test.TestCar;
 import test.TestPeople;
@@ -12,24 +14,24 @@ import test.TestPeople;
 public class Main {
 
 	public static void main(String[] args) {
-		new MainFragment(new CarContainerMainGui());
+		new TicketFrame(new TicketContainerMainGui());
 		
 		/**
 		 * ========= TEST LIST CAR =============
 		 */
 	
-		TestCar  testCar =  new TestCar();
-		//testCar.addTest();
-		testCar.selectTest();
-		FilterCar filterList = new FilterCar("M3443A");
-		try {
-			filterList.loadList();
-			List filter = filterList.getList();
-			System.out.println("Filtro");
-			filter.stream().forEach(System.out::println);
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("Error en filtro");
-		}
+//		TestCar  testCar =  new TestCar();
+//		//testCar.addTest();
+//		testCar.selectTest();
+//		FilterCar filterList = new FilterCar("M3443A");
+//		try {
+//			filterList.loadList();
+//			List filter = filterList.getList();
+//			System.out.println("Filtro");
+//			filter.stream().forEach(System.out::println);
+//		} catch (ClassNotFoundException | SQLException e) {
+//			System.out.println("Error en filtro");
+//		}
 		
 		
 		
