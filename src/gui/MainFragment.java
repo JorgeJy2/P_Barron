@@ -22,7 +22,7 @@ import gui.content.ticket.TicketContainerMainGui;
 import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 
-public class CarFrame   extends JFrame {
+public class MainFragment   extends JFrame {
 
 	private static final int MIN_V = 350;
 	private static final int MIN_H = 500;
@@ -42,7 +42,7 @@ public class CarFrame   extends JFrame {
 	private JPanel panelMenu;
 	private JPanel conteint;
 	
-	public CarFrame(JPanel contentPanel) {		
+	public MainFragment(JPanel contentPanel) {		
 		this.contentPanel = contentPanel;
 		this.setLocationRelativeTo(null);
 		createGui();
