@@ -11,8 +11,15 @@ public class ConnectionPostgresql {
 	private static Connection connection;
 
 	private static final String _DRIVER = "org.postgresql.Driver";
-	
+
 	private static final String _JDBC = "jdbc:postgresql://";
+	private static final String _HOST = "54.39.151.174:5432";
+
+	private static final String _DB_NAME = "estacionamiento?currentSchema=estacion";
+
+	private static final String _USER = "proyectBE";
+	private static final String _PASSWORD = "proyectBE@@";
+
 
 	/**
 	 * Local
@@ -34,17 +41,8 @@ public class ConnectionPostgresql {
 	/**
 	 * Remote
 	 */
-	
-	private static final String _HOST = "raja.db.elephantsql.com";
 
-	private static final String _DB_NAME = "ipvbsaqa";
-
-	private static final String _USER = "ipvbsaqa";
-	private static final String _PASSWORD = "o0pMwJZa3u0DZPREY2sAG5Q3TetVUCs8";
 	
-	
-	// Constructores
-
 	private ConnectionPostgresql() {}
 
 	public static ConnectionPostgresql getInstance() throws ClassNotFoundException, SQLException {
@@ -72,3 +70,4 @@ public class ConnectionPostgresql {
 	}//End close
 
 } //End class
+	
