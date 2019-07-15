@@ -24,8 +24,7 @@ public class TicketContainerMainGui extends JPanel{
 		
 		this.setBackground(ResourcesGui.COLOR.getSecondColor());
 		this.setLayout(new GridLayout(1,2));
-		this.add(new CarGuiView());
-		this.add(new PeopleGuiView());
+		this.add(new TicketGuiView());
 		this.add(new TicketGui());
 		
 	}
