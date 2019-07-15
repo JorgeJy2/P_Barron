@@ -105,11 +105,10 @@ public class CarGuiView extends JPanel implements IObserver{
 		
 		this.add(pTitle, BorderLayout.PAGE_START);
 		// Data to be displayed in the JTable 
-        List<DtoCar> cars = listCar.getList();
-        String[][] data= new String[cars.size()][5]; 
-       
         
-        Interator<DtoCar> inte =  listCar.getCars();
+        String[][] data= new String[listCar.sizeDtos()][5]; 
+        Interator<DtoCar> inte =  listCar.getAll();
+        
 		while(inte.hasNext()) {
 			int pointerCar = inte.now();
 			DtoCar car =inte.next();
@@ -117,9 +116,7 @@ public class CarGuiView extends JPanel implements IObserver{
         	data[pointerCar][1] = car.getPlaca();
         	data[pointerCar][2] = car.getColor();
 		}
-
    
-        // Initializing the JTable 
         table = new JTable(data, COLUMN_NAMES); 
         table.setRowHeight(30);
         table.setShowGrid(false);

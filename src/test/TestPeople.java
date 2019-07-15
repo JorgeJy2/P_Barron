@@ -17,7 +17,7 @@ public class TestPeople {
 	public void selectTest() {
 		try {
 			listPeople.loadList();
-			Interator<DtoPeople> interator = listPeople.getPeople();
+			Interator<DtoPeople> interator = listPeople.getAll();
 			while (interator.hasNext()) {
 				DtoPeople car = interator.next();
 				System.out.println(car);
@@ -43,7 +43,7 @@ public class TestPeople {
 	
 	public void updateTest() {
 		try {
-			Interator<DtoPeople> interator = listPeople.getPeople();
+			Interator<DtoPeople> interator = listPeople.getAll();
 			DtoPeople people= interator.first();
 			if (people != null) {
 				people.setName("Otro nombre");
@@ -60,7 +60,7 @@ public class TestPeople {
 	
 	public void delteTest() {
 		try {
-			Interator<DtoPeople> interator = listPeople.getPeople();
+			Interator<DtoPeople> interator = listPeople.getAll();
 			DtoPeople car = interator.first();
 			if (car != null) {
 				listPeople.delete(0);

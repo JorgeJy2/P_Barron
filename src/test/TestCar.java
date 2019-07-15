@@ -17,7 +17,7 @@ public class TestCar {
 	public void selectTest() {
 		try {
 			listCar.loadList();
-			Interator<DtoCar> interator = listCar.getCars();
+			Interator<DtoCar> interator = listCar.getAll();
 			while (interator.hasNext()) {
 				DtoCar car = interator.next();
 				System.out.println(car);
@@ -43,7 +43,7 @@ public class TestCar {
 	
 	public void updateTest() {
 		try {
-			Interator<DtoCar> interator = listCar.getCars();
+			Interator<DtoCar> interator = listCar.getAll();
 			DtoCar car = interator.first();
 			if (car != null) {
 				car.setColor("Amarillo");
@@ -60,7 +60,7 @@ public class TestCar {
 	
 	public void delteTest() {
 		try {
-			Interator<DtoCar> interator = listCar.getCars();
+			Interator<DtoCar> interator = listCar.getAll();
 			DtoCar car = interator.first();
 			if (car != null) {
 				listCar.delete(0);

@@ -36,11 +36,7 @@ public class ListPeople implements Listable<DtoPeople> {
 	public List<DtoPeople> getList(){
 		return _listPeople;
 	}
-	
-	public Interator<DtoPeople> getPeople() {
-		return  new DaoInteractor<DtoPeople>(_listPeople);
-	}
-	
+
 	@Override
 	public void loadList () throws ClassNotFoundException, SQLException {
 		_listPeople = _daoPeople.getAll();
@@ -75,5 +71,10 @@ public class ListPeople implements Listable<DtoPeople> {
 	@Override
 	public Interator<DtoPeople> getAll() {
 		return  new DaoInteractor<DtoPeople>(_listPeople);
+	}
+	
+	@Override
+	public int sizeDtos() {
+		return _listPeople.size();
 	}
 }

@@ -16,8 +16,10 @@ import javax.swing.table.JTableHeader;
 
 import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
+
 import model.dto.DtoPeople;
 import model.list.ListPeople;
+import model.list.interador.Interator;
 import observer.IObserver;
 
 public class PeopleGuiView  extends  JPanel implements IObserver{
@@ -104,12 +106,13 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 		
 		this.add(pTitle, BorderLayout.PAGE_START);
 		// Data to be displayed in the JTable 
-        List<DtoPeople> peoples = listPeople.getList();
-        String[][] data= new String[peoples.size()][5]; 
-       
-        int countPeoples = -1;
-        for (DtoPeople people: peoples) {
-        	countPeoples ++;
+
+		Interator<DtoPeople> interator = listPeople.getAll();
+        String[][] data= new String[listPeople.sizeDtos()][5]; 
+ 
+        while (interator.hasNext()) {
+        	int countPeoples = interator.now();
+			DtoPeople people=interator.next();
         	data[countPeoples][0] = people.getName();
         	data[countPeoples][1] = people.getLastName();
         	data[countPeoples][2] = people.getFirstName();

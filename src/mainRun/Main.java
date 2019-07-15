@@ -1,5 +1,6 @@
 package mainRun;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import gui.MainFragment;
@@ -21,10 +22,16 @@ public class Main {
 		//testCar.addTest();
 		testCar.selectTest();
 		FilterCar filterList = new FilterCar("M3443A");
+		try {
+			filterList.loadList();
+			List filter = filterList.getList();
+			System.out.println("Filtro");
+			filter.stream().forEach(System.out::println);
+		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println("Error en filtro");
+		}
 		
-		List filter = filterList.getList();
-		System.out.println("Filtro");
-		filter.stream().forEach(System.out::println);
+		
 		
 		//testCar.updateTest();
 		//testCar.delteTest();

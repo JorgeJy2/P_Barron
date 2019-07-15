@@ -13,5 +13,6 @@ public interface Listable<Dto> {
 	public void update (Dto dtoCar, int position) throws ClassNotFoundException,SQLException;
 	public List<Dto> getList();
 	public Interator<Dto> getAll();
+	public int sizeDtos();
 	
 }

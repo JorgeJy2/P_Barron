@@ -35,11 +35,6 @@ public class ListCar implements Listable<DtoCar> {
 		return _listAuto;
 	}
 	
-	
-	public Interator<DtoCar> getCars() {
-		return  new DaoInteractor<DtoCar>(_listAuto);
-	}
-	
 	@Override
 	public void loadList () throws ClassNotFoundException, SQLException{
 		_listAuto = _daoAuto.getAll();
@@ -72,8 +67,12 @@ public class ListCar implements Listable<DtoCar> {
 	}
 
 	@Override
-	public Interator<DtoCar> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public Interator<DtoCar> getAll() {	
+		return new DaoInteractor<DtoCar>(_listAuto);
+	}
+
+	@Override
+	public int sizeDtos() {
+		return _listAuto.size();
 	}
 }
