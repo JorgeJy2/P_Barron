@@ -75,6 +75,7 @@ public class MainFrame  extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				try {
+					
 					ConnectionPostgresql.getInstance().close();
 				} catch (ClassNotFoundException | SQLException e) {
 					Messages.showError(e.getLocalizedMessage());
