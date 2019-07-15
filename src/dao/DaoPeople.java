@@ -11,21 +11,17 @@ import model.dto.DtoPeople;
 
 public class DaoPeople implements DaoInterface<DtoPeople> {
 
-	private static final String _ADD = "INSERT INTO persona "
-			+ "(nombre,apellido_paterno,apellido_materno,telefono,correo) VALUES (?,?,?,?,?) RETURNING id";
+	private static final String _ADD = "INSERT INTO persona (nombre,apellido_paterno,apellido_materno,telefono,correo) VALUES (?,?,?,?,?) RETURNING id";
 	private static final String _GET_ONE = "SELECT * FROM persona WHERE id=?";
 	private static final String _GET_ALL = "SELECT * FROM persona";
 	private static final String _DELETE = "DELETE FROM persona WHERE id=?";
-	private static final String _UPDATE = "UPDATE persona SET nombre=?,"
-			+ "apellido_paterno=?,apellido_materno=?,telefono=?,correo=?";
+	private static final String _UPDATE = "UPDATE persona SET nombre=?,apellido_paterno=?,apellido_materno=?,telefono=?,correo=? WHERE id= ?";
 
 	// M�todos implementados de la interface DaoInterface
 	@Override
 	public Object add(DtoPeople dto) throws SQLException, ClassNotFoundException {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_ADD);
-		System.out.println(dto);
-		
 		preparedStatement.setString(1, dto.getName());
 		preparedStatement.setString(2, dto.getFirstName());
 		preparedStatement.setString(3, dto.getLastName());
@@ -88,7 +84,6 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		DtoPeople dtoPeople = new DtoPeople();
 
 		while (resultSet.next()) {
-			// dtoPeople.setId(resultSet.getInt(1));
 			dtoPeople.setName(resultSet.getString(1));
 			dtoPeople.setFirstName(resultSet.getString(2));
 			dtoPeople.setLastName(resultSet.getString(3));

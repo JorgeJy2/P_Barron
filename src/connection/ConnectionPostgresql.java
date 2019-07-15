@@ -13,35 +13,19 @@ public class ConnectionPostgresql {
 	private static final String _DRIVER = "org.postgresql.Driver";
 
 	private static final String _JDBC = "jdbc:postgresql://";
-	private static final String _HOST = "54.39.151.174:5432";
-
-	private static final String _DB_NAME = "estacionamiento?currentSchema=estacion";
-
-	private static final String _USER = "proyectBE";
-	private static final String _PASSWORD = "proyectBE@@";
-
-
-	/**
-	 * Local
-	 */
 	/*
-	
-	private static final String _HOST = "127.0.0.1:5432";
-=======
 	private static final String _HOST = "54.39.151.174:5432";
->>>>>>> e4a6fd0b3d275618d78120efec4ce48c51c09ebd
 
 	private static final String _DB_NAME = "estacionamiento?currentSchema=estacion";
 
 	private static final String _USER = "proyectBE";
 	private static final String _PASSWORD = "proyectBE@@";
 
-<<<<<<< HEAD
-	 */
-	/**
-	 * Remote
-	 */
-
+*/
+	private static final String _HOST = "127.0.0.1:5432";
+ 	private static final String _DB_NAME = "estacionamiento";	
+ 	private static final String _USER = "postgres";		
+	private static final String _PASSWORD = "123456789";
 	
 	private ConnectionPostgresql() {}
 

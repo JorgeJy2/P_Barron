@@ -10,14 +10,15 @@ import model.list.interador.DaoInteractor;
 import model.list.interador.Interator;
 
 
-public class ListCar {
+public class ListCar implements Listable<DtoCar> {
 	
 	private List<DtoCar> _listAuto;
 	private DaoInterface<DtoCar> _daoAuto;
 	
 	private static ListCar _instance;
 	
-	private ListCar() {
+	protected ListCar() {
+		
 		_listAuto = new ArrayList<DtoCar>();
 		_daoAuto = new DaoCar();
 	}
@@ -29,18 +30,22 @@ public class ListCar {
 		return _instance;
 	}
 	
+	@Override
 	public List<DtoCar> getList(){
 		return _listAuto;
 	}
+	
 	
 	public Interator<DtoCar> getCars() {
 		return  new DaoInteractor<DtoCar>(_listAuto);
 	}
 	
+	@Override
 	public void loadList () throws ClassNotFoundException, SQLException{
 		_listAuto = _daoAuto.getAll();
 	}
 	
+	@Override
 	public void add (DtoCar dtoCar) throws ClassNotFoundException, SQLException{
 		int id_added = (int) _daoAuto.add(dtoCar);
 		if( id_added != -1 ) {
@@ -49,17 +54,26 @@ public class ListCar {
 		}	
 	}
 	
+	@Override
 	public DtoCar getOne(int position) {
 		return _listAuto.get(position);
 	}
 	
+	@Override
 	public void delete(int position) throws ClassNotFoundException,SQLException{
-		if(_daoAuto.delete(_listAuto.get(position)))
+		if(_daoAuto.delete(_listAuto.get(position).getId()))
 			_listAuto.remove(position);
 	}
 	
+	@Override
 	public void update (DtoCar dtoCar, int position) throws ClassNotFoundException,SQLException{
 		if(_daoAuto.update(dtoCar))
 			_listAuto.set(position,dtoCar);
+	}
+
+	@Override
+	public Interator<DtoCar> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
