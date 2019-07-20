@@ -2,6 +2,7 @@ package test;
 
 import java.sql.SQLException;
 
+import model.dto.DtoCar;
 import model.dto.DtoPeople;
 import model.list.ListPeople;
 import model.list.interador.Interator;
@@ -74,9 +75,16 @@ public class TestPeople {
 	}
 	
 	public DtoPeople getFirst() {
-		
-		Interator<DtoPeople> interator = listPeople.getAll();
+
+		try {
+			listPeople.loadList();
+			Interator<DtoPeople> interator = listPeople.getAll();
 			return  interator.first();
 		
+		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println("Ocurrió un error en test de listCar, al momento de eliminar.");
+			System.err.println(e.getLocalizedMessage());
+			return null;
+		}
 	}
 }

@@ -3,6 +3,7 @@ package test;
 import java.sql.SQLException;
 
 import model.dto.DtoCar;
+import model.dto.DtoPeople;
 import model.list.ListCar;
 import model.list.interador.Interator;
 
@@ -31,8 +32,8 @@ public class TestCar {
 	public void addTest() {
 		try {
 			DtoCar car = new DtoCar();
-			car.setColor("Prueba");
-			car.setPlaca("M3443A");
+			car.setColor("nuevo");
+			car.setPlaca("GHGHG");
 			listCar.add(car);
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("Ocurrió un error en test de listCar, al momento de agregar.");
@@ -70,6 +71,19 @@ public class TestCar {
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("Ocurrió un error en test de listCar, al momento de eliminar.");
 			System.err.println(e.getLocalizedMessage());
+		}
+	}
+	
+	public DtoCar getFirst() {
+		try {
+			listCar.loadList();
+			Interator<DtoCar> interator = listCar.getAll();
+			return interator.first();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println("Ocurrió un error en test de listCar, al momento de eliminar.");
+			System.err.println(e.getLocalizedMessage());
+			return null;
 		}
 	}
 }
