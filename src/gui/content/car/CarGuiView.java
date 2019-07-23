@@ -2,8 +2,7 @@ package gui.content.car;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.sql.SQLException;
-import java.util.List;
+import java.sql.SQLException; 
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;

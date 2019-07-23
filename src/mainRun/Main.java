@@ -4,6 +4,7 @@ package mainRun;
 import java.sql.SQLException;
 import java.util.List;
 
+import controller.ControllerCar;
 import dao.DaoCar;
 import dao.DaoTicket;
 import gui.MainFragment;
@@ -15,17 +16,18 @@ import model.dto.DtoTicket;
 import model.list.FilterCar;
 import test.TestCar;
 import test.TestPeople;
-
-public class Main {
+import controller.*
+;public class Main {
 
 	public static void main(String[] args) {
-	//	new MainFragment(new CarContainerMainGui());
-		
+		//new MainFragment(new CarContainerMainGui());
+	 new ControllerCar();
 			/**
 			 * ========= TEST LIST CAR =============
 			 */
 			
-		
+
+		/*
 			
 				TestCar  testCar =  new TestCar();
 				testCar.addTest();
@@ -35,7 +37,6 @@ public class Main {
 				testCar.selectTest();
 			 
 			
-			/*
 				TestPeople  testPeople =  new TestPeople();
 				testPeople.selectTest();
 				testPeople.addTest();

@@ -8,14 +8,26 @@ public class CarContainerMainGui extends JPanel{
 
 private static final long serialVersionUID = 1L;
 	
+	private CarGuiView carGuiView;
+	private CarGui carGui;
 	public CarContainerMainGui() {
 		createGui();
 	}
 	
 	private void createGui() {
+		this.carGuiView = new CarGuiView();
 		this.setBackground(ResourcesGui.COLOR.getSecondColor());
 		this.setLayout(new GridLayout(1,2));
-		this.add(new CarGuiView());
-		this.add(new CarGui());
+		this.add(this.carGuiView);
+		this.add(this.carGui);
 	}
+
+	public CarGuiView getCarGuiView() {
+		return carGuiView;
+	}
+
+	public CarGui getCarGui() {
+		return carGui;
+	}
+	
 }
