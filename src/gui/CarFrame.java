@@ -15,8 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import connection.ConnectionPostgresql;
-import gui.content.car.CarContainerMainGui;
+import connection.ConnectionPostgresql; 
 import gui.content.people.PeopleContainerMainGui;
 import gui.content.ticket.TicketContainerMainGui;
 import gui.dialogs.Messages;
@@ -85,7 +84,7 @@ public class CarFrame   extends JFrame {
 		btnCar.addActionListener((ActionEvent arg0) -> {
 				title = "Automóvil";
 				lbTitle.setText(title);
-				changePanel(new CarContainerMainGui());
+		//		changePanel(new CarContainerMainGui());
 		});
 		
 		btnPeople.addActionListener((ActionEvent arg0) -> {

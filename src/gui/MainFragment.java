@@ -83,9 +83,9 @@ public class MainFragment   extends JFrame {
 		
 		
 		btnCar.addActionListener((ActionEvent arg0) -> {
-				title = "AutomÃ³vil";
+				title = "Automóvil";
 				lbTitle.setText(title);
-				changePanel(new CarContainerMainGui());
+			//	changePanel(new CarContainerMainGui());
 		});
 		
 		btnPeople.addActionListener((ActionEvent arg0) -> {

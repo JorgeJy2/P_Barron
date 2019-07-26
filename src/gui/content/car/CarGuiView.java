@@ -5,14 +5,15 @@ import java.awt.GridLayout;
 import java.sql.SQLException; 
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
+import javax.swing.JComboBox; 
+import javax.swing.JLabel; 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 
+import controller.ControllerCar;
 import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 import model.dto.DtoCar;
@@ -51,7 +52,7 @@ public class CarGuiView extends JPanel implements IObserver{
 
 	private JButton btnFilter;
 	
-	
+	///private ControllerCar controller;
 	public CarGuiView() {
 		listCar = ListCar.getInstance();
         try {
@@ -60,6 +61,7 @@ public class CarGuiView extends JPanel implements IObserver{
 			Messages.showError(e.getLocalizedMessage());
 		}
 		createGui();
+		btnFilter.addActionListener(ControllerCar.getInstance());
 	}
 	
 	private  void createGui() {
@@ -98,6 +100,8 @@ public class CarGuiView extends JPanel implements IObserver{
 		btnFilter.setBorder(ResourcesGui.BORDER.getBorderBtnAcept());
 		btnFilter.setForeground(ResourcesGui.COLOR.getSecondColor());
 		pfilter.add(btnFilter);
+ 
+		btnFilter.addActionListener(ControllerCar.getInstance());
 		
 		pTitle.add(pfilter);
 		// ================== FILTER end ==================
@@ -130,6 +134,43 @@ public class CarGuiView extends JPanel implements IObserver{
         
         JScrollPane sp = new JScrollPane(table); 
         this.add(sp, BorderLayout.CENTER); 
+	}
+
+	
+	public ListCar getListCar() {
+		return listCar;
+	}
+
+	public void setListCar(ListCar listCar) {
+		this.listCar = listCar;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
+	public JComboBox<String> getCbxFilter() {
+		return cbxFilter;
+	}
+
+	public void setCbxFilter(JComboBox<String> cbxFilter) {
+		this.cbxFilter = cbxFilter;
+	}
+
+	public JTextField getTxtFilter() {
+		return txtFilter;
+	}
+
+	public void setTxtFilter(JTextField txtFilter) {
+		this.txtFilter = txtFilter;
+	}
+
+	public JButton getBtnFilter() {
+		return btnFilter;
 	}
 
 	@Override

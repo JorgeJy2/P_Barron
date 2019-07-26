@@ -21,8 +21,9 @@ import controller.*
 
 	public static void main(String[] args) {
 		//new MainFragment(new CarContainerMainGui());
-	 new ControllerCar();
-			/**
+		ControllerCar car =ControllerCar.getInstance();
+		car.initView();
+		/**
 			 * ========= TEST LIST CAR =============
 			 */
 			

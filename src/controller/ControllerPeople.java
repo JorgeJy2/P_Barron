@@ -1,6 +1,8 @@
 package controller;
 
-public class ControllerPeople implements ControllerInterface{
+import java.awt.event.ActionEvent;
+
+public class ControllerPeople extends ControllerWindow{
 
 	@Override
 	public boolean saveRegistry() {
@@ -52,6 +54,18 @@ public class ControllerPeople implements ControllerInterface{
 
 	@Override
 	public boolean reloadData() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean initView() {
 		// TODO Auto-generated method stub
 		return false;
 	}

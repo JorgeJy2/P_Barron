@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.ControllerCar;
 import gui.resource.ResourcesGui;
 import observer.IObserver;
 
@@ -141,10 +142,53 @@ public class CarGui extends JPanel implements IObserver{
 		contentButtons.add(btnAdd);
 		contentButtons.add(btnCancel);
 		
+		btnAdd.addActionListener(ControllerCar.getInstance());
+		btnCancel.addActionListener(ControllerCar.getInstance());
+		
 		contentMain.add(contentButtons, BorderLayout.PAGE_END);
 		
 		this.add(contentMain, BorderLayout.CENTER);
 		
+	}
+
+
+	public JTextField getTxtModelo() {
+		return txtModelo;
+	}
+
+
+	public void setTxtModelo(JTextField txtModelo) {
+		this.txtModelo = txtModelo;
+	}
+
+
+	public JTextField getTxtPlaca() {
+		return txtPlaca;
+	}
+
+
+	public void setTxtPlaca(JTextField txtPlaca) {
+		this.txtPlaca = txtPlaca;
+	}
+
+
+	public JTextField getTxtColor() {
+		return txtColor;
+	}
+
+
+	public void setTxtColor(JTextField txtColor) {
+		this.txtColor = txtColor;
+	}
+
+
+	public JButton getBtnAdd() {
+		return btnAdd;
+	}
+
+
+	public JButton getBtnCancel() {
+		return btnCancel;
 	}
 
 
