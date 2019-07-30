@@ -39,16 +39,22 @@ public class ControllerCar extends ControllerWindow {
 	}
 	@Override
 	public boolean saveRegistry() {
-		dtoCar = new DtoCar(); 
-		try {
+		if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
 			getDataOfView();
-			daoCar.add(dtoCar);
-			return true;
-		} catch (ClassNotFoundException e) { 
-			e.printStackTrace();
-		} catch (SQLException e) { 
-			e.printStackTrace();
+			updateRegistry();
+		}else {
+			dtoCar = new DtoCar(); 
+			try {
+				getDataOfView();
+				daoCar.add(dtoCar);
+				return true;
+			} catch (ClassNotFoundException e) { 
+				e.printStackTrace();
+			} catch (SQLException e) { 
+				e.printStackTrace();
+			}	
 		}
+		loadTable();
 		return false;
 	}
 
@@ -169,9 +175,6 @@ public class ControllerCar extends ControllerWindow {
 			 JOptionPane.showMessageDialog(null, "Cancel");
 		}else if(e.getSource() == carGui.getBtnAdd()) {
 			saveRegistry();  
-			 JOptionPane.showMessageDialog(null, "Save OK");
-			 loadTable();
-			 
 		}
 	}
 	
