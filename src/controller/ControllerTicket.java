@@ -65,10 +65,9 @@ public class ControllerTicket extends ControllerWindow{
 	}
 
 	@Override
-	public boolean initView() {
+	public boolean addListener() {
 		// TODO Auto-generated method stub
 		return false;
 	}
- 
 
 }

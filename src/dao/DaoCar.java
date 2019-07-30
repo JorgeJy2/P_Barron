@@ -14,7 +14,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	private static final String _UPDATE = "UPDATE automovil SET modelo = ? , placa = ?, color = ? WHERE id = ?";
 	private static final String _DELETE = "DELETE FROM automovil WHERE id = ?";
 	private static final String _GET_ONE = "SELECT id,modelo,placa,color FROM automovil WHERE id = ?";
-	private static final String _GET_ALL = "SELECT id,modelo,placa,color FROM automovil";
+	private static final String _GET_ALL = "SELECT id,modelo,placa,color FROM automovil ORDER BY id DESC";
 
 	@Override
 	public Object add(DtoCar dto) throws SQLException, ClassNotFoundException {

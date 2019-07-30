@@ -8,8 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import controller.ControllerCar;
+ 
 import gui.resource.ResourcesGui;
 import observer.IObserver;
 
@@ -141,10 +140,7 @@ public class CarGui extends JPanel implements IObserver{
 		
 		contentButtons.add(btnAdd);
 		contentButtons.add(btnCancel);
-		
-		btnAdd.addActionListener(ControllerCar.getInstance());
-		btnCancel.addActionListener(ControllerCar.getInstance());
-		
+	
 		contentMain.add(contentButtons, BorderLayout.PAGE_END);
 		
 		this.add(contentMain, BorderLayout.CENTER);

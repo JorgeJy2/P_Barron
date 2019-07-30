@@ -1,9 +1,6 @@
 package controller;
 
-public interface ControllerInterface {
-
-
- 
+public interface ControllerInterface { 
 	public boolean saveRegistry();
 	public boolean createNewRegistry();
 	public boolean updateRegistry();
@@ -13,5 +10,5 @@ public interface ControllerInterface {
 	public boolean getDataOfView();
 	public boolean setDataOfView();
 	public boolean reloadData(); 
-	public boolean initView();
+	public boolean addListener();
 }

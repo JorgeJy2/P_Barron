@@ -3,8 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
+import java.awt.GridLayout; 
 import java.awt.event.WindowEvent;
 
 import java.sql.SQLException;
@@ -12,23 +11,21 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JLabel; 
 import javax.swing.JPanel;
 
 import connection.ConnectionPostgresql; 
-import gui.content.people.PeopleContainerMainGui;
-import gui.content.ticket.TicketContainerMainGui;
 import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 
-public class CarFrame   extends JFrame {
+public class CarFrame  extends JFrame {
 
 	private static final int MIN_V = 350;
 	private static final int MIN_H = 500;
 	
 	private static final String SRC_MENU = "imgs/ic_menu.png";
 
-	private static  String title = "AutomÃ³vil ";
+	private static  String title = "Automóvil ";
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPanel;
@@ -80,25 +77,8 @@ public class CarFrame   extends JFrame {
 		JButton btnTicket = new JButton("");
 		btnTicket.setIcon(new ImageIcon("imgs/ticket.png"));
 		
-		
-		btnCar.addActionListener((ActionEvent arg0) -> {
-				title = "AutomÃ³vil";
-				lbTitle.setText(title);
-		//		changePanel(new CarContainerMainGui());
-		});
-		
-		btnPeople.addActionListener((ActionEvent arg0) -> {
-			title = "Personas";
-			lbTitle.setText(title);
-				changePanel (new PeopleContainerMainGui());
-		});
-		
-		btnTicket.addActionListener((ActionEvent arg0) -> {
-			title = "Boletos";
-			lbTitle.setText(title);
-				changePanel (new TicketContainerMainGui());
-		});
-		
+	
+
 		btnCar.setBackground(ResourcesGui.COLOR.getPrimaryColor());
 		btnCar.setBorder(ResourcesGui.BORDER.getBorderBtnAcept());
 		btnCar.setForeground(ResourcesGui.COLOR.getSecondColor());
@@ -134,7 +114,7 @@ public class CarFrame   extends JFrame {
 		
 		JPanel piedPaginaTitle= new JPanel();
 		piedPaginaTitle.setLayout(new GridLayout(0,1));
-		JLabel info = new JLabel("VersiÃ³n 1.0");
+		JLabel info = new JLabel("Versión 1.0");
 		piedPaginaTitle.add(info);
 			
 		
@@ -168,11 +148,5 @@ public class CarFrame   extends JFrame {
 		});
 	}
 	
-	private void changePanel(JPanel panel) {
-		panelChange.removeAll();
-		panelChange.add(panel);
-		panelChange.revalidate();
-		panelChange.repaint();
-	}
 	
 }

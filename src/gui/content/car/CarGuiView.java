@@ -2,23 +2,17 @@ package gui.content.car;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.sql.SQLException; 
-
 import javax.swing.JButton;
 import javax.swing.JComboBox; 
-import javax.swing.JLabel; 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
-import controller.ControllerCar;
-import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
-import model.dto.DtoCar;
 import model.list.ListCar;
-import model.list.interador.Interator;
 import observer.IObserver;
 
 public class CarGuiView extends JPanel implements IObserver{
@@ -32,8 +26,7 @@ public class CarGuiView extends JPanel implements IObserver{
 	private static final String TITLE = "Automoviles registrados";
 	private static final String FILTER = "Filtrar Automoviles";
 	private static final String BTN_FILTER  = "Filtrar"; 
-	
-	
+ 
 	private ListCar listCar;
 	
 	// GUI
@@ -52,16 +45,8 @@ public class CarGuiView extends JPanel implements IObserver{
 
 	private JButton btnFilter;
 	
-	///private ControllerCar controller;
-	public CarGuiView() {
-		listCar = ListCar.getInstance();
-        try {
-			listCar.loadList();
-		} catch (ClassNotFoundException | SQLException e) {
-			Messages.showError(e.getLocalizedMessage());
-		}
-		createGui();
-		btnFilter.addActionListener(ControllerCar.getInstance());
+	public CarGuiView() {		
+		createGui(); 
 	}
 	
 	private  void createGui() {
@@ -101,42 +86,33 @@ public class CarGuiView extends JPanel implements IObserver{
 		btnFilter.setForeground(ResourcesGui.COLOR.getSecondColor());
 		pfilter.add(btnFilter);
  
-		btnFilter.addActionListener(ControllerCar.getInstance());
 		
 		pTitle.add(pfilter);
 		// ================== FILTER end ==================
 		
 		this.add(pTitle, BorderLayout.PAGE_START);
 		// Data to be displayed in the JTable 
-        
-        String[][] data= new String[listCar.sizeDtos()][5]; 
-        Interator<DtoCar> inte =  listCar.getAll();
-        
-		while(inte.hasNext()) {
-			int pointerCar = inte.now();
-			DtoCar car =inte.next();
-			data[pointerCar][0] = car.getModelo();
-        	data[pointerCar][1] = car.getPlaca();
-        	data[pointerCar][2] = car.getColor();
-		}
-   
-        table = new JTable(data, COLUMN_NAMES); 
+        DefaultTableModel modelo = new DefaultTableModel();
+	    table = new JTable(modelo); 
         table.setRowHeight(30);
         table.setShowGrid(false);
         table.setBackground(ResourcesGui.COLOR.getSecondColor());
         table.setSelectionBackground(ResourcesGui.COLOR.getPrimaryColor()); 
         table.setFont(ResourcesGui.FONT.getFontText() );
-
         JTableHeader header = table.getTableHeader();
         header.setBackground(ResourcesGui.COLOR.getPrimaryColor());
         header.setForeground(ResourcesGui.COLOR.getSecondColor());
         header.setFont(ResourcesGui.FONT.getFontText());
-        
         JScrollPane sp = new JScrollPane(table); 
         this.add(sp, BorderLayout.CENTER); 
-	}
-
+	}  
+	  
 	
+	public void setModelTable(String[][] data) {
+		DefaultTableModel modelo = new DefaultTableModel(data,COLUMN_NAMES);
+		table.setModel(modelo);
+		table.setRowHeight(30);
+	}
 	public ListCar getListCar() {
 		return listCar;
 	}
