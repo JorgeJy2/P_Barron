@@ -52,22 +52,19 @@ public class ListCar implements Listable<DtoCar> {
 
 	private boolean addedCarsInList(List<DtoCar> carsNews) {
 		if (carsNews != null) {
-			System.out.println("Esto llego tamaño "+carsNews.size());
 			if(carsNews.size() > 0) {
-				System.out.println("Suficientes carros para agregar a lista");
 				_listAuto.addAll(carsNews);
 				return true;
-			}else {
-				System.out.println("No existe un tamaño suficiente ");
+			}else 
 				return false;
-			}
-			
-		}else {
-			System.out.println("La lista es null");
+		}else 
 			return false;
-		}
-		
 	}
+	
+	public void loadListFilter(String parameter,String value) throws ClassNotFoundException, SQLException{
+		_listAuto = _daoAuto.getFilter(parameter, value);
+	}
+	
 	
 	@Override
 	public void add (DtoCar dtoCar) throws ClassNotFoundException, SQLException{
@@ -94,12 +91,12 @@ public class ListCar implements Listable<DtoCar> {
 		if(_daoAuto.update(dtoCar))
 			_listAuto.set(position,dtoCar);
 	}
-
+	
 	@Override
 	public Interator<DtoCar> getAll() {	
 		return new DaoInteractor<DtoCar>(_listAuto);
 	}
-
+	
 	@Override
 	public int sizeDtos() {
 		return _listAuto.size();

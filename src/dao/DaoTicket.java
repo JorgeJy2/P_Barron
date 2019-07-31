@@ -160,6 +160,9 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 
 	@Override
 	public List<DtoTicket> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
+		return null;
+	}
+	public List<DtoTicket> getFilter(String parameter, String value) throws SQLException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

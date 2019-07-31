@@ -29,7 +29,7 @@ public class MainFragment   extends JFrame {
 	
 	private static final String SRC_MENU = "imgs/ic_menu.png";
 
-	private static  String title = "AutomÃ³vil ";
+	private static  String title = "Automóvil ";
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPanel;
@@ -85,7 +85,7 @@ public class MainFragment   extends JFrame {
 		btnCar.addActionListener((ActionEvent arg0) -> {
 				title = "Automóvil";
 				lbTitle.setText(title);
-			//	changePanel(new CarContainerMainGui());
+				changePanel(new CarContainerMainGui());
 		});
 		
 		btnPeople.addActionListener((ActionEvent arg0) -> {

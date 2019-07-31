@@ -77,5 +77,6 @@ public interface DaoInterface<Model> {
 	List<Model> getAll() throws SQLException, ClassNotFoundException;
 	
 	List<Model> getPaginator(int init, int end) throws SQLException, ClassNotFoundException;
+	List<Model> getFilter(String parameter,String value) throws SQLException, ClassNotFoundException;
 
 }

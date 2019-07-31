@@ -11,7 +11,7 @@ public class ControllerPeople extends ControllerWindow{
 	}
 
 	@Override
-	public boolean createNewRegistry() {
+	public boolean filter() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -24,18 +24,6 @@ public class ControllerPeople extends ControllerWindow{
 
 	@Override
 	public boolean deleteRegistry() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getDataOneRegistry() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getDataAllRegistry() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -65,10 +53,11 @@ public class ControllerPeople extends ControllerWindow{
 	}
 
 	@Override
-	public boolean initView() {
+	public boolean addListener() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
  
 
 }

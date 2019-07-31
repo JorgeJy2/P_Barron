@@ -2,26 +2,20 @@ package gui.content.car;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.sql.SQLException;
-import java.util.concurrent.Executor;
+
 
 import javax.swing.JButton;
 import javax.swing.JComboBox; 
-import javax.swing.JLabel; 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import controller.ControllerCar;
-import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
-import model.dto.DtoCar;
-import model.list.ListCar;
-import model.list.interador.Interator;
+
 import observer.IObserver;
 
 public class CarGuiView extends JPanel implements IObserver{
@@ -35,14 +29,10 @@ public class CarGuiView extends JPanel implements IObserver{
 	private static final String TITLE = "Automoviles registrados";
 	private static final String FILTER = "Filtrar Automoviles";
 	private static final String BTN_FILTER  = "Filtrar"; 
-	
-	
-	private ListCar listCar;
-	
+ 
 	// GUI
 	private JTable table;
-	
-	
+
 	private JPanel pTitle;
 	private JPanel pfilter;
 	
@@ -56,20 +46,11 @@ public class CarGuiView extends JPanel implements IObserver{
 	private JButton btnFilter;
 
 	private DefaultTableModel tableModel;
+	 	
+	private JScrollPane scrollPaneTable;
 	
-	private JScrollPane sp;
-	
-	///private ControllerCar controller;
-	
-	public CarGuiView() {
-		listCar = ListCar.getInstance();
-        try {
-			listCar.loadList();
-		} catch (ClassNotFoundException | SQLException e) {
-			Messages.showError(e.getLocalizedMessage());
-		}
-		createGui();
-		btnFilter.addActionListener(ControllerCar.getInstance());
+	public CarGuiView() {		
+		createGui(); 
 	}
 	
 	private  void createGui() {
@@ -109,7 +90,6 @@ public class CarGuiView extends JPanel implements IObserver{
 		btnFilter.setForeground(ResourcesGui.COLOR.getSecondColor());
 		pfilter.add(btnFilter);
  
-		btnFilter.addActionListener(ControllerCar.getInstance());
 		
 		pTitle.add(pfilter);
 		// ================== FILTER end ==================
@@ -120,47 +100,30 @@ public class CarGuiView extends JPanel implements IObserver{
 		
 		table =new JTable(tableModel);
 		
-		showDataInTable();
+		//showDataInTable();
 		
         table.setRowHeight(30);
         table.setShowGrid(false);
         table.setBackground(ResourcesGui.COLOR.getSecondColor());
         table.setSelectionBackground(ResourcesGui.COLOR.getPrimaryColor()); 
         table.setFont(ResourcesGui.FONT.getFontText() );
-
         JTableHeader header = table.getTableHeader();
         header.setBackground(ResourcesGui.COLOR.getPrimaryColor());
         header.setForeground(ResourcesGui.COLOR.getSecondColor());
         header.setFont(ResourcesGui.FONT.getFontText());
         
-        sp = new JScrollPane();
-        sp.setViewportView(table);
-        sp.getVerticalScrollBar().addAdjustmentListener(e -> {
-	            if(!e.getValueIsAdjusting()){    
-	                JScrollBar source = (JScrollBar) e.getAdjustable();
-	                int extent = source.getModel().getExtent();
-	                int maximum = source.getModel().getMaximum();
-	                //System.out.println(e.getValue());
-	                //System.out.println("Extent "+ extent+ " maximum "+ maximum);
-	                //System.out.println((e.getValue()+ extent));
-	                if(e.getValue() + extent == maximum){
-	                	//System.out.println("Final");
-	                	showNewDataInTable();
-	                }
-	            }
-		});
-        
-        this.add(sp, BorderLayout.CENTER); 
-	}
-
+        scrollPaneTable = new JScrollPane();
+        scrollPaneTable.setViewportView(table);
+        this.add(scrollPaneTable, BorderLayout.CENTER); 
+	}  
+	  
 	
-	public ListCar getListCar() {
-		return listCar;
+	public void setModelTable(String[][] data) {
+		DefaultTableModel modelo = new DefaultTableModel(data,COLUMN_NAMES);
+		table.setModel(modelo);
+		table.setRowHeight(30);
 	}
 
-	public void setListCar(ListCar listCar) {
-		this.listCar = listCar;
-	}
 
 	public JTable getTable() {
 		return table;
@@ -170,8 +133,8 @@ public class CarGuiView extends JPanel implements IObserver{
 		this.table = table;
 	}
 
-	public JComboBox<String> getCbxFilter() {
-		return cbxFilter;
+	public String getCbxFilter() {
+		return cbxFilter.getItemAt(cbxFilter.getSelectedIndex());
 	}
 
 	public void setCbxFilter(JComboBox<String> cbxFilter) {
@@ -194,6 +157,11 @@ public class CarGuiView extends JPanel implements IObserver{
 	public void update() {
 	}
 	
+	public JScrollPane getScrollPaneTable() {
+		return scrollPaneTable;
+	}
+	
+	/*
 	private void showNewDataInTable() {
 		
 		//int random = (int) (10 * Math.random());
@@ -244,8 +212,10 @@ public class CarGuiView extends JPanel implements IObserver{
 		System.out.println( sp.getVerticalScrollBar().getMaximum());
 		sp.getVerticalScrollBar().setValue( sp.getVerticalScrollBar().getMaximum()-100);
 		*/
+	/*
 	}
-	
+	*/
+	/*
 	private void reloadData() {
 		
 		Interator<DtoCar> inte =  listCar.getAll();
@@ -262,7 +232,8 @@ public class CarGuiView extends JPanel implements IObserver{
 		table.setModel(modelo);
 		table.setRowHeight(30);
 	}
-	
+	*/
+	/*
 	private  void  showDataInTable() {
 		
 	    Interator<DtoCar> inte =  listCar.getAll();
@@ -272,5 +243,5 @@ public class CarGuiView extends JPanel implements IObserver{
 			String[] carRow = {car.getModelo(), car.getPlaca(), car.getColor()};
 	        tableModel.addRow(carRow);
 		}
-	}
+	} */
 }

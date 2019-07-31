@@ -22,7 +22,7 @@ public class PeopleGui extends JPanel implements IObserver{
 	private static final String TEXT_NAME = "Nombre";
 	private static final String TEXT_FIRST_NAME = "Apellido paterno";
 	private static final String TEXT_LAST_NAME = "Apellido materno";
-	private static final String TEXT_TELEPHONE = "TelÃ©fono";
+	private static final String TEXT_TELEPHONE = "Teléfono";
 	private static final String TEXT_EMAIL = "Correo";
 	
 	private static final String SRC_IMG = "imgs/people.png";

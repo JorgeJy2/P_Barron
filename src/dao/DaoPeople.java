@@ -129,7 +129,14 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	@Override
 	public List<DtoPeople> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
+		return null;
+	}
+	
+	@Override
+	public List<DtoPeople> getFilter(String parameter, String value) throws SQLException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 }
+
+

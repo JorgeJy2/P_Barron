@@ -1,13 +1,14 @@
 package mainRun;
 
-import controller.ControllerCar;
+import gui.MainFragment;
+import gui.content.car.CarContainerMainGui;
 
 public class Main {
 
 	public static void main(String[] args) {
-		//new MainFragment(new CarContainerMainGui());
-		ControllerCar car =ControllerCar.getInstance();
-		car.initView();
+		new MainFragment(new CarContainerMainGui());
+
+		
 		/**
 			 * ========= TEST LIST CAR =============
 			 */
