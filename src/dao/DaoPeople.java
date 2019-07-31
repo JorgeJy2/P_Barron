@@ -126,4 +126,10 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 
 		return listPeople;
 	}
+
+	@Override
+	public List<DtoPeople> getFilter(String parameter, String value) throws SQLException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import gui.resource.ResourcesGui;
-import model.list.ListCar;
 import observer.IObserver;
 
 public class CarGuiView extends JPanel implements IObserver{
@@ -27,7 +26,7 @@ public class CarGuiView extends JPanel implements IObserver{
 	private static final String FILTER = "Filtrar Automoviles";
 	private static final String BTN_FILTER  = "Filtrar"; 
  
-	private ListCar listCar;
+	
 	
 	// GUI
 	private JTable table;
@@ -113,13 +112,7 @@ public class CarGuiView extends JPanel implements IObserver{
 		table.setModel(modelo);
 		table.setRowHeight(30);
 	}
-	public ListCar getListCar() {
-		return listCar;
-	}
 
-	public void setListCar(ListCar listCar) {
-		this.listCar = listCar;
-	}
 
 	public JTable getTable() {
 		return table;
@@ -129,8 +122,8 @@ public class CarGuiView extends JPanel implements IObserver{
 		this.table = table;
 	}
 
-	public JComboBox<String> getCbxFilter() {
-		return cbxFilter;
+	public String getCbxFilter() {
+		return cbxFilter.getItemAt(cbxFilter.getSelectedIndex());
 	}
 
 	public void setCbxFilter(JComboBox<String> cbxFilter) {

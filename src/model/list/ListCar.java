@@ -40,6 +40,11 @@ public class ListCar implements Listable<DtoCar> {
 		_listAuto = _daoAuto.getAll();
 	}
 	
+	public void loadListFilter(String parameter,String value) throws ClassNotFoundException, SQLException{
+		_listAuto = _daoAuto.getFilter(parameter, value);
+	}
+	
+	
 	@Override
 	public void add (DtoCar dtoCar) throws ClassNotFoundException, SQLException{
 		int id_added = (int) _daoAuto.add(dtoCar);
@@ -65,12 +70,12 @@ public class ListCar implements Listable<DtoCar> {
 		if(_daoAuto.update(dtoCar))
 			_listAuto.set(position,dtoCar);
 	}
-
+	
 	@Override
 	public Interator<DtoCar> getAll() {	
 		return new DaoInteractor<DtoCar>(_listAuto);
 	}
-
+	
 	@Override
 	public int sizeDtos() {
 		return _listAuto.size();

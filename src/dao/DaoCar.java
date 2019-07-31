@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import connection.ConnectionPostgresql;
 import model.dto.DtoCar;
 
@@ -15,6 +18,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	private static final String _DELETE = "DELETE FROM automovil WHERE id = ?";
 	private static final String _GET_ONE = "SELECT id,modelo,placa,color FROM automovil WHERE id = ?";
 	private static final String _GET_ALL = "SELECT id,modelo,placa,color FROM automovil ORDER BY id DESC";
+	private static final String _GET_FILTER = "SELECT id,modelo,placa,color FROM automovil WHERE UPPER(@)  LIKE # ORDER BY id DESC";
 
 	@Override
 	public Object add(DtoCar dto) throws SQLException, ClassNotFoundException {
@@ -119,6 +123,26 @@ public class DaoCar implements DaoInterface<DtoCar> {
 			list.add(auto);
 		}
 
+		resultSet.close();
+		preparedStatement.close();
+
+		return list;
+	}
+
+	@Override
+	public List<DtoCar> getFilter(String parameter,String value) throws SQLException, ClassNotFoundException {
+		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement( _GET_FILTER.replaceAll("@", parameter).replaceAll("#","'%" +value.toUpperCase()+"%'"));
+		ResultSet resultSet = preparedStatement.executeQuery();
+		List<DtoCar> list = new ArrayList<DtoCar>();
+		while (resultSet.next()) {
+			DtoCar auto = new DtoCar();
+			auto.setId(resultSet.getInt(1));
+			auto.setModelo(resultSet.getString(2));
+			auto.setPlaca(resultSet.getString(3));
+			auto.setColor(resultSet.getString(4));
+			list.add(auto);
+		}
 		resultSet.close();
 		preparedStatement.close();
 

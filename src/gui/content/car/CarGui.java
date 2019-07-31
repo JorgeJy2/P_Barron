@@ -17,13 +17,16 @@ public class CarGui extends JPanel implements IObserver{
 	private static final long serialVersionUID = 1L;
 	
 	private static final String BTN_ADD = "Agregar";
+
 	private static final String BTN_CANCEL = "Cancelar";
-	//, , 
+	
 	private static final String TEXT_MODELO = "Modelo";
 	private static final String TEXT_PLACA = "Placa";
 	private static final String TEXT_COLOR = "Color";
 	
 	private static final String SRC_IMG = "imgs/car.png";
+
+	private static final String SRC_IMG_DEL = "imgs/borrar.png";
 
 	private static final int BORDER_BTNS_H = 10;
 	private static final int BORDER_BTNS_V = 10;
@@ -51,6 +54,7 @@ public class CarGui extends JPanel implements IObserver{
 	
 	private JButton btnAdd;
 	private JButton btnCancel;
+	private JButton btnDelete;
 	
 	private JPanel contentButtons;
 	private JPanel contentForm;
@@ -65,8 +69,17 @@ public class CarGui extends JPanel implements IObserver{
 	
 	private void createGui() {
 	
+		
 		this.setLayout(new BorderLayout());
 		this.setBackground(ResourcesGui.COLOR.getSecondColor());
+		
+		
+		btnDelete = new JButton();
+		btnDelete.setBackground(null);
+		btnDelete.setIcon(new ImageIcon(SRC_IMG_DEL));
+		btnDelete.setBorder(null);
+		
+		
 		
 		contentMain = new JPanel();
 		contentMain.setLayout(new BorderLayout());
@@ -88,15 +101,18 @@ public class CarGui extends JPanel implements IObserver{
 		contentForm.setBorder(ResourcesGui.BORDER.getBorderForm());
 		contentForm.setBackground(ResourcesGui.COLOR.getSecondColor());
 		
-		lbModelo 		= new JLabel(TEXT_MODELO, JLabel.RIGHT);
+		
+		lbModelo 	= new JLabel(TEXT_MODELO, JLabel.RIGHT);
 		lbPlaca 	= new JLabel(TEXT_PLACA, JLabel.RIGHT);
 		lbColor 	= new JLabel(TEXT_COLOR, JLabel.RIGHT);
 		
+	
+
 		lbModelo.setFont(ResourcesGui.FONT.getFontText());
 		lbPlaca.setFont(ResourcesGui.FONT.getFontText());
 		lbColor.setFont(ResourcesGui.FONT.getFontText());
 		
-		txtModelo 		= new JTextField();
+		txtModelo 	= new JTextField();
 		txtPlaca 	= new JTextField();
 		txtColor 	= new JTextField();
 		
@@ -113,21 +129,29 @@ public class CarGui extends JPanel implements IObserver{
         txtPlaca.setFont(ResourcesGui.FONT.getFontText());
         txtColor.setFont(ResourcesGui.FONT.getFontText());
         
+    	
 		contentForm.add(lbModelo);
 		contentForm.add(txtModelo);
 		contentForm.add(lbPlaca);
 		contentForm.add(txtPlaca);
 		contentForm.add(lbColor);
 		contentForm.add(txtColor);
+		contentForm.add(btnDelete);
+		
+	
 		
 		contentMain.add(contentForm, BorderLayout.CENTER);
 		
+	
 		contentButtons = new JPanel();
 		contentButtons.setLayout(new GridLayout(GRID_BTN_ROWS, GRID_BTN_COLS, BORDER_BTNS_H, BORDER_BTNS_V));
 		contentButtons.setBackground(ResourcesGui.COLOR.getSecondColor());
 		
 		btnAdd = new JButton(BTN_ADD);
 		btnCancel = new JButton(BTN_CANCEL);
+		
+		
+
 		
 		btnAdd.setBackground(ResourcesGui.COLOR.getPrimaryColor());
 		btnCancel.setBackground(ResourcesGui.COLOR.getSecondColor());
@@ -140,6 +164,8 @@ public class CarGui extends JPanel implements IObserver{
 		
 		contentButtons.add(btnAdd);
 		contentButtons.add(btnCancel);
+		
+		
 	
 		contentMain.add(contentButtons, BorderLayout.PAGE_END);
 		
@@ -187,7 +213,9 @@ public class CarGui extends JPanel implements IObserver{
 		return btnCancel;
 	}
 
-
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub

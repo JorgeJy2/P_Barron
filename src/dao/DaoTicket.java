@@ -158,4 +158,10 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		return listaBoleto;
 	}
 
+	@Override
+	public List<DtoTicket> getFilter(String parameter, String value) throws SQLException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

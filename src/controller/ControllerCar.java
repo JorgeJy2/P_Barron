@@ -5,9 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-
-import javax.swing.JOptionPane;
-
 import dao.DaoCar;
 import gui.content.car.CarContainerMainGui;
 import gui.content.car.CarGui;
@@ -26,6 +23,8 @@ public class ControllerCar extends ControllerWindow {
 	private DtoCar dtoCar;
 	private int indexSelectOnView;
 	private MauseClickedOnTable mauseClickedOnTable;
+	private boolean newRegistry;
+	private ListCar listCar;
 	
 	public ControllerCar(CarContainerMainGui viewCar) {
 		this.viewCar = viewCar;
@@ -34,33 +33,61 @@ public class ControllerCar extends ControllerWindow {
 		carGui = this.viewCar.getCarGui();
 		daoCar = new DaoCar();
 		addListener();
-		loadTable();
-	
+		reloadData();
 	}
+	
 	@Override
 	public boolean saveRegistry() {
 		if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
-			getDataOfView();
-			updateRegistry();
+			if (getDataOfView()) {
+				updateRegistry();
+				reloadData();
+				return true;
+			}else {
+				return true;
+			}
+			
 		}else {
 			dtoCar = new DtoCar(); 
 			try {
-				getDataOfView();
-				daoCar.add(dtoCar);
-				return true;
+				if (getDataOfView()) {
+					daoCar.add(dtoCar);
+					reloadData();
+					return true;
+				}else {
+					return false;
+				}
 			} catch (ClassNotFoundException e) { 
 				e.printStackTrace();
 			} catch (SQLException e) { 
 				e.printStackTrace();
 			}	
 		}
-		loadTable();
 		return false;
 	}
 
 	@Override
-	public boolean createNewRegistry() { 
-		return false;
+	public boolean filter() { 
+		listCar = ListCar.getInstance();
+        try {
+        	listCar.loadListFilter(carGuiView.getCbxFilter(), carGuiView.getTxtFilter().getText());
+        	String[][] data= new String[listCar.sizeDtos()][5]; 
+            Interator<DtoCar> inte =  listCar.getAll(); 
+    		while(inte.hasNext()) {
+    			int pointerCar = inte.now();
+    			DtoCar car =inte.next();
+    			data[pointerCar][0] = car.getModelo();
+            	data[pointerCar][1] = car.getPlaca();
+            	data[pointerCar][2] = car.getColor();
+    		} 
+        	carGuiView.setModelTable(data);
+        	carGuiView.getTable().addKeyListener(this);
+        	carGuiView.getTable().addMouseListener(mauseClickedOnTable);
+        	return true;
+		} catch (ClassNotFoundException | SQLException e) {
+			Messages.showError(e.getLocalizedMessage());
+			return false;
+		}  
 	}
 
 	@Override
@@ -78,42 +105,108 @@ public class ControllerCar extends ControllerWindow {
 
 	@Override
 	public boolean deleteRegistry() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getDataOneRegistry() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getDataAllRegistry() {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			dtoCar = listCar.getList().get(indexSelectOnView);
+			daoCar.delete(dtoCar.getId());
+			if (carGuiView.getTable().getSelectedRow() < 0) {
+				newRegistry = true;
+			}else {
+				newRegistry = false;
+				dtoCar = listCar.getList().get(carGuiView.getTable().getSelectedRow());
+			}
+			reloadData();
+			setDataOfView();
+			return true;
+		} catch (ClassNotFoundException e) { 
+			Messages.showError("  "+e.getMessage());
+			return false;
+		} catch (SQLException e) { 
+			Messages.showError("  "+e.getMessage());
+			return false;
+		}
+		
 	}
 
 	@Override
 	public boolean getDataOfView() { 
 		try {
-			dtoCar.setColor(carGui.getTxtColor().getText());
-			dtoCar.setModelo(carGui.getTxtModelo().getText());
-			dtoCar.setPlaca(carGui.getTxtPlaca().getText());
-			loadTable();
+			if (validateFieldText(carGui.getTxtColor().getText())) {
+				dtoCar.setColor(carGui.getTxtColor().getText());
+			}else {
+				Messages.showError("  Campo Color Invalido");
+				return false;
+			}
+			if (validateFieldText(carGui.getTxtModelo().getText())) {
+				dtoCar.setModelo(carGui.getTxtModelo().getText());
+			}else {
+				Messages.showError("  Campo Modelo Invalido");
+				return false;
+			}
+			if (validateFieldText(carGui.getTxtPlaca().getText())) {
+				dtoCar.setPlaca(carGui.getTxtPlaca().getText());
+			}else {
+				Messages.showError("  Campo Placa Invalido");
+				return false;
+			}
 			return true;
 		} catch (Exception e) {
+			Messages.showError("  "+e.getMessage());
 			return false;
 		}
 	}
 	
+	private boolean validateFieldText(String text) {
+		if (text.length()<1) {
+			return false;	
+		}if (text.equals("")) {
+			return false;	
+		}
+		return true;
+	}
 
-	public boolean loadTable() { 
-		carGuiView.setListCar(ListCar.getInstance());
+	@Override
+    public void keyReleased( KeyEvent d ) { 
+       if( carGuiView.getTable().getSelectedRows().length > 0 ) { 
+         indexSelectOnView = carGuiView.getTable().getSelectedRow();
+         dtoCar = listCar.getList().get(indexSelectOnView);
+         dtoCar.setModelo(carGuiView.getTable().getValueAt(indexSelectOnView, 0).toString());
+         dtoCar.setPlaca(carGuiView.getTable().getValueAt(indexSelectOnView, 1).toString());
+         dtoCar.setColor(carGuiView.getTable().getValueAt(indexSelectOnView, 2).toString());
+       }
+       updateRegistry();
+    }
+
+	@Override
+	public boolean setDataOfView() {
+		try {
+			if (newRegistry) {
+				dtoCar = new DtoCar();
+				carGui.getBtnAdd().setText("Agregar");
+				carGui.getTxtColor().setText("");
+				carGui.getTxtModelo().setText("");
+				carGui.getTxtPlaca().setText("");
+			}else {
+				dtoCar = listCar.getList().get(indexSelectOnView);
+				carGui.getTxtColor().setText(dtoCar.getColor());
+				carGui.getTxtModelo().setText(dtoCar.getModelo());
+				carGui.getTxtPlaca().setText(dtoCar.getPlaca());
+				carGui.getBtnAdd().setText("Modificar");
+			}
+			return true;
+		} catch (Exception e) {
+			Messages.showError("  "+e.getMessage());
+			return false;
+		}
+		
+	}
+
+	@Override
+	public boolean reloadData() {
+		listCar = ListCar.getInstance();
         try {
-        	carGuiView.getListCar().loadList();
-        	String[][] data= new String[carGuiView.getListCar().sizeDtos()][5]; 
-            Interator<DtoCar> inte =  carGuiView.getListCar().getAll(); 
+        	listCar.loadList();
+        	String[][] data= new String[listCar.sizeDtos()][5]; 
+            Interator<DtoCar> inte =  listCar.getAll(); 
     		while(inte.hasNext()) {
     			int pointerCar = inte.now();
     			DtoCar car =inte.next();
@@ -127,54 +220,39 @@ public class ControllerCar extends ControllerWindow {
         	
         	return true;
 		} catch (ClassNotFoundException | SQLException e) {
-			Messages.showError(e.getLocalizedMessage());
+			Messages.showError("  "+e.getMessage());
 			return false;
 		}  
 	}
 	
 	@Override
-    public void keyReleased( KeyEvent d ) { 
-       if( carGuiView.getTable().getSelectedRows().length > 0 ) { 
-         indexSelectOnView = carGuiView.getTable().getSelectedRow();
-         dtoCar = carGuiView.getListCar().getList().get(indexSelectOnView);
-         dtoCar.setModelo(carGuiView.getTable().getValueAt(indexSelectOnView, 0).toString());
-         dtoCar.setPlaca(carGuiView.getTable().getValueAt(indexSelectOnView, 1).toString());
-         dtoCar.setColor(carGuiView.getTable().getValueAt(indexSelectOnView, 2).toString());
-       }
-       updateRegistry();
-    }
-
-	@Override
-	public boolean setDataOfView() {
-		dtoCar = carGuiView.getListCar().getList().get(indexSelectOnView);
-		carGui.getTxtColor().setText(dtoCar.getColor());
-		carGui.getTxtModelo().setText(dtoCar.getModelo());
-		carGui.getTxtPlaca().setText(dtoCar.getPlaca());
-		carGui.getBtnAdd().setText("Modificar");
-		return false;
-	}
-
-	@Override
-	public boolean reloadData() {
-		 
-		return false;
-	}
-	
-	@Override
 	public boolean addListener() { 
-		carGuiView.getBtnFilter().addActionListener(this);
-		carGui.getBtnAdd().addActionListener(this);
-		carGui.getBtnCancel().addActionListener(this);
-	    return true;
+		try {
+			carGuiView.getBtnFilter().addActionListener(this);
+			carGui.getBtnAdd().addActionListener(this);
+			carGui.getBtnDelete().addActionListener(this);
+			carGui.getBtnCancel().addActionListener(this);
+		    return true;
+		} catch (Exception e) {
+			Messages.showError("  "+e.getMessage());
+			 return false;
+		}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) { 
 		if (e.getSource() == carGuiView.getBtnFilter()) {
-			 JOptionPane.showMessageDialog(null, "filter");
+			 filter();
 		} else if(e.getSource() == carGui.getBtnCancel()) {
-			 JOptionPane.showMessageDialog(null, "Cancel");
+			newRegistry = true;
+			setDataOfView();
 		}else if(e.getSource() == carGui.getBtnAdd()) {
-			saveRegistry();  
+			if (saveRegistry()) {
+				Messages.showMessage(" Guardado");
+			}
+		}else if(e.getSource() == carGui.getBtnDelete()) {
+			if (deleteRegistry()) {
+				Messages.showMessage(" Eliminado");
+			}
 		}
 	}
 	
@@ -188,6 +266,7 @@ public class ControllerCar extends ControllerWindow {
 			  if (evnt.getClickCount() == 1)
 			  {
 				  this.controllerCar.indexSelectOnView = this.controllerCar.carGuiView.getTable().getSelectedRow();
+				  this.controllerCar.newRegistry = false;
 				  this.controllerCar.setDataOfView();
 			  }
 		}

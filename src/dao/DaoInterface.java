@@ -75,5 +75,7 @@ public interface DaoInterface<Model> {
 	 * @throws ClassNotFoundException
 	 */
 	List<Model> getAll() throws SQLException, ClassNotFoundException;
+	
+	List<Model> getFilter(String parameter,String value) throws SQLException, ClassNotFoundException;
 
 }
