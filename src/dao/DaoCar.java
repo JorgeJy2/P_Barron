@@ -13,8 +13,12 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	private static final String _ADD = "INSERT INTO automovil(modelo,placa,color) VALUES (?,?,?) RETURNING id";
 	private static final String _UPDATE = "UPDATE automovil SET modelo = ? , placa = ?, color = ? WHERE id = ?";
 	private static final String _DELETE = "DELETE FROM automovil WHERE id = ?";
-	private static final String _GET_ONE = "SELECT id,modelo,placa,color FROM automovil WHERE id = ?";
-	private static final String _GET_ALL = "SELECT id,modelo,placa,color FROM automovil";
+	private static final String _SELECT_BASE = "SELECT id,modelo,placa,color FROM automovil";
+	private static final String _GET_ONE = " WHERE id = ?";
+	
+	private static final String _START = " OFFSET ";
+	private static final String _LIMIT = " LIMIT ";
+	
 
 	@Override
 	public Object add(DtoCar dto) throws SQLException, ClassNotFoundException {
@@ -78,7 +82,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ONE);
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE + _GET_ONE);
 
 		preparedStatement.setInt(1, (int) key);
 
@@ -105,7 +109,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	public List<DtoCar> getAll() throws SQLException, ClassNotFoundException {
 		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
 
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ALL);
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE );
 		ResultSet resultSet = preparedStatement.executeQuery();
 
 		List<DtoCar> list = new ArrayList<DtoCar>();
@@ -119,6 +123,34 @@ public class DaoCar implements DaoInterface<DtoCar> {
 			list.add(auto);
 		}
 
+		resultSet.close();
+		preparedStatement.close();
+
+		return list;
+	}
+
+	@Override
+	public List<DtoCar> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
+		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		
+		System.out.println(_SELECT_BASE + _LIMIT + end + _START + init);
+		
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE + _LIMIT + end + _START + init);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		
+		List<DtoCar> list = new ArrayList<DtoCar>();
+
+		while (resultSet.next()) {
+			DtoCar auto = new DtoCar();
+			auto.setId(resultSet.getInt(1));
+			auto.setModelo(resultSet.getString(2));
+			auto.setPlaca(resultSet.getString(3));
+			auto.setColor(resultSet.getString(4));
+			list.add(auto);
+		}
+
+		System.out.println("Tamaño de la lista..."+ list.size());
+		
 		resultSet.close();
 		preparedStatement.close();
 

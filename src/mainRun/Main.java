@@ -1,23 +1,8 @@
 package mainRun;
 
-
-import java.sql.SQLException;
-import java.util.List;
-
 import controller.ControllerCar;
-import dao.DaoCar;
-import dao.DaoTicket;
-import gui.MainFragment;
-import gui.content.car.CarContainerMainGui;
-import gui.content.car.CarGui;
-import model.dto.DtoCar;
-import model.dto.DtoPeople;
-import model.dto.DtoTicket;
-import model.list.FilterCar;
-import test.TestCar;
-import test.TestPeople;
-import controller.*
-;public class Main {
+
+public class Main {
 
 	public static void main(String[] args) {
 		//new MainFragment(new CarContainerMainGui());

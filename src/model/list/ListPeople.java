@@ -18,10 +18,10 @@ public class ListPeople implements Listable<DtoPeople> {
 	private static ListPeople _instance;
 
 	protected ListPeople() {
-
+		
 		_listPeople = new ArrayList<DtoPeople>();
 		_daoPeople 	= new DaoPeople();
-
+	
 	}
 
 	public static ListPeople getInstance() {
@@ -76,5 +76,11 @@ public class ListPeople implements Listable<DtoPeople> {
 	@Override
 	public int sizeDtos() {
 		return _listPeople.size();
+	}
+
+	@Override
+	public boolean reloadNext()  throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

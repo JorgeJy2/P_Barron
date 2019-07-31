@@ -8,6 +8,8 @@ import dao.DaoInterface;
 import model.dto.DtoCar;
 import model.list.interador.DaoInteractor;
 import model.list.interador.Interator;
+import model.list.paginator.Paginator;
+import model.list.paginator.PaginatorDao;
 
 
 public class ListCar implements Listable<DtoCar> {
@@ -17,10 +19,12 @@ public class ListCar implements Listable<DtoCar> {
 	
 	private static ListCar _instance;
 	
+	private Paginator<DtoCar> paginator;
+	
 	protected ListCar() {
-		
 		_listAuto = new ArrayList<DtoCar>();
 		_daoAuto = new DaoCar();
+		paginator  = new PaginatorDao<DtoCar>(_daoAuto);
 	}
 	
 	public static ListCar getInstance() {
@@ -36,8 +40,33 @@ public class ListCar implements Listable<DtoCar> {
 	}
 	
 	@Override
-	public void loadList () throws ClassNotFoundException, SQLException{
-		_listAuto = _daoAuto.getAll();
+	public void loadList () throws ClassNotFoundException, SQLException{	
+		//_listAuto = paginator.next();
+		if(reloadNext()) {
+			System.out.println("Se cargó");
+		}else {
+			System.out.println("No se recargó.");
+		}
+	}
+	
+
+	private boolean addedCarsInList(List<DtoCar> carsNews) {
+		if (carsNews != null) {
+			System.out.println("Esto llego tamaño "+carsNews.size());
+			if(carsNews.size() > 0) {
+				System.out.println("Suficientes carros para agregar a lista");
+				_listAuto.addAll(carsNews);
+				return true;
+			}else {
+				System.out.println("No existe un tamaño suficiente ");
+				return false;
+			}
+			
+		}else {
+			System.out.println("La lista es null");
+			return false;
+		}
+		
 	}
 	
 	@Override
@@ -74,5 +103,10 @@ public class ListCar implements Listable<DtoCar> {
 	@Override
 	public int sizeDtos() {
 		return _listAuto.size();
+	}
+
+	@Override
+	public boolean reloadNext() throws ClassNotFoundException, SQLException {
+		return addedCarsInList(paginator.next());
 	}
 }

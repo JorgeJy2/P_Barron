@@ -45,7 +45,6 @@ public class CarGui extends JPanel implements IObserver{
 	
 	private JLabel lbImagen;
 	
-	
 	private JTextField txtModelo;
 	private JTextField txtPlaca;
 	private JTextField txtColor;

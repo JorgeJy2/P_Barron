@@ -13,7 +13,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	private static final String _ADD = "INSERT INTO persona (nombre,apellido_paterno,apellido_materno,telefono,correo) VALUES (?,?,?,?,?) RETURNING id";
 	private static final String _GET_ONE = "SELECT * FROM persona WHERE id=?";
-	private static final String _GET_ALL = "SELECT * FROM persona";
+	private static final String _GET_ALL = "SELECT * FROM persona ";
 	private static final String _DELETE = "DELETE FROM persona WHERE id=?";
 	private static final String _UPDATE = "UPDATE persona SET nombre=?,apellido_paterno=?,apellido_materno=?,telefono=?,correo=? WHERE id= ?";
 
@@ -125,5 +125,11 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		preparedStatement.close();
 
 		return listPeople;
+	}
+
+	@Override
+	public List<DtoPeople> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

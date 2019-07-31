@@ -15,4 +15,5 @@ public interface Listable<Dto> {
 	public Interator<Dto> getAll();
 	public int sizeDtos();
 	
+	public boolean reloadNext() throws ClassNotFoundException, SQLException ;
 }

@@ -2,15 +2,18 @@ package gui.content.car;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.sql.SQLException; 
+import java.sql.SQLException;
+import java.util.concurrent.Executor;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox; 
 import javax.swing.JLabel; 
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import controller.ControllerCar;
@@ -51,8 +54,13 @@ public class CarGuiView extends JPanel implements IObserver{
 	private JTextField txtFilter;
 
 	private JButton btnFilter;
+
+	private DefaultTableModel tableModel;
+	
+	private JScrollPane sp;
 	
 	///private ControllerCar controller;
+	
 	public CarGuiView() {
 		listCar = ListCar.getInstance();
         try {
@@ -107,20 +115,13 @@ public class CarGuiView extends JPanel implements IObserver{
 		// ================== FILTER end ==================
 		
 		this.add(pTitle, BorderLayout.PAGE_START);
-		// Data to be displayed in the JTable 
-        
-        String[][] data= new String[listCar.sizeDtos()][5]; 
-        Interator<DtoCar> inte =  listCar.getAll();
-        
-		while(inte.hasNext()) {
-			int pointerCar = inte.now();
-			DtoCar car =inte.next();
-			data[pointerCar][0] = car.getModelo();
-        	data[pointerCar][1] = car.getPlaca();
-        	data[pointerCar][2] = car.getColor();
-		}
-   
-        table = new JTable(data, COLUMN_NAMES); 
+		
+		tableModel=new DefaultTableModel(COLUMN_NAMES,0);
+		
+		table =new JTable(tableModel);
+		
+		showDataInTable();
+		
         table.setRowHeight(30);
         table.setShowGrid(false);
         table.setBackground(ResourcesGui.COLOR.getSecondColor());
@@ -132,7 +133,23 @@ public class CarGuiView extends JPanel implements IObserver{
         header.setForeground(ResourcesGui.COLOR.getSecondColor());
         header.setFont(ResourcesGui.FONT.getFontText());
         
-        JScrollPane sp = new JScrollPane(table); 
+        sp = new JScrollPane();
+        sp.setViewportView(table);
+        sp.getVerticalScrollBar().addAdjustmentListener(e -> {
+	            if(!e.getValueIsAdjusting()){    
+	                JScrollBar source = (JScrollBar) e.getAdjustable();
+	                int extent = source.getModel().getExtent();
+	                int maximum = source.getModel().getMaximum();
+	                //System.out.println(e.getValue());
+	                //System.out.println("Extent "+ extent+ " maximum "+ maximum);
+	                //System.out.println((e.getValue()+ extent));
+	                if(e.getValue() + extent == maximum){
+	                	//System.out.println("Final");
+	                	showNewDataInTable();
+	                }
+	            }
+		});
+        
         this.add(sp, BorderLayout.CENTER); 
 	}
 
@@ -175,7 +192,85 @@ public class CarGuiView extends JPanel implements IObserver{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+	}
+	
+	private void showNewDataInTable() {
 		
+		//int random = (int) (10 * Math.random());
+		//String [] row = { "Modelo..."+random,"Placa...."+random,"Color..."+random };
+		//DefaultTableModel model = (DefaultTableModel) table.getModel();
+		//model.addRow(row);
+		
+		Thread t   = new Thread(() -> {
+
+				try {
+					if(listCar.reloadNext()) {
+						
+						reloadData();
+						
+					}else {
+						System.out.println("No se pudo cargar..");
+					}
+					
+				} catch (ClassNotFoundException | SQLException e) {
+					System.out.println("Ocurrio un error al recargar "+e.getLocalizedMessage());
+				}
+		});
+		t.run();
+		
+		
+
+		
+		/*
+		DefaultTableModel dm = (DefaultTableModel) table.getModel();
+		dm.getDataVector().removeAllElements();
+		dm.fireTableDataChanged();
+		
+		Interator<DtoCar> inte =  listCar.getAll();
+	    
+		int random = (int) (10 * Math.random());
+		
+		while(inte.hasNext()) {
+			DtoCar car =inte.next();
+			String[] carRow = {car.getModelo() + random, car.getPlaca() + random, car.getColor() + random};
+	        dm.addRow(carRow);
+		}
+		
+		String [] row = { "Modelo..."+random,"Placa...."+random,"Color..."+random };
+		dm.addRow(row);
+		*/
+		
+		/*
+		System.out.println( sp.getVerticalScrollBar().getMaximum());
+		sp.getVerticalScrollBar().setValue( sp.getVerticalScrollBar().getMaximum()-100);
+		*/
+	}
+	
+	private void reloadData() {
+		
+		Interator<DtoCar> inte =  listCar.getAll();
+		String[][] data= new String[listCar.sizeDtos()][3]; 
+		
+		while(inte.hasNext()) {
+			int countPeoples = inte.now();
+			DtoCar car =inte.next();
+			data[countPeoples][0] = car.getModelo();
+			data[countPeoples][1] = car.getPlaca();
+			data[countPeoples][2] = car.getColor();
+		}
+		DefaultTableModel modelo = new DefaultTableModel(data,COLUMN_NAMES);
+		table.setModel(modelo);
+		table.setRowHeight(30);
+	}
+	
+	private  void  showDataInTable() {
+		
+	    Interator<DtoCar> inte =  listCar.getAll();
+	    
+		while(inte.hasNext()) {
+			DtoCar car =inte.next();
+			String[] carRow = {car.getModelo(), car.getPlaca(), car.getColor()};
+	        tableModel.addRow(carRow);
+		}
 	}
 }
