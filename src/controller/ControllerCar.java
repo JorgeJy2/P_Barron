@@ -94,6 +94,9 @@ public class ControllerCar extends ControllerWindow {
 	public boolean updateRegistry() {
 		try {
 			daoCar.update(dtoCar);
+			
+			setDataOfView();
+			newRegistry = false;
 			return true;
 		} catch (ClassNotFoundException e) { 
 			e.printStackTrace();
@@ -185,12 +188,14 @@ public class ControllerCar extends ControllerWindow {
 				carGui.getTxtColor().setText("");
 				carGui.getTxtModelo().setText("");
 				carGui.getTxtPlaca().setText("");
+				carGui.getBtnDelete().setEnabled(false);
 			}else {
 				dtoCar = listCar.getList().get(indexSelectOnView);
 				carGui.getTxtColor().setText(dtoCar.getColor());
 				carGui.getTxtModelo().setText(dtoCar.getModelo());
 				carGui.getTxtPlaca().setText(dtoCar.getPlaca());
 				carGui.getBtnAdd().setText("Modificar");
+				carGui.getBtnDelete().setEnabled(true);
 			}
 			return true;
 		} catch (Exception e) {
@@ -244,6 +249,7 @@ public class ControllerCar extends ControllerWindow {
 			 filter();
 		} else if(e.getSource() == carGui.getBtnCancel()) {
 			newRegistry = true;
+			carGuiView.getTable().clearSelection();
 			setDataOfView();
 		}else if(e.getSource() == carGui.getBtnAdd()) {
 			if (saveRegistry()) {
