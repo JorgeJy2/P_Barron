@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import connection.ConnectionPostgresql;
 import model.dto.DtoCar;
+import report.CompileReporte;
 
 public class DaoCar implements DaoInterface<DtoCar> {
 
@@ -173,6 +174,11 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		preparedStatement.close();
 
 		return list;
+	}
+	
+	public void generateReport() throws ClassNotFoundException, SQLException {
+		ConnectionPostgresql.getInstance(); 
+		CompileReporte.excecuteReport(ConnectionPostgresql.connection,"reporte.jasper");
 	}
 
 }

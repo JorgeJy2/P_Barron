@@ -276,8 +276,19 @@ public class ControllerCar extends ControllerWindow {
 		}else if(e.getSource() == carGui.getBtnDelete()) {
 			if (deleteRegistry()) {
 				Messages.showMessage(" Eliminado");
-			}
+			} 
+			
+//			try {
+//				daoCar.generateReport();
+//			} catch (ClassNotFoundException e1) {
+//				Messages.showError(" "+e1.getMessage());
+//				//e1.printStackTrace();
+//			} catch (SQLException e1) {
+//				Messages.showError(" "+e1.getMessage());
+//				//e1.printStackTrace();
+//			}
 		}
+		
 	}
 	
 	private class MauseClickedOnTable extends MouseAdapter{
