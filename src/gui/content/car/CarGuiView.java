@@ -46,7 +46,7 @@ public class CarGuiView extends JPanel implements IObserver{
 	private JButton btnFilter;
 
 	private DefaultTableModel tableModel;
-	 	
+
 	private JScrollPane scrollPaneTable;
 	
 	public CarGuiView() {		

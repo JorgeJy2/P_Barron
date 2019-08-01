@@ -7,13 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.ConnectionDB;
+
 import model.dto.DtoPeople;
 
 public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	private static final String _ADD = "INSERT INTO persona (nombre,apellido_paterno,apellido_materno,telefono,correo) VALUES (?,?,?,?,?) RETURNING id";
-	private static final String _GET_ONE = "SELECT * FROM persona WHERE id=?";
-	private static final String _GET_ALL = "SELECT * FROM persona ";
+	private static final String _GET_ONE = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona WHERE id=?";
+	private static final String _GET_ALL = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona ";
+	
+	
+	private static final String _SELECT_BASE = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona ";
+	
+	
+	private static final String _START = " OFFSET ";
+	private static final String _LIMIT = " LIMIT ";
+	
 	private static final String _DELETE = "DELETE FROM persona WHERE id=?";
 	private static final String _UPDATE = "UPDATE persona SET nombre=?,apellido_paterno=?,apellido_materno=?,telefono=?,correo=? WHERE id= ?";
 
@@ -129,7 +138,34 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	@Override
 	public List<DtoPeople> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
-		return null;
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
+		
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE +" ORDER BY id "+ _LIMIT + end + _START + init);
+		
+		ResultSet tableResultSet = preparedStatement.executeQuery();
+
+		DtoPeople dtoPeople;
+
+		List<DtoPeople> listPeople = new ArrayList<DtoPeople>();
+
+		while (tableResultSet.next()) {
+			
+			dtoPeople = new DtoPeople();
+			
+			dtoPeople.setId(tableResultSet.getInt(1));
+			dtoPeople.setName(tableResultSet.getString(2));
+			dtoPeople.setFirstName(tableResultSet.getString(3));
+			dtoPeople.setLastName(tableResultSet.getString(4));
+			dtoPeople.setTelephone(tableResultSet.getString(5));
+			dtoPeople.setEmail(tableResultSet.getString(6));
+			
+			listPeople.add(dtoPeople);
+		}
+
+		tableResultSet.close();
+		preparedStatement.close();
+
+		return listPeople;
 	}
 	
 	@Override

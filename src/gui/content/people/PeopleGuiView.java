@@ -2,7 +2,6 @@ package gui.content.people;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,14 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import gui.dialogs.Messages;
+import controller.ControllerPeople;
 import gui.resource.ResourcesGui;
 
-import model.dto.DtoPeople;
-import model.list.ListPeople;
-import model.list.interador.Interator;
 import observer.IObserver;
 
 public class PeopleGuiView  extends  JPanel implements IObserver{
@@ -32,10 +29,7 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 	private static final String TITLE = "Personas registradas";
 	private static final String FILTER = "Filtrar personas";
 	private static final String BTN_FILTER  = "Filtrar"; 
-	
-	
-	private ListPeople listPeople;
-	
+
 	// GUI
 	private JTable table;
 	
@@ -52,15 +46,18 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 
 	private JButton btnFilter;
 	
+	private ControllerPeople controller;
+	
+	private DefaultTableModel tableModel;
+
+	private JScrollPane scrollPaneTable;
+	
 	
 	public PeopleGuiView() {
-		listPeople = ListPeople.getInstance();
-        try {
-			listPeople.loadList();
-		} catch (ClassNotFoundException | SQLException e) {
-			Messages.showError(e.getLocalizedMessage());
-		}
+       
 		createGui();
+		controller = new ControllerPeople(this);
+		
 	}
 	
 	private  void createGui() {
@@ -106,21 +103,11 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 		this.add(pTitle, BorderLayout.PAGE_START);
 		// Data to be displayed in the JTable 
 
-		Interator<DtoPeople> interator = listPeople.getAll();
-        String[][] data= new String[listPeople.sizeDtos()][5]; 
- 
-        while (interator.hasNext()) {
-        	int countPeoples = interator.now();
-			DtoPeople people=interator.next();
-        	data[countPeoples][0] = people.getName();
-        	data[countPeoples][1] = people.getLastName();
-        	data[countPeoples][2] = people.getFirstName();
-        	data[countPeoples][3] = people.getEmail();
-        	data[countPeoples][4] = people.getTelephone();
-        }
-        
-        // Initializing the JTable 
-        table = new JTable(data, COLUMN_NAMES); 
+		tableModel=new DefaultTableModel(COLUMN_NAMES,0);
+		
+		table =new JTable(tableModel);
+		
+
         table.setRowHeight(30);
         table.setShowGrid(false);
         table.setBackground(ResourcesGui.COLOR.getSecondColor());
@@ -132,13 +119,25 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
         header.setForeground(ResourcesGui.COLOR.getSecondColor());
         header.setFont(ResourcesGui.FONT.getFontText());
         
-        JScrollPane sp = new JScrollPane(table); 
-        this.add(sp, BorderLayout.CENTER); 
+        
+        scrollPaneTable = new JScrollPane();
+        scrollPaneTable.setViewportView(table);
+        this.add(scrollPaneTable, BorderLayout.CENTER); 
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	public void setModelTable(String[][] data) {
+		DefaultTableModel modelo = new DefaultTableModel(data,COLUMN_NAMES);
+		table.setModel(modelo);
+		table.setRowHeight(30);
+	}
+	
+	
+	public JScrollPane getScrollPaneTable() {
+		return scrollPaneTable;
 	}
 }

@@ -6,21 +6,27 @@ import java.util.List;
 
 import dao.DaoInterface;
 import dao.DaoPeople;
+
 import model.dto.DtoPeople;
+
 import model.list.interador.DaoInteractor;
 import model.list.interador.Interator;
+import model.list.paginator.Paginator;
+import model.list.paginator.PaginatorDao;
 
 public class ListPeople implements Listable<DtoPeople> {
 
 	private List<DtoPeople> _listPeople;
 	private DaoInterface<DtoPeople> _daoPeople;
-
+	private Paginator<DtoPeople> paginator;
+	
 	private static ListPeople _instance;
 
 	protected ListPeople() {
 		
 		_listPeople = new ArrayList<DtoPeople>();
 		_daoPeople 	= new DaoPeople();
+		paginator = new PaginatorDao<DtoPeople>(_daoPeople);
 	
 	}
 
@@ -39,7 +45,11 @@ public class ListPeople implements Listable<DtoPeople> {
 
 	@Override
 	public void loadList () throws ClassNotFoundException, SQLException {
-		_listPeople = _daoPeople.getAll();
+		if(reloadNext()) {
+			System.out.println("Se cargó people");
+		}else {
+			System.out.println("No se recargó people.");
+		}
 	}
 	
 	@Override
@@ -78,10 +88,19 @@ public class ListPeople implements Listable<DtoPeople> {
 		return _listPeople.size();
 	}
 
+	private boolean addedCarsInList(List<DtoPeople> peoplesNews) {
+		if (peoplesNews != null) {
+			if(peoplesNews.size() > 0) {
+				_listPeople.addAll(peoplesNews);
+				return true;
+			} else 
+				return false;
+		} else 
+			return false;
+	}
 	@Override
 	public boolean reloadNext()  throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		return addedCarsInList(paginator.next());
 	}
 
 	@Override

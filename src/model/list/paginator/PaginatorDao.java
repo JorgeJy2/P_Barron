@@ -21,7 +21,12 @@ public class PaginatorDao<Dto> implements Paginator<Dto> {
 	
 	@Override
 	public List<Dto> next() throws ClassNotFoundException, SQLException {
-		return dao.getPaginator(index * NUM_PAGINATOR, (((index++) +1)* NUM_PAGINATOR));
+		List<Dto> next = dao.getPaginator(index, (((index) +1)* NUM_PAGINATOR));
+		
+		if(next.size() > 0) 
+			index += next.size();
+
+		return next;
 	}
 
 }

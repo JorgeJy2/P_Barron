@@ -25,8 +25,6 @@ public class DaoCar implements DaoInterface<DtoCar> {
 
 	@Override
 	public Object add(DtoCar dto) throws SQLException, ClassNotFoundException {
-
-		System.out.println("Esto se quiere agregar..." + dto);
 		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_ADD);
 		preparedStatement.setString(1, dto.getModelo());
@@ -137,7 +135,8 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	public List<DtoCar> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
 		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE + _LIMIT + end + _START + init);
+		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE +" ORDER BY id "+ _LIMIT + end + _START + init);
+		
 		ResultSet resultSet = preparedStatement.executeQuery();
 		
 		List<DtoCar> list = new ArrayList<DtoCar>();
@@ -178,8 +177,8 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	}
 	
 	public void generateReport() throws ClassNotFoundException, SQLException {
-		ConnectionPostgresql.getInstance(); 
-		CompileReporte.excecuteReport(ConnectionPostgresql.connection,"reporte.jasper");
+		ConnectionDB.getInstance(); 
+		CompileReporte.excecuteReport(ConnectionDB.connection,"reporte.jasper");
 	}
 
 }

@@ -112,10 +112,8 @@ public class ControllerCar extends ControllerWindow {
 			setDataOfView();
 			newRegistry = false;
 			return true;
-		} catch (ClassNotFoundException e) { 
-			e.printStackTrace();
-		} catch (SQLException e) { 
-			e.printStackTrace();
+		} catch (ClassNotFoundException | SQLException e) {
+			Messages.showError(e.getLocalizedMessage());
 		}
 		return false;
 	}
