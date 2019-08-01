@@ -27,6 +27,7 @@ public class CarGui extends JPanel implements IObserver{
 	private static final String SRC_IMG = "imgs/car.png";
 
 	private static final String SRC_IMG_DEL = "imgs/borrar.png";
+	private static final String SRC_IMG_REPORT = "imgs/report.png";
 
 	private static final int BORDER_BTNS_H = 10;
 	private static final int BORDER_BTNS_V = 10;
@@ -54,6 +55,7 @@ public class CarGui extends JPanel implements IObserver{
 	private JButton btnAdd;
 	private JButton btnCancel;
 	private JButton btnDelete;
+	private JButton btnInforme;
 	
 	private JPanel contentButtons;
 	private JPanel contentForm;
@@ -77,6 +79,11 @@ public class CarGui extends JPanel implements IObserver{
 		btnDelete.setBackground(null);
 		btnDelete.setIcon(new ImageIcon(SRC_IMG_DEL));
 		btnDelete.setBorder(null);
+		
+		btnInforme = new JButton();
+		btnInforme.setBackground(null);
+		btnInforme.setIcon(new ImageIcon(SRC_IMG_REPORT));
+		btnInforme.setBorder(null);
 		
 		
 		
@@ -136,6 +143,7 @@ public class CarGui extends JPanel implements IObserver{
 		contentForm.add(lbColor);
 		contentForm.add(txtColor);
 		contentForm.add(btnDelete);
+		contentForm.add(btnInforme);
 		
 	
 		
@@ -215,6 +223,12 @@ public class CarGui extends JPanel implements IObserver{
 	public JButton getBtnDelete() {
 		return btnDelete;
 	}
+	
+	public JButton getBtnInforme() {
+		return btnInforme;
+	}
+
+
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub

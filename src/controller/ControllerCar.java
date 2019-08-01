@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.JobAttributes;
 import java.awt.event.ActionEvent;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -10,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.concurrent.Executor;
 
-import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 
 import dao.DaoCar;
@@ -251,6 +249,7 @@ public class ControllerCar extends ControllerWindow {
 			carGui.getBtnAdd().addActionListener(this);
 			carGui.getBtnDelete().addActionListener(this);
 			carGui.getBtnCancel().addActionListener(this);
+			carGui.getBtnInforme().addActionListener(this);
 		    return true;
 		} catch (Exception e) {
 			Messages.showError("  "+e.getMessage());
@@ -272,9 +271,9 @@ public class ControllerCar extends ControllerWindow {
 				carGuiView.getTable().clearSelection();
 				setDataOfView();
 			}else {
-				JOptionPane.showMessageDialog(null, "agregar");
-		//		carGuiView.getTable().is(0, 0);
+				carGuiView.getTable().setRowSelectionInterval(0, 0);
 				dtoCar = listCar.getList().get(indexSelectOnView);
+				newRegistry = false;
 				setDataOfView();
 			}
 		}else if(e.getSource() == carGui.getBtnAdd()) {
@@ -284,19 +283,16 @@ public class ControllerCar extends ControllerWindow {
 		}else if(e.getSource() == carGui.getBtnDelete()) {
 			if (deleteRegistry()) {
 				Messages.showMessage(" Eliminado");
-			} 
-			
-//			try {
-//				daoCar.generateReport();
-//			} catch (ClassNotFoundException e1) {
-//				Messages.showError(" "+e1.getMessage());
-//				//e1.printStackTrace();
-//			} catch (SQLException e1) {
-//				Messages.showError(" "+e1.getMessage());
-//				//e1.printStackTrace();
-//			}
+			} 	
+		}else if(e.getSource() == carGui.getBtnInforme()) {
+			try {
+				daoCar.generateReport();
+			} catch (ClassNotFoundException e1) {
+				Messages.showError(" "+e1.getMessage());
+			} catch (SQLException e1) {
+				Messages.showError(" "+e1.getMessage());
+			}
 		}
-		
 	}
 	
 	private class MauseClickedOnTable extends MouseAdapter{
