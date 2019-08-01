@@ -17,7 +17,6 @@ public class CompileReporte {
 
 	public static void excecuteReport(Connection conexion,String name) { 
 			try {		
-				//Comppilacions
 				JasperPrint  jasperPrint = JasperFillManager.fillReport(
 						"reports/"+name, null,
 						conexion);

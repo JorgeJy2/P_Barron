@@ -274,19 +274,19 @@ public class ControllerCar extends ControllerWindow {
 				Messages.showMessage(" Guardado");
 			}
 		}else if(e.getSource() == carGui.getBtnDelete()) {
-			if (deleteRegistry()) {
-				Messages.showMessage(" Eliminado");
-			} 
+//			if (deleteRegistry()) {
+//				Messages.showMessage(" Eliminado");
+//			} 
 			
-//			try {
-//				daoCar.generateReport();
-//			} catch (ClassNotFoundException e1) {
-//				Messages.showError(" "+e1.getMessage());
-//				//e1.printStackTrace();
-//			} catch (SQLException e1) {
-//				Messages.showError(" "+e1.getMessage());
-//				//e1.printStackTrace();
-//			}
+			try {
+				daoCar.generateReport();
+			} catch (ClassNotFoundException e1) {
+				Messages.showError(" "+e1.getMessage());
+				//e1.printStackTrace();
+			} catch (SQLException e1) {
+				Messages.showError(" "+e1.getMessage());
+				//e1.printStackTrace();
+			}
 		}
 		
 	}
