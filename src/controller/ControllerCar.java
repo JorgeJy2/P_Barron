@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.JobAttributes;
 import java.awt.event.ActionEvent;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -9,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.concurrent.Executor;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 
 import dao.DaoCar;
@@ -107,7 +109,6 @@ public class ControllerCar extends ControllerWindow {
 	public boolean updateRegistry() {
 		try {
 			daoCar.update(dtoCar);
-			
 			setDataOfView();
 			newRegistry = false;
 			return true;
@@ -266,27 +267,34 @@ public class ControllerCar extends ControllerWindow {
 		if (e.getSource() == carGuiView.getBtnFilter()) {
 			 filter();
 		} else if(e.getSource() == carGui.getBtnCancel()) {
-			newRegistry = true;
-			carGuiView.getTable().clearSelection();
-			setDataOfView();
+			if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
+				newRegistry = true;
+				carGuiView.getTable().clearSelection();
+				setDataOfView();
+			}else {
+				JOptionPane.showMessageDialog(null, "agregar");
+		//		carGuiView.getTable().is(0, 0);
+				dtoCar = listCar.getList().get(indexSelectOnView);
+				setDataOfView();
+			}
 		}else if(e.getSource() == carGui.getBtnAdd()) {
 			if (saveRegistry()) {
 				Messages.showMessage(" Guardado");
 			}
 		}else if(e.getSource() == carGui.getBtnDelete()) {
-//			if (deleteRegistry()) {
-//				Messages.showMessage(" Eliminado");
-//			} 
+			if (deleteRegistry()) {
+				Messages.showMessage(" Eliminado");
+			} 
 			
-			try {
-				daoCar.generateReport();
-			} catch (ClassNotFoundException e1) {
-				Messages.showError(" "+e1.getMessage());
-				//e1.printStackTrace();
-			} catch (SQLException e1) {
-				Messages.showError(" "+e1.getMessage());
-				//e1.printStackTrace();
-			}
+//			try {
+//				daoCar.generateReport();
+//			} catch (ClassNotFoundException e1) {
+//				Messages.showError(" "+e1.getMessage());
+//				//e1.printStackTrace();
+//			} catch (SQLException e1) {
+//				Messages.showError(" "+e1.getMessage());
+//				//e1.printStackTrace();
+//			}
 		}
 		
 	}
