@@ -248,6 +248,7 @@ public class ControllerCar extends ControllerWindow {
 			carGui.getBtnDelete().addActionListener(this);
 			carGui.getBtnCancel().addActionListener(this);
 			carGui.getBtnInforme().addActionListener(this);
+		
 		    return true;
 		} catch (Exception e) {
 			Messages.showError("  "+e.getMessage());
@@ -309,6 +310,21 @@ public class ControllerCar extends ControllerWindow {
 			  }
 		}
 	}
+	
+
+	
+//	this.addWindowListener(new java.awt.event.WindowAdapter() {
+//		@Override
+//		public void windowClosing(WindowEvent arg0) {
+//			try {
+//				ConnectionDB.getInstance().close();
+//			} catch (ClassNotFoundException | SQLException e) {
+//				Messages.showError(e.getLocalizedMessage());
+//			}
+//			System.out.println("Adios...");
+//			System.exit(0);
+//		}
+//	});
 	
 	public void loadNextCars () {
 		Executor executor = new Executor() {

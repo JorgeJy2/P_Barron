@@ -6,7 +6,7 @@ import gui.content.car.CarContainerMainGui;
 public class Main {
 
 	public static void main(String[] args) {
-		new MainFragment(new CarContainerMainGui());
+	new MainFragment(new CarContainerMainGui());
 
 		
 		/**
