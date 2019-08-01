@@ -37,7 +37,7 @@ public class ConnectionDB {
  	private static final String _DB_NAME = "estacionamiento";	
  	private static final String _USER = "postgres";		
 	private static final String _PASSWORD = "123456789";
-	
+	*/
 	private ConnectionDB() {}
 
 	public static ConnectionDB getInstance() throws ClassNotFoundException, SQLException {
@@ -60,6 +60,10 @@ public class ConnectionDB {
 	public void close() throws SQLException {
 		connection.close();
 	}//End close
+
+	public static Connection getConnection() {
+		return connection;
+	}
 
 } //End class
 	

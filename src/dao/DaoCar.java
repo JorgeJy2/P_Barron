@@ -178,8 +178,8 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	}
 	
 	public void generateReport() throws ClassNotFoundException, SQLException {
-		ConnectionPostgresql.getInstance(); 
-		CompileReporte.excecuteReport(ConnectionPostgresql.connection,"reporte.jasper");
+		ConnectionDB.getInstance(); 
+		CompileReporte.excecuteReport(ConnectionDB.getConnection(),"reporte.jasper");
 	}
 
 }
