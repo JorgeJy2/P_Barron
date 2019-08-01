@@ -12,6 +12,7 @@ private static final long serialVersionUID = 1L;
 	
 	private CarGuiView carGuiView;
 	private CarGui carGui; 
+	
 	public CarContainerMainGui() {
 		createGui();
 		new ControllerCar(this);

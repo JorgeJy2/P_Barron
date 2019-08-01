@@ -5,9 +5,19 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ConnectionPostgresql {
+/**
+ * Clase: ConnectionDB.java
+ * Objetivo: Otorgar a los usuarios una interfaz la cual permita gestionar la conexión a una base de datos
+ * establecida y otorgrar métodos que permitar dar respuesta a consultar SQL. 
+ * 
+ * @author jorge
+ *
+ */
 
-	private static ConnectionPostgresql instance;
+public class ConnectionDB {
+
+	
+	private static ConnectionDB instance;
 	private static Connection connection;
 
 	private static final String _DRIVER = "org.postgresql.Driver";
@@ -28,20 +38,20 @@ public class ConnectionPostgresql {
  	private static final String _USER = "postgres";		
 	private static final String _PASSWORD = "123456789";
 	
-	private ConnectionPostgresql() {}
+	private ConnectionDB() {}
 
-	public static ConnectionPostgresql getInstance() throws ClassNotFoundException, SQLException {
+	public static ConnectionDB getInstance() throws ClassNotFoundException, SQLException {
 		String url = "";
 		if (instance == null) 
-			instance = new ConnectionPostgresql();
+			instance = new ConnectionDB();
 		
 		if (connection == null) {
 			Class.forName(_DRIVER);
 			url = _JDBC + _HOST + "/" + _DB_NAME;
 			connection = DriverManager.getConnection(url, _USER, _PASSWORD);
-		}
+		}//End if connection
 		return instance;
-	}
+	}//End getInstance
 
 	public PreparedStatement getStatement(String sql) throws SQLException {
 		return connection.prepareStatement(sql);

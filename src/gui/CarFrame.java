@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel; 
 import javax.swing.JPanel;
 
-import connection.ConnectionPostgresql; 
+import connection.ConnectionDB; 
 import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 
@@ -25,7 +25,7 @@ public class CarFrame  extends JFrame {
 	
 	private static final String SRC_MENU = "imgs/ic_menu.png";
 
-	private static  String title = "Automóvil ";
+	private static  String title = "Automï¿½vil ";
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPanel;
@@ -114,7 +114,7 @@ public class CarFrame  extends JFrame {
 		
 		JPanel piedPaginaTitle= new JPanel();
 		piedPaginaTitle.setLayout(new GridLayout(0,1));
-		JLabel info = new JLabel("Versión 1.0");
+		JLabel info = new JLabel("Versiï¿½n 1.0");
 		piedPaginaTitle.add(info);
 			
 		
@@ -138,7 +138,7 @@ public class CarFrame  extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				try {
-					ConnectionPostgresql.getInstance().close();
+					ConnectionDB.getInstance().close();
 				} catch (ClassNotFoundException | SQLException e) {
 					Messages.showError(e.getLocalizedMessage());
 				}

@@ -1,9 +1,10 @@
-package model.list;
+package model.list.filter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import model.dto.DtoCar;
+import model.list.ListCar;
 
 public class FilterCar extends ListCar{
 

@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import connection.ConnectionPostgresql;
+import connection.ConnectionDB;
 import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 
@@ -70,7 +70,7 @@ public class TicketFrame extends JFrame{
 			public void windowClosing(WindowEvent arg0) {
 				try {
 					
-					ConnectionPostgresql.getInstance().close();
+					ConnectionDB.getInstance().close();
 				} catch (ClassNotFoundException | SQLException e) {
 					Messages.showError(e.getLocalizedMessage());
 				}

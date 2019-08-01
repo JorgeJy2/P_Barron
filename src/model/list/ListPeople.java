@@ -83,4 +83,10 @@ public class ListPeople implements Listable<DtoPeople> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public void loadListFilter(String parameter, String value) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 }

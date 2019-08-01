@@ -18,6 +18,7 @@ import gui.content.car.CarGuiView;
 import gui.dialogs.Messages;
 import model.dto.DtoCar;
 import model.list.ListCar;
+import model.list.Listable;
 import model.list.interador.Interator; 
 
 public class ControllerCar extends ControllerWindow {
@@ -30,12 +31,11 @@ public class ControllerCar extends ControllerWindow {
 	private int indexSelectOnView;
 	private MauseClickedOnTable mauseClickedOnTable;
 	private boolean newRegistry;
-	private ListCar listCar;
+	private Listable<DtoCar> listCar;
 	private ScrollableTable scrollableTable;
 	
 	public ControllerCar(CarContainerMainGui viewCar) {
 		this.viewCar = viewCar;
-		
 		listCar = ListCar.getInstance();
 		
 		mauseClickedOnTable = new MauseClickedOnTable(this);
@@ -215,9 +215,9 @@ public class ControllerCar extends ControllerWindow {
 			Messages.showError("  "+e.getMessage());
 			return false;
 		}
-		
 	}
-
+	
+	
 	@Override
 	public boolean reloadData() {
         try {

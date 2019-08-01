@@ -16,4 +16,5 @@ public interface Listable<Dto> {
 	public int sizeDtos();
 	
 	public boolean reloadNext() throws ClassNotFoundException, SQLException ;
+	public void loadListFilter(String parameter,String value) throws ClassNotFoundException, SQLException ;
 }

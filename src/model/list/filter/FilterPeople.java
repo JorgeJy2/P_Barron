@@ -1,8 +1,9 @@
-package model.list;
+package model.list.filter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import model.dto.DtoPeople;
+import model.list.ListPeople;
 
 public class FilterPeople extends ListPeople{
 

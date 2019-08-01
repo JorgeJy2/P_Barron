@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import connection.ConnectionPostgresql;
+import connection.ConnectionDB;
 import gui.content.car.CarContainerMainGui;
 import gui.content.people.PeopleContainerMainGui;
 import gui.content.ticket.TicketContainerMainGui;
@@ -29,7 +29,7 @@ public class MainFragment   extends JFrame {
 	
 	private static final String SRC_MENU = "imgs/ic_menu.png";
 
-	private static  String title = "Automóvil ";
+	private static  String title = "Automï¿½vil ";
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPanel;
@@ -83,7 +83,7 @@ public class MainFragment   extends JFrame {
 		
 		
 		btnCar.addActionListener((ActionEvent arg0) -> {
-				title = "Automóvil";
+				title = "Automï¿½vil";
 				lbTitle.setText(title);
 				changePanel(new CarContainerMainGui());
 		});
@@ -159,7 +159,7 @@ public class MainFragment   extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				try {
-					ConnectionPostgresql.getInstance().close();
+					ConnectionDB.getInstance().close();
 				} catch (ClassNotFoundException | SQLException e) {
 					Messages.showError(e.getLocalizedMessage());
 				}

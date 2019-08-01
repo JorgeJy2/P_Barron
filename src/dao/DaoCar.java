@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import connection.ConnectionPostgresql;
+import connection.ConnectionDB;
 import model.dto.DtoCar;
 
 public class DaoCar implements DaoInterface<DtoCar> {
@@ -25,7 +25,8 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	@Override
 	public Object add(DtoCar dto) throws SQLException, ClassNotFoundException {
 
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		System.out.println("Esto se quiere agregar..." + dto);
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_ADD);
 		preparedStatement.setString(1, dto.getModelo());
 		preparedStatement.setString(2, dto.getPlaca());
@@ -48,7 +49,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	@Override
 	public boolean update(DtoCar dto) throws SQLException, ClassNotFoundException {
 
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_UPDATE);
 
@@ -66,7 +67,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 
 	@Override
 	public boolean delete(Object key) throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_DELETE);
 
@@ -82,7 +83,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	@Override
 	public DtoCar get(Object key) throws SQLException, ClassNotFoundException {
 
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE + _GET_ONE);
 
@@ -109,7 +110,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 
 	@Override
 	public List<DtoCar> getAll() throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ALL );
 		ResultSet resultSet = preparedStatement.executeQuery();
@@ -133,7 +134,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 
 	@Override
 	public List<DtoCar> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE + _LIMIT + end + _START + init);
 		ResultSet resultSet = preparedStatement.executeQuery();
@@ -157,7 +158,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	
 	@Override
 	public List<DtoCar> getFilter(String parameter,String value) throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement( _GET_FILTER.replaceAll("@", parameter).replaceAll("#","'%" +value.toUpperCase()+"%'"));
 		ResultSet resultSet = preparedStatement.executeQuery();
 		List<DtoCar> list = new ArrayList<DtoCar>();

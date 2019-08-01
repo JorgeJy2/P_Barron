@@ -2,8 +2,18 @@ package controller;
 
 import java.awt.event.ActionEvent;
 
+import gui.content.people.PeopleGuiView;
+
 public class ControllerPeople extends ControllerWindow{
 
+	private PeopleGuiView view;
+	
+	
+	public ControllerPeople(PeopleGuiView view) {
+		this.view = view;
+	}
+
+	
 	@Override
 	public boolean saveRegistry() {
 		// TODO Auto-generated method stub

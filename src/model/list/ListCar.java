@@ -14,11 +14,11 @@ import model.list.paginator.PaginatorDao;
 
 public class ListCar implements Listable<DtoCar> {
 	
-	private List<DtoCar> _listAuto;
-	private DaoInterface<DtoCar> _daoAuto;
-	
 	private static ListCar _instance;
 	
+	private DaoInterface<DtoCar> _daoAuto;
+	
+	private List<DtoCar> _listAuto;
 	private Paginator<DtoCar> paginator;
 	
 	protected ListCar() {
@@ -48,7 +48,6 @@ public class ListCar implements Listable<DtoCar> {
 			System.out.println("No se recargó.");
 		}
 	}
-	
 
 	private boolean addedCarsInList(List<DtoCar> carsNews) {
 		if (carsNews != null) {
@@ -61,6 +60,7 @@ public class ListCar implements Listable<DtoCar> {
 			return false;
 	}
 	
+	@Override
 	public void loadListFilter(String parameter,String value) throws ClassNotFoundException, SQLException{
 		_listAuto = _daoAuto.getFilter(parameter, value);
 	}

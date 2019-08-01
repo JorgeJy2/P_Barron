@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import connection.ConnectionPostgresql;
+import connection.ConnectionDB;
 import model.dto.DtoPeople;
 
 public class DaoPeople implements DaoInterface<DtoPeople> {
@@ -20,7 +20,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	// M�todos implementados de la interface DaoInterface
 	@Override
 	public Object add(DtoPeople dto) throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_ADD);
 		preparedStatement.setString(1, dto.getName());
 		preparedStatement.setString(2, dto.getFirstName());
@@ -43,7 +43,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	@Override
 	public boolean update(DtoPeople dto) throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_UPDATE);
 
 		preparedStatement.setString(1, dto.getName());
@@ -61,7 +61,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	@Override
 	public boolean delete(Object key) throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_DELETE);
 
 		preparedStatement.setInt(1, (int) key);
@@ -74,7 +74,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	@Override
 	public DtoPeople get(Object key) throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ONE);
 
 		preparedStatement.setInt(1, (int) key);
@@ -98,7 +98,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	@Override
 	public List<DtoPeople> getAll() throws SQLException, ClassNotFoundException {
-		ConnectionPostgresql connectionPostgresql = ConnectionPostgresql.getInstance();
+		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
 		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ALL);
 
 		ResultSet tableResultSet = preparedStatement.executeQuery();
