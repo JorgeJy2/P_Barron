@@ -1,12 +1,13 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import connection.ConnectionDB;
+import connection.PoolConnection;
 import model.dto.DtoCar;
 import model.dto.DtoTicket;
 import model.dto.DtoPeople;
@@ -24,9 +25,9 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 
 	@Override
 	public Object add(DtoTicket dto) throws SQLException, ClassNotFoundException {
-		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll(); 
 
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_ADD);
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_ADD);
 		preparedStatement.setInt(1, dto.getAuto().getId());
 		preparedStatement.setInt(2, dto.getPeople().getId());
 
@@ -40,14 +41,15 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 
 		resultSet.close();
 		preparedStatement.close();
+		connectionPostgresql.close();
 
 		return resultId;
 	}
 
 	@Override
 	public boolean update(DtoTicket dto) throws SQLException, ClassNotFoundException {
-		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_UPDATE);
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_UPDATE);
 		///
 		preparedStatement.setString(1, dto.getFecha_salida());
 		preparedStatement.setDouble(2, dto.getTotal_pago());
@@ -57,23 +59,25 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		int resultUpdate = preparedStatement.executeUpdate();
 
 		preparedStatement.close();
+		connectionPostgresql.close();
 		return (resultUpdate > 0);
 	}
 
 	@Override
 	public boolean delete(Object key) throws SQLException, ClassNotFoundException {
-		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_DELETE);
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_DELETE);
 		preparedStatement.setInt(1, (int) key);
 		int resultDelete = preparedStatement.executeUpdate();
 		preparedStatement.close();
+		connectionPostgresql.close();
 		return (resultDelete > 0);
 	}
 
 	@Override
 	public DtoTicket get(Object key) throws SQLException, ClassNotFoundException {
-		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ONE);
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_GET_ONE);
 
 		preparedStatement.setInt(1, (int) key);
 
@@ -107,6 +111,7 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 
 		resultSet.close();
 		preparedStatement.close();
+		connectionPostgresql.close();
 
 		return dtoTicket;
 	}
@@ -114,9 +119,9 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 	@Override
 	public List<DtoTicket> getAll() throws SQLException, ClassNotFoundException {
 
-		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
 
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_GET_ALL);
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_GET_ALL);
 
 		ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -154,6 +159,7 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		}
 		resultSet.close();
 		preparedStatement.close();
+		connectionPostgresql.close();
 
 		return listaBoleto;
 	}

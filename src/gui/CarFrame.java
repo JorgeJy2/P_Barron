@@ -4,9 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout; 
-import java.awt.event.WindowEvent;
 
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,8 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel; 
 import javax.swing.JPanel;
 
-import connection.ConnectionDB; 
-import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
 
 public class CarFrame  extends JFrame {
@@ -134,18 +130,6 @@ public class CarFrame  extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
-		this.addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				try {
-					ConnectionDB.getInstance().close();
-				} catch (ClassNotFoundException | SQLException e) {
-					Messages.showError(e.getLocalizedMessage());
-				}
-				System.out.println("Adios...");
-				System.exit(0);
-			}
-		});
 	}
 	
 	

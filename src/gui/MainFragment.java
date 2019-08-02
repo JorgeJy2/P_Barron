@@ -5,22 +5,17 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
-
-import java.sql.SQLException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import connection.ConnectionDB;
 import gui.content.car.CarContainerMainGui;
 import gui.content.people.PeopleContainerMainGui;
 import gui.content.ticket.TicketContainerMainGui;
-import gui.dialogs.Messages;
 import gui.resource.ResourcesGui;
+import controller.ControllerWindowAdapter;
 
 public class MainFragment   extends JFrame {
 
@@ -29,7 +24,7 @@ public class MainFragment   extends JFrame {
 	
 	private static final String SRC_MENU = "imgs/ic_menu.png";
 
-	private static  String title = "Autom�vil ";
+	private static  String title = "Automovil ";
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPanel;
@@ -83,7 +78,7 @@ public class MainFragment   extends JFrame {
 		
 		
 		btnCar.addActionListener((ActionEvent arg0) -> {
-				title = "Autom�vil";
+				title = "Automovil";
 				lbTitle.setText(title);
 				changePanel(new CarContainerMainGui());
 		});
@@ -155,18 +150,8 @@ public class MainFragment   extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
-		this.addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				try {
-					ConnectionDB.getInstance().close();
-				} catch (ClassNotFoundException | SQLException e) {
-					Messages.showError(e.getLocalizedMessage());
-				}
-				System.out.println("Adios...");
-				System.exit(0);
-			}
-		});
+		this.addWindowListener(new ControllerWindowAdapter());
+	
 	}
 	
 	private void changePanel(JPanel panel) {

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1c395fa8-e18c-40bc-9ebf-55e5249a6b5c">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="smart.xml"/>
+	<parameter name="Parameter1" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT id, modelo, placa, color
 	FROM estacion.automovil;]]>
@@ -23,7 +24,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="39" splitType="Stretch">
+		<band height="58" splitType="Stretch">
 			<staticText>
 				<reportElement x="130" y="0" width="350" height="38" uuid="79e7aa19-0b56-4b93-aa51-fe53718cdde0"/>
 				<textElement textAlignment="Center">
@@ -31,6 +32,10 @@
 				</textElement>
 				<text><![CDATA[ESTACIONAMIENTO]]></text>
 			</staticText>
+			<image>
+				<reportElement x="35" y="0" width="70" height="50" uuid="9e800cbb-ddeb-4e01-924d-b349fb100443"/>
+				<imageExpression><![CDATA["C:/Users/MARCK 1/Downloads/boleto-de-estacionamiento.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
