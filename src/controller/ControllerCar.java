@@ -27,7 +27,7 @@ public class ControllerCar extends ControllerWindow {
 	private CarContainerMainGui viewCar; 
 	private CarGuiView carGuiView;
 	private CarGui carGui;
-//	private DaoCar daoCar;
+	private DaoCar daoCar;
 	
 	private DtoCar dtoCar;
 	private int indexSelectOnView;

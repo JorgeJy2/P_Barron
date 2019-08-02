@@ -139,8 +139,11 @@ public class DaoCar implements DaoInterface<DtoCar> {
 
 	@Override
 	public List<DtoCar> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
-		ConnectionDB connectionPostgresql = ConnectionDB.getInstance();
-		PreparedStatement preparedStatement = connectionPostgresql.getStatement(_SELECT_BASE +" ORDER BY id DESC "+ _LIMIT + end + _START + init);
+		
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_SELECT_BASE +" ORDER BY id DESC "+ _LIMIT + end + _START + init );
+
 		System.out.println(_SELECT_BASE +" ORDER BY id DESC "+ _LIMIT + end + _START + init);
 		
 		ResultSet resultSet = preparedStatement.executeQuery();
