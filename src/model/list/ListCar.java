@@ -135,4 +135,10 @@ public class ListCar implements Listable<DtoCar> {
 	public boolean reloadNext() throws ClassNotFoundException, SQLException {
 		return addedCarsInList(paginator.next());
 	}
+
+	public boolean getReport(String name_report) throws ClassNotFoundException, SQLException {
+		((DaoCar) _daoAuto).generateReport(name_report);
+		return true;
+	}
+ 
 }
