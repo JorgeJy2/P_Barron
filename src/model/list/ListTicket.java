@@ -47,12 +47,14 @@ public class ListTicket implements Listable<DtoTicket> {
 	}
 
 	@Override
-	public void add(DtoTicket ticket) throws ClassNotFoundException, SQLException {
+	public boolean add(DtoTicket ticket) throws ClassNotFoundException, SQLException {
 		int id_added = (int) _dao.add(ticket);
 		if( id_added != -1 ) {
 			ticket.setId(id_added);
 			_tickets.add(ticket);
-		}	
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -61,15 +63,21 @@ public class ListTicket implements Listable<DtoTicket> {
 	}
 
 	@Override
-	public void delete(int position) throws ClassNotFoundException, SQLException {
-		if(_dao.delete(_tickets.get(position).getId()))
+	public boolean delete(int position) throws ClassNotFoundException, SQLException {
+		if(_dao.delete(_tickets.get(position).getId())) {
 			_tickets.remove(position);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void update(DtoTicket dtoCar, int position) throws ClassNotFoundException, SQLException {
-		if(_dao.update(dtoCar))
+	public boolean update(DtoTicket dtoCar, int position) throws ClassNotFoundException, SQLException {
+		if(_dao.update(dtoCar)) {
 			_tickets.set(position,dtoCar);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

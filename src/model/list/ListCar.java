@@ -54,10 +54,10 @@ public class ListCar implements Listable<DtoCar> {
 			if(carsNews.size() > 0) {
 				_listAuto.addAll(carsNews);
 				return true;
-			}else 
-				return false;
-		}else 
-			return false;
+			}
+		}
+		
+		return false;
 	}
 	
 	@Override
@@ -65,14 +65,35 @@ public class ListCar implements Listable<DtoCar> {
 		_listAuto = _daoAuto.getFilter(parameter, value);
 	}
 	
-	
 	@Override
-	public void add (DtoCar dtoCar) throws ClassNotFoundException, SQLException{
+	public boolean add (DtoCar dtoCar) throws ClassNotFoundException, SQLException{
 		int id_added = (int) _daoAuto.add(dtoCar);
+		
 		if( id_added != -1 ) {
 			dtoCar.setId(id_added);
-			_listAuto.add(dtoCar);
+			//_listAuto.add(dtoCar);
+			
+			reorder(dtoCar);
+			
+			return true;
 		}	
+		return false;
+	}
+	
+	private void reorder(DtoCar car) {
+		
+		int sizeAutos = _listAuto.size();
+		
+		List<DtoCar> newList = new ArrayList<DtoCar>(sizeAutos);
+		
+		if(sizeAutos > 0) {
+			newList.add(car);
+			for(int i = 0; i < sizeAutos - 1; i++) {
+				newList.add(_listAuto.get( i ));
+			}
+			_listAuto = newList;
+		}
+		
 	}
 	
 	@Override
@@ -81,15 +102,22 @@ public class ListCar implements Listable<DtoCar> {
 	}
 	
 	@Override
-	public void delete(int position) throws ClassNotFoundException,SQLException{
-		if(_daoAuto.delete(_listAuto.get(position).getId()))
+	public boolean delete(int position) throws ClassNotFoundException,SQLException{
+		if(_daoAuto.delete(_listAuto.get(position).getId())) {
 			_listAuto.remove(position);
+			return true;
+		}
+		return false;
+			
 	}
 	
 	@Override
-	public void update (DtoCar dtoCar, int position) throws ClassNotFoundException,SQLException{
-		if(_daoAuto.update(dtoCar))
+	public boolean update (DtoCar dtoCar, int position) throws ClassNotFoundException,SQLException{
+		if(_daoAuto.update(dtoCar)) {
 			_listAuto.set(position,dtoCar);
+		}
+		return false;
+		
 	}
 	
 	@Override

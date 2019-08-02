@@ -1,6 +1,6 @@
 package controller;
 
-import java.awt.JobAttributes;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -28,12 +28,15 @@ public class ControllerCar extends ControllerWindow {
 	private CarContainerMainGui viewCar; 
 	private CarGuiView carGuiView;
 	private CarGui carGui;
-	private DaoCar daoCar;
+//	private DaoCar daoCar;
+	
 	private DtoCar dtoCar;
 	private int indexSelectOnView;
 	private MauseClickedOnTable mauseClickedOnTable;
 	private boolean newRegistry;
+	
 	private Listable<DtoCar> listCar;
+	
 	private ScrollableTable scrollableTable;
 	
 	public ControllerCar(CarContainerMainGui viewCar) {
@@ -45,10 +48,18 @@ public class ControllerCar extends ControllerWindow {
 		
 		carGuiView = this.viewCar.getCarGuiView();
 		carGui = this.viewCar.getCarGui();
-		daoCar = new DaoCar();
+		//daoCar = new DaoCar();
 		addListener();
 		addScrollTable();
-		reloadData();
+		
+		if ( listCar.sizeDtos() > 0) {
+			reloadDataList();
+			System.out.println("Existen datos solo debemos mostrarlos");
+		}else {
+			reloadData();
+			System.out.println("No existen cargar...");
+		}
+		System.out.println(listCar.sizeDtos());
 	}
 	
 	@Override
@@ -56,27 +67,46 @@ public class ControllerCar extends ControllerWindow {
 		if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
 			if (getDataOfView()) {
 				updateRegistry();
-				reloadData();
+				
+				//reloadData();
 				return true;
 			}else {
 				return true;
 			}
 			
 		}else {
-			dtoCar = new DtoCar(); 
+			
+			
+			dtoCar = new DtoCar();
+
+			carGuiView.getTable().setValueAt(dtoCar.getModelo(), 0, 0);
+			carGuiView.getTable().setValueAt(dtoCar.getPlaca(), 0, 1);
+			carGuiView.getTable().setValueAt(dtoCar.getColor(), 0, 2);
+			
+			carGuiView.getTable().setRowSelectionInterval(0,0);
+			carGuiView.getScrollPaneTable().getViewport().setViewPosition(new Point(0,0));
+			
+			
 			try {
 				if (getDataOfView()) {
-					daoCar.add(dtoCar);
-					reloadData();
+					listCar.add(dtoCar);
+					//reloadData();
+					reloadDataList();
+					carGuiView.getTable().setRowSelectionInterval(0,0);
+					carGuiView.getScrollPaneTable().getViewport().setViewPosition(new Point(0,0));
+					/*
+					carGuiView.getTable().setValueAt(dtoCar.getModelo(), 0, 0);
+					carGuiView.getTable().setValueAt(dtoCar.getPlaca(), 0, 1);
+					carGuiView.getTable().setValueAt(dtoCar.getColor(), 0, 2);
+					*/
 					return true;
-				}else {
-					return false;
 				}
 			} catch (ClassNotFoundException e) { 
 				e.printStackTrace();
 			} catch (SQLException e) { 
 				e.printStackTrace();
 			}	
+			
 		}
 		return false;
 	}
@@ -108,13 +138,19 @@ public class ControllerCar extends ControllerWindow {
 	@Override
 	public boolean updateRegistry() {
 		try {
-			daoCar.update(dtoCar);
-			setDataOfView();
-			newRegistry = false;
-			return true;
+			
+			if (listCar.update(dtoCar, indexSelectOnView)) {
+				carGuiView.getTable().setValueAt(dtoCar.getModelo(), indexSelectOnView, 0);
+				carGuiView.getTable().setValueAt(dtoCar.getPlaca(), indexSelectOnView, 1);
+				carGuiView.getTable().setValueAt(dtoCar.getColor(), indexSelectOnView, 2);
+				//setDataOfView();
+				newRegistry = false;
+				return true;
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
 		}
+		
 		return false;
 	}
 
@@ -122,7 +158,7 @@ public class ControllerCar extends ControllerWindow {
 	public boolean deleteRegistry() {
 		try {
 			dtoCar = listCar.getList().get(indexSelectOnView);
-			daoCar.delete(dtoCar.getId());
+			listCar.delete(dtoCar.getId());
 			if (carGuiView.getTable().getSelectedRow() < 0) {
 				newRegistry = true;
 			}else {
@@ -171,11 +207,9 @@ public class ControllerCar extends ControllerWindow {
 	}
 	
 	private boolean validateFieldText(String text) {
-		if (text.length()<1) {
+		if (text.length()<1 || text.equals("") )
 			return false;	
-		}if (text.equals("")) {
-			return false;	
-		}
+		
 		return true;
 	}
 
@@ -224,6 +258,7 @@ public class ControllerCar extends ControllerWindow {
         	String[][] data= new String[listCar.sizeDtos()][5]; 
             Interator<DtoCar> inte =  listCar.getAll(); 
     		while(inte.hasNext()) {
+    			
     			int pointerCar = inte.now();
     			DtoCar car =inte.next();
     			data[pointerCar][0] = car.getModelo();
@@ -239,6 +274,26 @@ public class ControllerCar extends ControllerWindow {
 			Messages.showError("  "+e.getMessage());
 			return false;
 		}  
+	}
+	
+	
+	public boolean reloadDataList() {
+
+        	String[][] data= new String[listCar.sizeDtos()][5]; 
+            Interator<DtoCar> inte =  listCar.getAll(); 
+    		while(inte.hasNext()) {
+    			int pointerCar = inte.now();
+    			DtoCar car =inte.next();
+    			data[pointerCar][0] = car.getModelo();
+            	data[pointerCar][1] = car.getPlaca();
+            	data[pointerCar][2] = car.getColor();
+    		} 
+        	carGuiView.setModelTable(data);
+        	carGuiView.getTable().addKeyListener(this);
+        	carGuiView.getTable().addMouseListener(mauseClickedOnTable);
+        	
+        	return true;
+	
 	}
 	
 	
@@ -325,7 +380,7 @@ public class ControllerCar extends ControllerWindow {
 		executor.execute(() -> {
 			try {
 				if(listCar.reloadNext()) 
-					reloadData();
+					reloadDataList();
 			} catch (ClassNotFoundException | SQLException e) {
 				Messages.showError(" "+e.getLocalizedMessage());
 			}

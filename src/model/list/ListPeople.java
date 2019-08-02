@@ -53,12 +53,15 @@ public class ListPeople implements Listable<DtoPeople> {
 	}
 	
 	@Override
-	public void add(DtoPeople dtoPeople) throws ClassNotFoundException, SQLException {
+	public boolean add(DtoPeople dtoPeople) throws ClassNotFoundException, SQLException {
 		int id_added = (int) _daoPeople.add(dtoPeople);
 		if( id_added != -1 ) {
 			dtoPeople.setId(id_added);
 			_listPeople.add(dtoPeople);
+			return true;
 		}
+		
+		return false;
 	}
 	
 	@Override
@@ -67,15 +70,21 @@ public class ListPeople implements Listable<DtoPeople> {
 	}
 	
 	@Override
-	public void delete(int position) throws ClassNotFoundException, SQLException {
-		if(_daoPeople.delete(_listPeople.get(position).getId()))
+	public boolean delete(int position) throws ClassNotFoundException, SQLException {
+		if(_daoPeople.delete(_listPeople.get(position).getId())) {
 			_listPeople.remove(position);
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
-	public void update(DtoPeople dtoPeople, int position) throws ClassNotFoundException, SQLException {
-		if(_daoPeople.update(dtoPeople))
+	public boolean update(DtoPeople dtoPeople, int position) throws ClassNotFoundException, SQLException {
+		if(_daoPeople.update(dtoPeople)) {
 			_listPeople.set(position,dtoPeople);
+		}
+		return false;
+			
 	}
 
 	@Override

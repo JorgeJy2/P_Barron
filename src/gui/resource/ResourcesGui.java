@@ -12,7 +12,7 @@ public class ResourcesGui {
 		
 		private static final Color SECOND_COLOR = Color.white;
 		private static final Color PRIMARY_COLOR = new Color(31, 97, 141);
-		private static final Color ACENT_COLOR = Color.gray.brighter();
+		private static final Color ACENT_COLOR = Color.gray;
 		
 		public static Color getSecondColor() {
 			return SECOND_COLOR;
