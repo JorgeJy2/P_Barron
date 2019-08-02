@@ -15,7 +15,6 @@ import gui.content.car.CarContainerMainGui;
 import gui.content.people.PeopleContainerMainGui;
 import gui.content.ticket.TicketContainerMainGui;
 import gui.resource.ResourcesGui;
-import controller.ControllerWindowAdapter;
 
 public class MainFragment   extends JFrame {
 
@@ -150,7 +149,7 @@ public class MainFragment   extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
-		this.addWindowListener(new ControllerWindowAdapter());
+		//this.addWindowListener(new ControllerWindowAdapter());
 	
 	}
 	

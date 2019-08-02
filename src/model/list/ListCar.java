@@ -115,6 +115,7 @@ public class ListCar implements Listable<DtoCar> {
 	public boolean update (DtoCar dtoCar, int position) throws ClassNotFoundException,SQLException{
 		if(_daoAuto.update(dtoCar)) {
 			_listAuto.set(position,dtoCar);
+			return true;
 		}
 		return false;
 		

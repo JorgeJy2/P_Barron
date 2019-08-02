@@ -77,27 +77,14 @@ public class ControllerCar extends ControllerWindow {
 			
 			
 			dtoCar = new DtoCar();
-
-			carGuiView.getTable().setValueAt(dtoCar.getModelo(), 0, 0);
-			carGuiView.getTable().setValueAt(dtoCar.getPlaca(), 0, 1);
-			carGuiView.getTable().setValueAt(dtoCar.getColor(), 0, 2);
-			
-			carGuiView.getTable().setRowSelectionInterval(0,0);
-			carGuiView.getScrollPaneTable().getViewport().setViewPosition(new Point(0,0));
-			
-			
 			try {
 				if (getDataOfView()) {
 					listCar.add(dtoCar);
-					//reloadData();
+					
 					reloadDataList();
 					carGuiView.getTable().setRowSelectionInterval(0,0);
 					carGuiView.getScrollPaneTable().getViewport().setViewPosition(new Point(0,0));
-					/*
-					carGuiView.getTable().setValueAt(dtoCar.getModelo(), 0, 0);
-					carGuiView.getTable().setValueAt(dtoCar.getPlaca(), 0, 1);
-					carGuiView.getTable().setValueAt(dtoCar.getColor(), 0, 2);
-					*/
+					
 					return true;
 				}
 			} catch (ClassNotFoundException e) { 

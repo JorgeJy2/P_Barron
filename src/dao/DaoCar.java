@@ -144,8 +144,6 @@ public class DaoCar implements DaoInterface<DtoCar> {
 
 		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_SELECT_BASE +" ORDER BY id DESC "+ _LIMIT + end + _START + init );
 
-		System.out.println(_SELECT_BASE +" ORDER BY id DESC "+ _LIMIT + end + _START + init);
-		
 		ResultSet resultSet = preparedStatement.executeQuery();
 		
 		List<DtoCar> list = new ArrayList<DtoCar>();
