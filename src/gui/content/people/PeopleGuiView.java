@@ -12,8 +12,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
-import controller.ControllerPeople;
+ 
 import gui.resource.ResourcesGui;
 
 import observer.IObserver;
@@ -24,7 +23,7 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String[] COLUMN_NAMES = { "Nombre", "Apellido P", "Apellido M", "Correo", "TelÃ©fono" }; 
+	private static final String[] COLUMN_NAMES = { "Nombre", "Apellido P", "Apellido M", "Correo", "Teléfono" }; 
 	
 	private static final String TITLE = "Personas registradas";
 	private static final String FILTER = "Filtrar personas";
@@ -45,8 +44,7 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 	private JTextField txtFilter;
 
 	private JButton btnFilter;
-	
-	private ControllerPeople controller;
+	 
 	
 	private DefaultTableModel tableModel;
 
@@ -54,10 +52,7 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 	
 	
 	public PeopleGuiView() {
-       
 		createGui();
-		controller = new ControllerPeople(this);
-		
 	}
 	
 	private  void createGui() {
@@ -137,6 +132,23 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 	}
 	
 	
+	public JTable getTable() {
+		return table;
+	}
+
+	public  String getCbxFilter() {
+		 String[] nomBDField = { "nombre", "apellido_paterno", "apellido_materno", "correo", "telefono" }; 
+		return nomBDField[cbxFilter.getSelectedIndex()];
+	}
+
+	public JTextField getTxtFilter() {
+		return txtFilter;
+	}
+
+	public JButton getBtnFilter() {
+		return btnFilter;
+	}
+
 	public JScrollPane getScrollPaneTable() {
 		return scrollPaneTable;
 	}

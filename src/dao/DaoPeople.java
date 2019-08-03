@@ -7,14 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import connection.PoolConnection;
+import model.dto.DtoCar;
 import model.dto.DtoPeople;
+import report.CompileReporte;
 
 public class DaoPeople implements DaoInterface<DtoPeople> {
 
 	private static final String _ADD = "INSERT INTO persona (nombre,apellido_paterno,apellido_materno,telefono,correo) VALUES (?,?,?,?,?) RETURNING id";
 	private static final String _GET_ONE = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona WHERE id=?";
-	private static final String _GET_ALL = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona ";
+	private static final String _GET_ALL = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona  ";
 	
 	
 	private static final String _SELECT_BASE = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona ";
@@ -25,7 +29,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	
 	private static final String _DELETE = "DELETE FROM persona WHERE id=?";
 	private static final String _UPDATE = "UPDATE persona SET nombre=?,apellido_paterno=?,apellido_materno=?,telefono=?,correo=? WHERE id= ?";
-
+	private static final String _GET_FILTER = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona WHERE UPPER(@)  LIKE # ORDER BY id DESC";
 	// M�todos implementados de la interface DaoInterface
 	@Override
 	public Object add(DtoPeople dto) throws SQLException, ClassNotFoundException {
@@ -36,9 +40,8 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		preparedStatement.setString(3, dto.getLastName());
 		preparedStatement.setString(4, dto.getTelephone());
 		preparedStatement.setString(5, dto.getEmail());
-
-		ResultSet result = preparedStatement.executeQuery();
-
+		ResultSet result = null ; 
+		result = preparedStatement.executeQuery(); 	
 		int idResult = -1;
 
 		while (result.next()) {
@@ -145,7 +148,7 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	public List<DtoPeople> getPaginator(int init, int end) throws SQLException, ClassNotFoundException {
 		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
 		
-		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_SELECT_BASE +" ORDER BY id "+ _LIMIT + end + _START + init);
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_SELECT_BASE +" ORDER BY id DESC "+ _LIMIT + end + _START + init);
 		
 		ResultSet tableResultSet = preparedStatement.executeQuery();
 
@@ -174,10 +177,34 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		return listPeople;
 	}
 	
-	@Override
-	public List<DtoPeople> getFilter(String parameter, String value) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+ 
+
+	 
+	public List<DtoPeople> getFilter(String parameter,String value) throws SQLException, ClassNotFoundException {
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement( _GET_FILTER.replaceAll("@", parameter).replaceAll("#","'%" +value.toUpperCase()+"%'"));
+		ResultSet tableResultSet = preparedStatement.executeQuery();
+		List<DtoPeople> list = new ArrayList<DtoPeople>();
+		DtoPeople dtoPeople;
+		while (tableResultSet.next()) {
+			dtoPeople = new DtoPeople();
+			dtoPeople.setId(tableResultSet.getInt(1));
+			dtoPeople.setName(tableResultSet.getString(2));
+			dtoPeople.setFirstName(tableResultSet.getString(3));
+			dtoPeople.setLastName(tableResultSet.getString(4));
+			dtoPeople.setTelephone(tableResultSet.getString(5));
+			dtoPeople.setEmail(tableResultSet.getString(6));
+			list.add(dtoPeople);
+		}
+		tableResultSet.close();
+		preparedStatement.close();
+		connectionPostgresql.close(); 
+		return list;
+	}
+	
+	public void generateReport(String name_report) throws ClassNotFoundException, SQLException { 
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+		CompileReporte.excecuteReport(connectionPostgresql,name_report);
 	}
 }
 

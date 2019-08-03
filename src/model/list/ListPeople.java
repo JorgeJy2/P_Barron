@@ -4,9 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.DaoCar;
 import dao.DaoInterface;
 import dao.DaoPeople;
-
+import model.dto.DtoCar;
 import model.dto.DtoPeople;
 
 import model.list.interador.DaoInteractor;
@@ -97,7 +98,7 @@ public class ListPeople implements Listable<DtoPeople> {
 		return _listPeople.size();
 	}
 
-	private boolean addedCarsInList(List<DtoPeople> peoplesNews) {
+	private boolean addedPeopleInList(List<DtoPeople> peoplesNews) {
 		if (peoplesNews != null) {
 			if(peoplesNews.size() > 0) {
 				_listPeople.addAll(peoplesNews);
@@ -109,12 +110,19 @@ public class ListPeople implements Listable<DtoPeople> {
 	}
 	@Override
 	public boolean reloadNext()  throws ClassNotFoundException, SQLException {
-		return addedCarsInList(paginator.next());
+		return addedPeopleInList(paginator.next());
 	}
 
 	@Override
 	public void loadListFilter(String parameter, String value) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		
+		_listPeople = _daoPeople.getFilter(parameter, value);
+	 
+	}
+	
+	 
+	
+	public boolean getReport(String name_report) throws ClassNotFoundException, SQLException {
+		((DaoPeople) _daoPeople).generateReport(name_report);
+		return true;
 	}
 }

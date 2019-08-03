@@ -38,42 +38,33 @@ public class ControllerCar extends ControllerWindow {
 	
 	public ControllerCar(CarContainerMainGui viewCar) {
 		this.viewCar = viewCar;
-		listCar = ListCar.getInstance();
-		
+		listCar = ListCar.getInstance(); 
 		mauseClickedOnTable = new MauseClickedOnTable(this);
-		scrollableTable = new ScrollableTable(this);
-		
+		scrollableTable = new ScrollableTable(this); 
 		carGuiView = this.viewCar.getCarGuiView();
-		carGui = this.viewCar.getCarGui();
-		//daoCar = new DaoCar();
+		carGui = this.viewCar.getCarGui(); 
 		addListener();
-		addScrollTable();
-		
+		addScrollTable(); 
 		if ( listCar.sizeDtos() > 0) {
 			reloadDataList();
 			System.out.println("Existen datos solo debemos mostrarlos");
 		}else {
 			reloadData();
 			System.out.println("No existen cargar...");
-		}
-		System.out.println(listCar.sizeDtos());
+		} 
 	}
 	
 	@Override
 	public boolean saveRegistry() {
 		if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
 			if (getDataOfView()) {
-				updateRegistry();
-				
+				updateRegistry(); 
 				//reloadData();
 				return true;
 			}else {
 				return true;
-			}
-			
-		}else {
-			
-			
+			} 
+		}else { 
 			dtoCar = new DtoCar();
 			try {
 				if (getDataOfView()) {
@@ -168,19 +159,19 @@ public class ControllerCar extends ControllerWindow {
 			if (validateFieldText(carGui.getTxtColor().getText())) {
 				dtoCar.setColor(carGui.getTxtColor().getText());
 			}else {
-				Messages.showError("  Campo Color Invalido");
+				Messages.showError("  Campo Color inválido");
 				return false;
 			}
 			if (validateFieldText(carGui.getTxtModelo().getText())) {
 				dtoCar.setModelo(carGui.getTxtModelo().getText());
 			}else {
-				Messages.showError("  Campo Modelo Invalido");
+				Messages.showError("  Campo Modelo inválido");
 				return false;
 			}
 			if (validateFieldText(carGui.getTxtPlaca().getText())) {
 				dtoCar.setPlaca(carGui.getTxtPlaca().getText());
 			}else {
-				Messages.showError("  Campo Placa Invalido");
+				Messages.showError("  Campo Placa inválido");
 				return false;
 			}
 			return true;
@@ -334,23 +325,7 @@ public class ControllerCar extends ControllerWindow {
 		}
 	}
 	
-	private class MauseClickedOnTable extends MouseAdapter{
-		private ControllerCar controllerCar;
-		
-		public MauseClickedOnTable(ControllerCar controllerCar) {
-			this.controllerCar = controllerCar;
-		}
-		public void mouseClicked(MouseEvent evnt)
-		{
-			  if (evnt.getClickCount() == 1)
-			  {
-				  this.controllerCar.indexSelectOnView = this.controllerCar.carGuiView.getTable().getSelectedRow();
-				  this.controllerCar.newRegistry = false;
-				  dtoCar = listCar.getList().get(indexSelectOnView);
-				  this.controllerCar.setDataOfView();
-			  }
-		}
-	}
+	
 	
 	
 	public void loadNextCars () {
@@ -370,11 +345,10 @@ public class ControllerCar extends ControllerWindow {
 			}
 		});
 	}
-	
+	//Inner Class Event to view
 	private class ScrollableTable implements AdjustmentListener {
 		
-		private ControllerCar controllerCar;
-		
+		private ControllerCar controllerCar; 
 		public ScrollableTable(ControllerCar controllerCar) {
 			this.controllerCar = controllerCar;
 		}
@@ -392,6 +366,24 @@ public class ControllerCar extends ControllerWindow {
 	            }
 		}
 		
+	}
+	
+	private class MauseClickedOnTable extends MouseAdapter{
+		private ControllerCar controllerCar;
+		
+		public MauseClickedOnTable(ControllerCar controllerCar) {
+			this.controllerCar = controllerCar;
+		}
+		public void mouseClicked(MouseEvent evnt)
+		{
+			  if (evnt.getClickCount() == 1)
+			  {
+				  this.controllerCar.indexSelectOnView = this.controllerCar.carGuiView.getTable().getSelectedRow();
+				  this.controllerCar.newRegistry = false;
+				  dtoCar = listCar.getList().get(indexSelectOnView);
+				  this.controllerCar.setDataOfView();
+			  }
+		}
 	}
 	
  
