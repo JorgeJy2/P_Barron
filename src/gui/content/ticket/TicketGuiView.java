@@ -141,6 +141,18 @@ import observer.IObserver;
 			table.setRowHeight(30);
 		}
 
-		
+		public String getCbxFilter() {
+			String[] nomBDField = { "Auto", "Persona", "fecha_entrada","fecha_salida","total_pago", "estatus"}; 
+			return nomBDField[cbxFilter.getSelectedIndex()];
+		}
 
+		public JButton getBtnFilter() {
+			return btnFilter;
+		}
+		
+		public JTextField getTxtFilter() {
+			return txtFilter;
+		}
+		
+	
 	}

@@ -110,7 +110,6 @@ public class ControllerPeople extends ControllerWindow{
 
 	@Override
 	public boolean filter() {
-		listPeople = ListPeople.getInstance();
         try {
         	listPeople.loadListFilter(view.getPeopleGuiView().getCbxFilter(), view.getPeopleGuiView().getTxtFilter().getText());
         	String[][] data= new String[listPeople.sizeDtos()][5]; 

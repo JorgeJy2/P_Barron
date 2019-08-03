@@ -25,9 +25,15 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 	*/
 	
 	private static final String _GET_ALL = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id "
-			+ "inner join automovil on boleto.id_auto = automovil.id";
+			+ "inner join automovil on boleto.id_auto = automovil.id ORDER BY boleto.id DESC";
 	
-	private static final String _GET_ONE = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.id = ?";
+	private static final String _GET_ONE = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.id = ? ORDER BY boleto.id DESC";	
+
+	private static final String _GET_FILTER = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.@ LIKE # ORDER BY boleto.id DESC";
+
+	
+	private static final String _GET_FILTER_ = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id ";
+
 	
 	
 	private static final String _UPDATE = "UPDATE boleto SET fecha_salida = now(),total_pago = ?,estatus = CAST(? AS estatus_boleto) WHERE id = ?";
@@ -184,8 +190,51 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		
 	}
 	public List<DtoTicket> getFilter(String parameter, String value) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+
+		
+		/*
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement( _GET_FILTER.replaceAll("@", parameter).replaceAll("#","'%" +value.toUpperCase()+"%'"));
+	
+		
+		System.out.println( _GET_FILTER.replaceAll("@", parameter).replaceAll("#","'%" +value.toUpperCase()+"%'"));
+		*/
+		String select = "" ;
+		if (parameter.equals("estatus")) {
+			select  = _GET_FILTER_ +"WHERE estatus = '"+value+"' ORDER BY boleto.id DESC";
+		}else if( parameter.equals("Auto")) {
+			select  = _GET_FILTER_ +"WHERE automovil.placa LIKE '%"+value+"%' ORDER BY boleto.id DESC";
+		}else if( parameter.equals("Persona")) {
+			select  = _GET_FILTER_ +"WHERE persona.correo LIKE '%"+value+"%' ORDER BY boleto.id DESC";
+		}
+		
+		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement( select);
+		
+		
+		
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		List<DtoTicket> listaBoleto = new ArrayList<DtoTicket>();
+
+		while (resultSet.next()) {
+			DtoTicket dtoTicket = new DtoTicket();
+			dtoTicket.setIdPesona(resultSet.getInt(1));
+			dtoTicket.setEmailAuto(resultSet.getString(2));
+			dtoTicket.setIdAuto(resultSet.getInt(3));
+			dtoTicket.setPlacaAuto(resultSet.getString(4));
+			dtoTicket.setId(resultSet.getInt(5));
+			dtoTicket.setFechaEntrada(resultSet.getString(6));
+			dtoTicket.setFechaSalida(resultSet.getString(7));
+			dtoTicket.setTotalPago(resultSet.getDouble(8));
+			dtoTicket.setEstatus(resultSet.getString(9));
+			listaBoleto.add(dtoTicket);
+			
+		}
+		resultSet.close();
+		preparedStatement.close();
+		connectionPostgresql.close();
+
+		return listaBoleto;
 	}
 
 }

@@ -1,20 +1,11 @@
-org.postgresql.util.PSQLException: ERROR: la columna «total_pago» es de tipo numeric pero la expresión es de tipo character varying
-  Hint: Necesitará reescribir la expresión o aplicarle una conversión de tipo.
-  Position: 53
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
-	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
-	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
-	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:143)
-	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:120)
-	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:136)
-	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:136)
-	at dao.DaoTicket.update(DaoTicket.java:70)
-	at dao.DaoTicket.update(DaoTicket.java:1)
-	at model.list.ListTicket.update(ListTicket.java:98)
-	at controller.ControllerTicket.updateRegistry(ControllerTicket.java:130)
-	at controller.ControllerTicket.actionPerformed(ControllerTicket.java:192)
+org.postgresql.util.PSQLException: La consulta no retornó ningún resultado.
+	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:107)
+	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:122)
+	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:122)
+	at dao.DaoTicket.getFilter(DaoTicket.java:215)
+	at model.list.ListTicket.loadListFilter(ListTicket.java:145)
+	at controller.ControllerTicket.filter(ControllerTicket.java:129)
+	at controller.ControllerTicket.actionPerformed(ControllerTicket.java:264)
 	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
 	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
 	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)

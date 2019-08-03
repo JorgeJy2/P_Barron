@@ -29,32 +29,50 @@ public class ControllerTicket extends ControllerWindow {
 
 	private static final Double PRECIO_HORA = 40.0;
 	private static final Double PRECIO_TICKECT_PERDIDO = 200.0;
+
 	private static enum Status {
 		Pagado, En_espera, Perdido
 	};
 
-	private TicketContainerMainGui _containerMainGui;
+	// Messages
+	private static final String MISS_CARD 	= "Es necesario seleccionar un auto.";
+	private static final String MISS_PEOPLE = "Es necesario seleccionar una persona.";
+	private static final String MISS_TICKET = "Es necesario seleccionar una boleto.";
 
+	private static final String TEXT_END_TICKET = "Terminar estacionamiento";
+	
+	private static final String ERROR_SAVE 	 = "No se pudo agregar, consulta el archivo de errores";
+	private static final String ERROR_UPDATE = "No se pudo actualizar, consulta el archivo de errores";
+	private static final String ERROR_DELETE = "No se pudo eliminar, consulta el archivo de errores";
+
+	private static final String INFO_LOSE_TICKET = "Por perder el boleto se aplicará un cargo extra de: "
+			+ PRECIO_TICKECT_PERDIDO;
+
+	// GUI
+	private TicketContainerMainGui _containerMainGui;
 	private TicketGui _ticketGui;
 	private TicketGuiView _ticketGuiView;
 
+	// Model
 	private ListTicket _listTicket;
-
 	private DtoPeople dtoPeopleSelect;
-
 	private DtoCar dtoCarSelect;
-
 	private DtoTicket dtoTicket;
 
 	private int actualTicketSelect;
+	
+	private boolean inViewFragmentPeople =false;
+	private boolean inViewFragmentCard =false;
+	
 
 	public ControllerTicket(TicketContainerMainGui containerMainGui) {
-		this._containerMainGui = containerMainGui;
 
+		this._containerMainGui = containerMainGui;
 		this._ticketGui = containerMainGui.getTicketGui();
 		this._ticketGuiView = containerMainGui.getTicketGuiView();
 
 		_listTicket = ListTicket.getInstance();
+
 		addListener();
 
 		try {
@@ -66,101 +84,126 @@ public class ControllerTicket extends ControllerWindow {
 
 	}
 
-	@Override
-	public boolean saveRegistry() {
-		DtoTicket ticket = new DtoTicket();
+	private boolean validateData() {
 		if (dtoCarSelect == null) {
-			Messages.showError("Debes seleccionar un auto.");
+			Messages.showError(MISS_CARD);
 			return false;
 		}
 		if (dtoPeopleSelect == null) {
-			Messages.showError("Debes seleccionar una persona.");
+			Messages.showError(MISS_PEOPLE);
 			return false;
 		}
-		ticket.setIdPesona(dtoPeopleSelect.getId());
-		ticket.setIdAuto(dtoCarSelect.getId());
-		
-		
-		try {
-			if (_listTicket.add(ticket)) {
-				_listTicket.loadList();
-				resetSelects();
 
-				reloadData();
-			} else {
-				Messages.showError("No se pudo agregar..");
+		return true;
+	}
+
+	@Override
+	public boolean saveRegistry() {
+
+		if (validateData()) {
+			DtoTicket ticket = new DtoTicket();
+
+			ticket.setIdPesona(dtoPeopleSelect.getId());
+			ticket.setIdAuto(dtoCarSelect.getId());
+
+			try {
+				if (_listTicket.add(ticket)) {
+					_listTicket.loadList();
+					resetSelects();
+					reloadData();
+				} else {
+					Messages.showError(ERROR_SAVE);
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				Messages.showError(e.getLocalizedMessage());
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			Messages.showError(e.getLocalizedMessage());
+
 		}
-		
 
 		return false;
 	}
 
 	@Override
 	public boolean filter() {
-		// TODO Auto-generated method stub
+		try {
+			_listTicket.loadListFilter(_ticketGuiView.getCbxFilter(), _ticketGuiView.getTxtFilter().getText());
+			reloadData();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			Messages.showError(e.getLocalizedMessage());
+			System.out.println(e.getMessage());
+		}
 		return false;
 	}
 
 	@Override
 	public boolean updateRegistry() {
+
 		Instant instant = Instant.now();
 		Timestamp timestamp = Timestamp.from(instant);
-		
+
 		long diff = timestamp.getTime() - dtoTicket.getDate().getTime();
-		
+
 		int seconds = (int) diff / 1000;
 		int hours = seconds / 3600;
 		int minutes = (seconds % 3600) / 60;
+
 		seconds = (seconds % 3600) % 60;
 
-		int total = 0;
-		if (minutes > 15) 
+		double total = 0;
+
+		if (minutes > 15) // Limite de tolerancia
 			total += PRECIO_HORA;
-		 else {
-			if (hours == 0) 
+		else {
+			// Primer hora debe cobrarse
+			if (hours == 0)
 				total += PRECIO_HORA;
 		}
 
 		total += (hours * PRECIO_HORA);
 
 		dtoTicket.setTotalPago(total);
-	
-		
-		
 
-		if(_ticketGui.getCbxLoseTicket().isSelected()) {
-			System.out.println("perdido");
-			System.out.println("se aplicará tarifa");
+		if (_ticketGui.getCbxLoseTicket().isSelected()) {
 			total += PRECIO_TICKECT_PERDIDO;
 			dtoTicket.setEstatus(Status.Perdido.toString());
-		}else {
+			Messages.showMessage(INFO_LOSE_TICKET);
+		} else
 			dtoTicket.setEstatus(Status.Pagado.toString());
-		}
-		
+
 		try {
 			if (_listTicket.update(dtoTicket, actualTicketSelect)) {
 				_listTicket.loadList();
 				resetSelects();
 				reloadData();
-			}
-
+			} else
+				Messages.showError(ERROR_UPDATE);
 		} catch (ClassNotFoundException | SQLException e1) {
 			Messages.showError(e1.getLocalizedMessage());
-			System.out.println(e1.getMessage());
 		}
-		Messages.showMessage(
-				"El tiempo estacionad Horas: " + hours + " Minutos: " + minutes + " Segundos: " + seconds);
+
 		return true;
 	}
 
 	@Override
 	public boolean deleteRegistry() {
-		// TODO Auto-generated method stub
+		if (dtoTicket != null) {
+			try {
+				if (_listTicket.delete(actualTicketSelect)) {
+					_listTicket.loadList();
+					resetSelects();
+					reloadData();
+				} else
+					Messages.showError(ERROR_DELETE);
+			} catch (ClassNotFoundException | SQLException e) {
+				Messages.showError(e.getLocalizedMessage());
+			}
+		} else
+			Messages.showError(MISS_TICKET);
+
 		return false;
 	}
+	
 
 	@Override
 	public boolean getDataOfView() {
@@ -189,41 +232,56 @@ public class ControllerTicket extends ControllerWindow {
 			data[pointerCar][3] = ticket.getFechaSalida();
 			data[pointerCar][4] = ticket.getTotalPago() + "";
 			data[pointerCar][5] = ticket.getEstatus();
-
+			
 		}
 		_ticketGuiView.setModelTable(data);
-		_ticketGuiView.getTable().addKeyListener(this);
-		_ticketGuiView.getTable().addMouseListener(new MauseClickedOnTableTicke(this));
-
 		return true;
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _ticketGui.getBtnAdd()) {
-			if (_ticketGui.getBtnAdd().getText().equalsIgnoreCase("Terminar estacionamiento")) {
+			if (_ticketGui.getBtnAdd().getText().equals(TEXT_END_TICKET)) 
 				updateRegistry();
-			} else
+			 else
 				saveRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnCancel()) {
-			System.out.println("Cancelar");
 			resetSelects();
 			_ticketGui.resetBtnAdd();
 		} else if (e.getSource() == _ticketGui.getBtnCar()) {
+			
 			openListCard();
 		} else if (e.getSource() == _ticketGui.getBtnPeople()) {
-			openListPeople();
+			if(!inViewFragmentPeople) 
+				openListPeople();
+			else
+				System.out.println("Existe fragmento en vista...");
+		} else if (e.getSource() == _ticketGui.getBtnDelete()) {
+			deleteRegistry();
+		} else if (e.getSource() == _ticketGui.getBtnInforme()) {
+			
+		}else if (e.getSource() == _ticketGuiView.getBtnFilter()) {
+			filter();
 		}
 	}
 
 	@Override
 	public boolean addListener() {
 		try {
+			//Butons
 			_ticketGui.getBtnAdd().addActionListener(this);
 			_ticketGui.getBtnCancel().addActionListener(this);
 			_ticketGui.getBtnCar().addActionListener(this);
 			_ticketGui.getBtnPeople().addActionListener(this);
+			_ticketGui.getBtnDelete().addActionListener(this);
+			_ticketGui.getBtnInforme().addActionListener(this);
+			
+			_ticketGuiView.getBtnFilter().addActionListener(this);
+			
+			//Table
+			_ticketGuiView.getTable().addKeyListener(this);
+			_ticketGuiView.getTable().addMouseListener(new MauseClickedOnTableTicke(this));
+			
 			return true;
 		} catch (Exception e) {
 			Messages.showError("  " + e.getMessage());
@@ -267,7 +325,7 @@ public class ControllerTicket extends ControllerWindow {
 		guiView.getTable().addMouseListener(new MauseClickedOnTable(this, guiView));
 		applicationFrame = new JFrame("Seleciona a la persona");
 		applicationFrame.getContentPane().add(guiView);
-		applicationFrame.addWindowListener(new WindowCloseManager());
+		applicationFrame.addWindowListener(new WindowCloseManager(this));
 		applicationFrame.pack();
 		applicationFrame.setVisible(true);
 	}
@@ -300,14 +358,23 @@ public class ControllerTicket extends ControllerWindow {
 		carGuiView.getTable().addMouseListener(new MauseClickedOnTableCard(this, carGuiView));
 		applicationFrame = new JFrame("Seleciona a la persona");
 		applicationFrame.getContentPane().add(carGuiView);
-		applicationFrame.addWindowListener(new WindowCloseManager());
+		applicationFrame.addWindowListener(new WindowCloseManager(this));
 		applicationFrame.pack();
 		applicationFrame.setVisible(true);
 	}
 
 	private static class WindowCloseManager extends WindowAdapter {
+		
+		private ControllerTicket controllerTicket;
+		
+		public WindowCloseManager(ControllerTicket controllerTicket) {
+			this.controllerTicket = controllerTicket;
+			
+		}
+		
+		
 		public void windowClosing(WindowEvent evt) {
-			System.out.println("intento cerrar");
+			controllerTicket.inViewFragmentPeople = false;
 		}
 	}
 
@@ -377,7 +444,7 @@ public class ControllerTicket extends ControllerWindow {
 
 				controllerTicket.dtoTicket = _listTicket.getOne(contador);
 
-				controllerTicket._ticketGui.getBtnAdd().setText("Terminar estacionamiento");
+				controllerTicket._ticketGui.getBtnAdd().setText(TEXT_END_TICKET);
 			}
 		}
 	}

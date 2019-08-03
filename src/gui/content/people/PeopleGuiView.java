@@ -138,7 +138,7 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 	}
 
 	public  String getCbxFilter() {
-		 String[] nomBDField = { "nombre", "apellido_paterno", "apellido_materno", "correo", "telefono" }; 
+		String[] nomBDField = { "nombre", "apellido_paterno", "apellido_materno", "correo", "telefono" }; 
 		return nomBDField[cbxFilter.getSelectedIndex()];
 	}
 

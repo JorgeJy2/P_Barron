@@ -21,8 +21,8 @@ public class ListTicket implements Listable<DtoTicket> {
 //	private Paginator<DtoTicket> _paginator;
 
 	private ListTicket() {
-		_tickets = new ArrayList<DtoTicket>();
 		_dao = new DaoTicket();
+		_tickets = new ArrayList<DtoTicket>();
 		//_paginator = new PaginatorDao<DtoTicket>(_dao);
 	}
 
@@ -141,6 +141,7 @@ public class ListTicket implements Listable<DtoTicket> {
 	public void loadListFilter(String parameter, String value) throws ClassNotFoundException, SQLException {
 
 		try {
+			System.out.println("parameter: "+parameter +" value "+ value);
 			_tickets = _dao.getFilter(parameter, value);
 		} catch (ClassNotFoundException e) {
 			SaveErrosDao.saveErrors(e);

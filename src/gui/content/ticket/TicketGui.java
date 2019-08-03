@@ -50,16 +50,13 @@ public class TicketGui extends JPanel implements IObserver {
 	private JLabel lbImagen;
 	private JLabel lbPeople;
 	private JLabel lbCar;
-
 	private JLabel lbLoseTicket;
-
-	private JButton btnAdd;
-	private JButton btnCancel;
 
 	/*
 	 * private JComboBox<String> cbxPeople; private JComboBox<String> cbxCar;
 	 */
-
+	private JButton btnAdd;
+	private JButton btnCancel;
 	private JButton btnPeople;
 	private JButton btnCar;
 	private JButton btnDelete;
@@ -125,8 +122,7 @@ public class TicketGui extends JPanel implements IObserver {
 
 		cbxLoseTicket = new JCheckBox();
 		cbxLoseTicket.setBackground(ResourcesGui.COLOR.getSecondColor());
-		
-		
+
 		contentForm.add(lbLoseTicket);
 		contentForm.add(cbxLoseTicket);
 
@@ -140,10 +136,9 @@ public class TicketGui extends JPanel implements IObserver {
 		btnInforme.setIcon(new ImageIcon(SRC_IMG_REPORT));
 		btnInforme.setBorder(null);
 
-		
 		contentForm.add(btnDelete);
 		contentForm.add(btnInforme);
-		
+
 		contentMain.add(contentForm, BorderLayout.CENTER);
 
 		contentButtons = new JPanel();
@@ -203,6 +198,14 @@ public class TicketGui extends JPanel implements IObserver {
 
 	public JCheckBox getCbxLoseTicket() {
 		return cbxLoseTicket;
+	}
+
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+
+	public JButton getBtnInforme() {
+		return btnInforme;
 	}
 	
 	
