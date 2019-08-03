@@ -9,16 +9,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.concurrent.Executor;
-
-import javax.swing.JOptionPane;
+ 
 import javax.swing.JScrollBar; 
 import gui.content.people.PeopleContainerMainGui; 
-import gui.dialogs.Messages;
-import model.dto.DtoCar;
-import model.dto.DtoPeople;
-import model.list.ListCar;
-import model.list.ListPeople;
-import model.list.Listable;
+import gui.dialogs.Messages; 
+import model.dto.DtoPeople; 
+import model.list.ListPeople; 
 import model.list.interador.Interator;
 
 public class ControllerPeople extends ControllerWindow{
@@ -33,8 +29,7 @@ public class ControllerPeople extends ControllerWindow{
 	private int indexSelectOnView; 
 	
 	private MauseClickedOnTable mauseClickedOnTable;
-	private boolean newRegistry; 
-	private Listable<DtoPeople> listPeoples;
+	private boolean newRegistry;  
 	 
 	
 	public ControllerPeople(PeopleContainerMainGui peopleContainerMainGui) {
@@ -317,7 +312,7 @@ public class ControllerPeople extends ControllerWindow{
 			} 	
 		}else if(e.getSource() == view.getPeopleGui().getBtnInforme()) {
 			try {
-				((ListPeople) listPeople).getReport("reporte.jasper");
+				((ListPeople) listPeople).getReport("personas.jasper");
 			} catch (ClassNotFoundException e1) {
 				Messages.showError(" "+e1.getMessage());
 			} catch (SQLException e1) {
