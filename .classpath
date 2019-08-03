@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="lib/commons.collections-3.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jasperreports-6.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/postgresql-42.2.5.jar"/>
+	<classpathentry kind="lib" path="lib/substance-4.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

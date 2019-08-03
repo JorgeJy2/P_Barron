@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -143,6 +144,7 @@ public class MainFragment   extends JFrame {
 		panelChange.setLayout(new BorderLayout());
 		panelChange.add(contentPanel,BorderLayout.CENTER);
 		conteint.add(panelChange, BorderLayout.CENTER);
+		
 		
 		this.setMinimumSize(new Dimension(MIN_V, MIN_H));
 		this.add(conteint, BorderLayout.CENTER);

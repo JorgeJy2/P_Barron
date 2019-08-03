@@ -1,12 +1,22 @@
 package mainRun;
 
+import javax.swing.JFrame;
+
+import org.jvnet.substance.SubstanceLookAndFeel;
+
 import gui.MainFragment;
 import gui.content.car.CarContainerMainGui;
 
 public class Main {
 
 	public static void main(String[] args) {
-	new MainFragment(new CarContainerMainGui());
+	
+		//Material Desing.
+		/*
+		 JFrame.setDefaultLookAndFeelDecorated(true);
+	        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlueSteelSkin");
+	      */
+	        MainFragment mainFragment = new MainFragment(new CarContainerMainGui());
 
 		
 		/**

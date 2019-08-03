@@ -201,4 +201,10 @@ public class TicketGui extends JPanel implements IObserver {
 		btnAdd.setText(BTN_ADD);
 	}
 
+	public JCheckBox getCbxLoseTicket() {
+		return cbxLoseTicket;
+	}
+	
+	
+
 }

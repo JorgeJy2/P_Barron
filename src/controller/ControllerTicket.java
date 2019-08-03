@@ -28,7 +28,7 @@ import model.list.interador.Interator;
 public class ControllerTicket extends ControllerWindow {
 
 	private static final Double PRECIO_HORA = 40.0;
-
+	private static final Double PRECIO_TICKECT_PERDIDO = 200.0;
 	private static enum Status {
 		Pagado, En_espera, Perdido
 	};
@@ -79,6 +79,8 @@ public class ControllerTicket extends ControllerWindow {
 		}
 		ticket.setIdPesona(dtoPeopleSelect.getId());
 		ticket.setIdAuto(dtoCarSelect.getId());
+		
+		
 		try {
 			if (_listTicket.add(ticket)) {
 				_listTicket.loadList();
@@ -91,6 +93,7 @@ public class ControllerTicket extends ControllerWindow {
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
 		}
+		
 
 		return false;
 	}
@@ -124,7 +127,18 @@ public class ControllerTicket extends ControllerWindow {
 		total += (hours * PRECIO_HORA);
 
 		dtoTicket.setTotalPago(total);
-		dtoTicket.setEstatus("Pagado");
+	
+		
+		
+
+		if(_ticketGui.getCbxLoseTicket().isSelected()) {
+			System.out.println("perdido");
+			System.out.println("se aplicará tarifa");
+			total += PRECIO_TICKECT_PERDIDO;
+			dtoTicket.setEstatus(Status.Perdido.toString());
+		}else {
+			dtoTicket.setEstatus(Status.Pagado.toString());
+		}
 		
 		try {
 			if (_listTicket.update(dtoTicket, actualTicketSelect)) {
