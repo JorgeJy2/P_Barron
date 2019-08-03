@@ -20,7 +20,7 @@ import observer.IObserver;
 	public class TicketGuiView extends JPanel implements IObserver {
 		
 		private static final long serialVersionUID = 1L;
-		private static final String[] COLUMN_NAMES = { "Persona", "Auto", "F_Entrada", "F_Salida","Estatus", "Total"}; 
+		private static final String[] COLUMN_NAMES = { "Auto", "Persona", "F_Entrada", "F_Salida","Total", "Estatus"}; 
 		
 		private static final String TITLE = "Tickets registrados";
 		private static final String FILTER = "Filtrar Ticktes";

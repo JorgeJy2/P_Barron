@@ -103,8 +103,43 @@ public class ControllerTicket extends ControllerWindow {
 
 	@Override
 	public boolean updateRegistry() {
-		// TODO Auto-generated method stub
-		return false;
+		Instant instant = Instant.now();
+		Timestamp timestamp = Timestamp.from(instant);
+		
+		long diff = timestamp.getTime() - dtoTicket.getDate().getTime();
+		
+		int seconds = (int) diff / 1000;
+		int hours = seconds / 3600;
+		int minutes = (seconds % 3600) / 60;
+		seconds = (seconds % 3600) % 60;
+
+		int total = 0;
+		if (minutes > 15) 
+			total += PRECIO_HORA;
+		 else {
+			if (hours == 0) 
+				total += PRECIO_HORA;
+		}
+
+		total += (hours * PRECIO_HORA);
+
+		dtoTicket.setTotalPago(total);
+		dtoTicket.setEstatus(Status.Pagado.toString());
+		
+		try {
+			if (_listTicket.update(dtoTicket, actualTicketSelect)) {
+				_listTicket.loadList();
+				resetSelects();
+				reloadData();
+			}
+
+		} catch (ClassNotFoundException | SQLException e1) {
+			Messages.showError(e1.getLocalizedMessage());
+			System.out.println(e1.getMessage());
+		}
+		Messages.showMessage(
+				"El tiempo estacionad Horas: " + hours + " Minutos: " + minutes + " Segundos: " + seconds);
+		return true;
 	}
 
 	@Override
@@ -154,43 +189,7 @@ public class ControllerTicket extends ControllerWindow {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _ticketGui.getBtnAdd()) {
 			if (_ticketGui.getBtnAdd().getText().equalsIgnoreCase("Terminar estacionamiento")) {
-
-				Instant instant = Instant.now();
-				Timestamp timestamp = Timestamp.from(instant);
-				
-				long diff = timestamp.getTime() - dtoTicket.getDate().getTime();
-				
-				int seconds = (int) diff / 1000;
-				int hours = seconds / 3600;
-				int minutes = (seconds % 3600) / 60;
-				seconds = (seconds % 3600) % 60;
-
-				int total = 0;
-				if (minutes > 15) 
-					total += PRECIO_HORA;
-				 else {
-					if (hours == 0) 
-						total += PRECIO_HORA;
-				}
-
-				total += (hours * PRECIO_HORA);
-
-				dtoTicket.setTotalPago(total);
-				dtoTicket.setEstatus(Status.Pagado.toString());
-				
-				try {
-					if (_listTicket.update(dtoTicket, actualTicketSelect)) {
-						_listTicket.loadList();
-						resetSelects();
-						reloadData();
-					}
-
-				} catch (ClassNotFoundException | SQLException e1) {
-					Messages.showError(e1.getLocalizedMessage());
-					System.out.println(e1.getMessage());
-				}
-				Messages.showMessage(
-						"El tiempo estacionad Horas: " + hours + " Minutos: " + minutes + " Segundos: " + seconds);
+				updateRegistry();
 			} else
 				saveRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnCancel()) {
