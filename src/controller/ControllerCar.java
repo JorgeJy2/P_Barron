@@ -45,31 +45,31 @@ public class ControllerCar extends ControllerWindow {
 		
 		carGuiView = this.viewCar.getCarGuiView();
 		carGui = this.viewCar.getCarGui();
-		//daoCar = new DaoCar();
+		
 		addListener();
 		addScrollTable();
 		
-		if ( listCar.sizeDtos() > 0) {
-			reloadDataList();
-			System.out.println("Existen datos solo debemos mostrarlos");
-		}else {
-			reloadData();
-			System.out.println("No existen cargar...");
+		carGuiView.getTable().addKeyListener(this);
+    	carGuiView.getTable().addMouseListener(mauseClickedOnTable);
+		
+		if ( listCar.sizeDtos() <= 0) {
+			try {
+				listCar.loadList();
+			} catch (ClassNotFoundException | SQLException e) {
+				Messages.showMessage(e.getLocalizedMessage());
+			}
 		}
-		System.out.println(listCar.sizeDtos());
+		reloadData();
+	
 	}
 	
 	@Override
 	public boolean saveRegistry() {
 		if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
-			if (getDataOfView()) {
+			if (getDataOfView()) 
 				updateRegistry();
-				
-				//reloadData();
-				return true;
-			}else {
-				return true;
-			}
+			
+			return true;
 			
 		}else {
 			
@@ -79,7 +79,7 @@ public class ControllerCar extends ControllerWindow {
 				if (getDataOfView()) {
 					listCar.add(dtoCar);
 					
-					reloadDataList();
+					reloadData();
 					carGuiView.getTable().setRowSelectionInterval(0,0);
 					carGuiView.getScrollPaneTable().getViewport().setViewPosition(new Point(0,0));
 					
@@ -97,7 +97,7 @@ public class ControllerCar extends ControllerWindow {
 
 	@Override
 	public boolean filter() { 
-		listCar = ListCar.getInstance();
+
         try {
         	listCar.loadListFilter(carGuiView.getCbxFilter(), carGuiView.getTxtFilter().getText());
         	String[][] data= new String[listCar.sizeDtos()][5]; 
@@ -110,8 +110,7 @@ public class ControllerCar extends ControllerWindow {
             	data[pointerCar][2] = car.getColor();
     		} 
         	carGuiView.setModelTable(data);
-        	carGuiView.getTable().addKeyListener(this);
-        	carGuiView.getTable().addMouseListener(mauseClickedOnTable);
+       
         	return true;
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
@@ -141,14 +140,15 @@ public class ControllerCar extends ControllerWindow {
 	@Override
 	public boolean deleteRegistry() {
 		try {
-			dtoCar = listCar.getList().get(indexSelectOnView);
-			listCar.delete(dtoCar.getId());
+			//dtoCar = listCar.getOne(indexSelectOnView);
+			listCar.delete(indexSelectOnView);
 			if (carGuiView.getTable().getSelectedRow() < 0) {
 				newRegistry = true;
 			}else {
 				newRegistry = false;
-				dtoCar = listCar.getList().get(carGuiView.getTable().getSelectedRow());
+				dtoCar = listCar.getOne(carGuiView.getTable().getSelectedRow());
 			}
+			listCar.loadList();
 			reloadData();
 			setDataOfView();
 			return true;
@@ -201,7 +201,7 @@ public class ControllerCar extends ControllerWindow {
     public void keyReleased( KeyEvent d ) { 
        if( carGuiView.getTable().getSelectedRows().length > 0 ) { 
          indexSelectOnView = carGuiView.getTable().getSelectedRow();
-         dtoCar = listCar.getList().get(indexSelectOnView);
+         dtoCar = listCar.getOne(indexSelectOnView);
          dtoCar.setModelo(carGuiView.getTable().getValueAt(indexSelectOnView, 0).toString());
          dtoCar.setPlaca(carGuiView.getTable().getValueAt(indexSelectOnView, 1).toString());
          dtoCar.setColor(carGuiView.getTable().getValueAt(indexSelectOnView, 2).toString());
@@ -220,7 +220,7 @@ public class ControllerCar extends ControllerWindow {
 				carGui.getTxtPlaca().setText("");
 				carGui.getBtnDelete().setEnabled(false);
 			}else {
-				dtoCar = listCar.getList().get(indexSelectOnView);
+				dtoCar = listCar.getOne(indexSelectOnView);
 				carGui.getTxtColor().setText(dtoCar.getColor());
 				carGui.getTxtModelo().setText(dtoCar.getModelo());
 				carGui.getTxtPlaca().setText(dtoCar.getPlaca());
@@ -235,8 +235,10 @@ public class ControllerCar extends ControllerWindow {
 	}
 	
 	
+	
 	@Override
 	public boolean reloadData() {
+		/*
         try {
         	listCar.loadList();
         	String[][] data= new String[listCar.sizeDtos()][5]; 
@@ -250,19 +252,29 @@ public class ControllerCar extends ControllerWindow {
             	data[pointerCar][2] = car.getColor();
     		} 
         	carGuiView.setModelTable(data);
-        	carGuiView.getTable().addKeyListener(this);
-        	carGuiView.getTable().addMouseListener(mauseClickedOnTable);
+
         	
         	return true;
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError("  "+e.getMessage());
 			return false;
-		}  
+		}  */
+		
+		String[][] data= new String[listCar.sizeDtos()][5]; 
+        Interator<DtoCar> inte =  listCar.getAll(); 
+		while(inte.hasNext()) {
+			int pointerCar = inte.now();
+			DtoCar car =inte.next();
+			data[pointerCar][0] = car.getModelo();
+        	data[pointerCar][1] = car.getPlaca();
+        	data[pointerCar][2] = car.getColor();
+		} 
+    	carGuiView.setModelTable(data);
+    	return true;
 	}
 	
-	
+	/*
 	public boolean reloadDataList() {
-
         	String[][] data= new String[listCar.sizeDtos()][5]; 
             Interator<DtoCar> inte =  listCar.getAll(); 
     		while(inte.hasNext()) {
@@ -273,13 +285,11 @@ public class ControllerCar extends ControllerWindow {
             	data[pointerCar][2] = car.getColor();
     		} 
         	carGuiView.setModelTable(data);
-        	carGuiView.getTable().addKeyListener(this);
-        	carGuiView.getTable().addMouseListener(mauseClickedOnTable);
-        	
+        //	carGuiView.getTable().addKeyListener(this);
+        //	carGuiView.getTable().addMouseListener(mauseClickedOnTable);
         	return true;
-	
 	}
-	
+	*/
 	
 	@Override
 	public boolean addListener() { 
@@ -346,7 +356,7 @@ public class ControllerCar extends ControllerWindow {
 			  {
 				  this.controllerCar.indexSelectOnView = this.controllerCar.carGuiView.getTable().getSelectedRow();
 				  this.controllerCar.newRegistry = false;
-				  dtoCar = listCar.getList().get(indexSelectOnView);
+				  dtoCar = listCar.getOne(indexSelectOnView);
 				  this.controllerCar.setDataOfView();
 			  }
 		}
@@ -364,7 +374,7 @@ public class ControllerCar extends ControllerWindow {
 		executor.execute(() -> {
 			try {
 				if(listCar.reloadNext()) 
-					reloadDataList();
+					reloadData();
 			} catch (ClassNotFoundException | SQLException e) {
 				Messages.showError(" "+e.getLocalizedMessage());
 			}
@@ -386,7 +396,6 @@ public class ControllerCar extends ControllerWindow {
 	                int extent = source.getModel().getExtent();
 	                int maximum = source.getModel().getMaximum();
 	                if(e.getValue() + extent == maximum){
-	                	System.out.println("Final");
 	                	controllerCar.loadNextCars();
 	                }
 	            }

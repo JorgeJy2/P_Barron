@@ -5,11 +5,12 @@ import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gui.resource.ResourcesGui;
+
 import observer.IObserver;
 
 public class TicketGui extends JPanel implements IObserver{
@@ -29,9 +30,12 @@ private static final long serialVersionUID = 1L;
 
 	private static final int BORDER_BTNS_H = 10;
 	private static final int BORDER_BTNS_V = 10;
-	private static final String[] DATE_CAR = { "MY3445", "DJU234", "MIH432"}; 
-	private static final String[] DATE_PEOPLE = { "231ggg@gmail.com", "gahgg@gmail.com", "gkit@gmail.com"}; 
+	//private static final String[] DATE_CAR = { "MY3445", "DJU234", "MIH432"}; 
+	//private static final String[] DATE_PEOPLE = { "231ggg@gmail.com", "gahgg@gmail.com", "gkit@gmail.com"}; 
 	
+	private static final String TEXT_PEOPLE_SELECT = "Seleciona a la persona";
+	private static final String TEXT_CAR_SELECT = "Seleciona a automovil";
+
 	
 	private static final int GRID_BTN_ROWS = 2;
 	private static final int GRID_BTN_COLS = 2;
@@ -47,8 +51,13 @@ private static final long serialVersionUID = 1L;
 	private JButton btnAdd;
 	private JButton btnCancel;
 	
-	private JComboBox<String> cbxPeople;
+	/*private JComboBox<String> cbxPeople;
 	private JComboBox<String> cbxCar;
+	*/
+	
+	private JButton btnPeople;
+	private JButton btnCar;
+	
 	
 	private JPanel contentButtons;
 	private JPanel contentMain;
@@ -95,11 +104,17 @@ private static final long serialVersionUID = 1L;
 		lbPeople.setFont(ResourcesGui.FONT.getFontText());
 		lbCar.setFont(ResourcesGui.FONT.getFontText());
 		contentForm.add(lbCar);
-		cbxCar = new JComboBox<>(DATE_CAR);
-		contentForm.add(cbxCar);
+		//cbxCar = new JComboBox<>(DATE_CAR);
+		
+		btnCar = new JButton(TEXT_CAR_SELECT);
+		
+		contentForm.add(btnCar);
 		contentForm.add(lbPeople);
-		cbxPeople = new JComboBox<>(DATE_PEOPLE);
-		contentForm.add(cbxPeople);
+		
+		//cbxPeople = new JComboBox<>(DATE_PEOPLE);
+		
+		btnPeople = new JButton(TEXT_PEOPLE_SELECT);
+		contentForm.add(btnPeople);
 		
 		contentMain.add(contentForm, BorderLayout.CENTER);
 			
@@ -132,7 +147,33 @@ private static final long serialVersionUID = 1L;
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
 	}
+
+
+	public JButton getBtnAdd() {
+		return btnAdd;
+	}
+
+
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+
+
+	public JButton getBtnPeople() {
+		return btnPeople;
+	}
+
+
+	public JButton getBtnCar() {
+		return btnCar;
+	}
+	
+	
+	public void resetBtnSelect() {
+		btnCar.setText(TEXT_CAR_SELECT);
+		btnPeople.setText(TEXT_PEOPLE_SELECT);
+	}
+	
 
 }

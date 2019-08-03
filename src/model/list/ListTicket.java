@@ -20,12 +20,12 @@ public class ListTicket implements Listable<DtoTicket> {
 
 	private DaoInterface<DtoTicket> _dao;
 	private List<DtoTicket> _tickets;
-	private Paginator<DtoTicket> _paginator;
+//	private Paginator<DtoTicket> _paginator;
 
 	private ListTicket() {
 		_tickets = new ArrayList<DtoTicket>();
 		_dao = new DaoTicket();
-		_paginator = new PaginatorDao<DtoTicket>(_dao);
+		//_paginator = new PaginatorDao<DtoTicket>(_dao);
 	}
 
 	public static ListTicket getInstance() {
@@ -40,7 +40,7 @@ public class ListTicket implements Listable<DtoTicket> {
 	public void loadList() throws ClassNotFoundException, SQLException {
 
 		try {
-			reloadNext();
+			this._tickets = _dao.getAll();
 		} catch (ClassNotFoundException e) {
 			SaveErrosDao.saveErrors(e);
 			throw new ClassNotFoundException(e.getMessage());
@@ -139,20 +139,6 @@ public class ListTicket implements Listable<DtoTicket> {
 			return false;
 	}
 
-	@Override
-	public boolean reloadNext() throws ClassNotFoundException, SQLException {
-
-		try {
-			return addedTicketInList(_paginator.next());
-
-		} catch (ClassNotFoundException e) {
-			SaveErrosDao.saveErrors(e);
-			throw new ClassNotFoundException(e.getMessage());
-		} catch (SQLException e) {
-			SaveErrosDao.saveErrors(e);
-			throw new SQLException(e.getMessage());
-		}
-	}
 
 	@Override
 	public void loadListFilter(String parameter, String value) throws ClassNotFoundException, SQLException {
@@ -166,6 +152,12 @@ public class ListTicket implements Listable<DtoTicket> {
 			SaveErrosDao.saveErrors(e);
 			throw new SQLException(e.getMessage());
 		}
+	}
+
+	@Override
+	public boolean reloadNext() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

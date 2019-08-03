@@ -130,6 +130,12 @@ public class PeopleGuiView  extends  JPanel implements IObserver{
 		// TODO Auto-generated method stub
 	}
 	
+	
+	
+	public JTable getTable() {
+		return table;
+	}
+
 	public void setModelTable(String[][] data) {
 		DefaultTableModel modelo = new DefaultTableModel(data,COLUMN_NAMES);
 		table.setModel(modelo);

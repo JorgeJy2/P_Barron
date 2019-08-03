@@ -129,9 +129,7 @@ public class CarGuiView extends JPanel implements IObserver{
 		return table;
 	}
 
-	public void setTable(JTable table) {
-		this.table = table;
-	}
+	
 
 	public String getCbxFilter() {
 		return cbxFilter.getItemAt(cbxFilter.getSelectedIndex());
