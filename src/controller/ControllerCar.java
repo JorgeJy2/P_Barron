@@ -38,11 +38,9 @@ public class ControllerCar extends ControllerWindow {
 	
 	public ControllerCar(CarContainerMainGui viewCar) {
 		this.viewCar = viewCar;
-		listCar = ListCar.getInstance();
-		
+		listCar = ListCar.getInstance(); 
 		mauseClickedOnTable = new MauseClickedOnTable(this);
-		scrollableTable = new ScrollableTable(this);
-		
+		scrollableTable = new ScrollableTable(this); 
 		carGuiView = this.viewCar.getCarGuiView();
 		carGui = this.viewCar.getCarGui();
 		
@@ -168,19 +166,19 @@ public class ControllerCar extends ControllerWindow {
 			if (validateFieldText(carGui.getTxtColor().getText())) {
 				dtoCar.setColor(carGui.getTxtColor().getText());
 			}else {
-				Messages.showError("  Campo Color Invalido");
+				Messages.showError("  Campo Color inv�lido");
 				return false;
 			}
 			if (validateFieldText(carGui.getTxtModelo().getText())) {
 				dtoCar.setModelo(carGui.getTxtModelo().getText());
 			}else {
-				Messages.showError("  Campo Modelo Invalido");
+				Messages.showError("  Campo Modelo inv�lido");
 				return false;
 			}
 			if (validateFieldText(carGui.getTxtPlaca().getText())) {
 				dtoCar.setPlaca(carGui.getTxtPlaca().getText());
 			}else {
-				Messages.showError("  Campo Placa Invalido");
+				Messages.showError("  Campo Placa inv�lido");
 				return false;
 			}
 			return true;
@@ -380,11 +378,10 @@ public class ControllerCar extends ControllerWindow {
 			}
 		});
 	}
-	
+	//Inner Class Event to view
 	private class ScrollableTable implements AdjustmentListener {
 		
-		private ControllerCar controllerCar;
-		
+		private ControllerCar controllerCar; 
 		public ScrollableTable(ControllerCar controllerCar) {
 			this.controllerCar = controllerCar;
 		}
@@ -402,6 +399,8 @@ public class ControllerCar extends ControllerWindow {
 		}
 		
 	}
+	
+	
 	
  
 }
