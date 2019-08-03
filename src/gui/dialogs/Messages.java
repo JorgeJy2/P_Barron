@@ -17,15 +17,15 @@ public class Messages {
 		 ImageIcon icon = new ImageIcon("imgs/como.png");
 	        JPanel panel = new JPanel();
 	        panel.setBackground(new Color(102, 205, 130));
-	        panel.setSize(new Dimension(200, 100));
+	        panel.setSize(new Dimension(400, 100));
 	        panel.setLayout(null);
 
 	        JLabel label = new JLabel(msg);
-	        label.setBounds(0, 0, 200, 64);
+	        label.setBounds(0, 0, 400, 64);
 	        label.setFont(new Font("Arial", Font.BOLD, 11));
 	        label.setHorizontalAlignment(SwingConstants.CENTER);
 	        panel.add(label);
-	        UIManager.put("OptionPane.minimumSize",new Dimension(300, 100));        
+	        UIManager.put("OptionPane.minimumSize",new Dimension(400, 100));        
 	        JOptionPane.showMessageDialog(null, panel, "Información", JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 	

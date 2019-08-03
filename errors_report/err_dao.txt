@@ -1,19 +1,19 @@
-org.postgresql.util.PSQLException: ERROR: inserción o actualización en la tabla «boleto» viola la llave foránea «boleto_id_auto_fkey»
-  Detail: La llave (id_auto)=(1) no está presente en la tabla «automovil».
+org.postgresql.util.PSQLException: ERROR: la columna «estatus» es de tipo estatus_boleto pero la expresión es de tipo character varying
+  Hint: Necesitará reescribir la expresión o aplicarle una conversión de tipo.
+  Position: 66
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
 	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
 	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
 	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:143)
-	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:106)
-	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:122)
-	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:122)
-	at dao.DaoTicket.add(DaoTicket.java:42)
-	at dao.DaoTicket.add(DaoTicket.java:1)
-	at model.list.ListTicket.add(ListTicket.java:57)
-	at controller.ControllerTicket.saveRegistry(ControllerTicket.java:69)
-	at controller.ControllerTicket.actionPerformed(ControllerTicket.java:135)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:120)
+	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:136)
+	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:136)
+	at dao.DaoTicket.update(DaoTicket.java:69)
+	at dao.DaoTicket.update(DaoTicket.java:1)
+	at model.list.ListTicket.update(ListTicket.java:101)
+	at controller.ControllerTicket.actionPerformed(ControllerTicket.java:204)
 	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
 	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
 	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)

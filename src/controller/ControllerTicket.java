@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 import javax.swing.JFrame;
 
@@ -25,6 +27,12 @@ import model.list.interador.Interator;
 
 public class ControllerTicket extends ControllerWindow {
 
+	private static final Double PRECIO_HORA = 40.0;
+
+	private static enum Status {
+		Pagado, En_espera, Perdido
+	};
+
 	private TicketContainerMainGui _containerMainGui;
 
 	private TicketGui _ticketGui;
@@ -35,6 +43,10 @@ public class ControllerTicket extends ControllerWindow {
 	private DtoPeople dtoPeopleSelect;
 
 	private DtoCar dtoCarSelect;
+
+	private DtoTicket dtoTicket;
+
+	private int actualTicketSelect;
 
 	public ControllerTicket(TicketContainerMainGui containerMainGui) {
 		this._containerMainGui = containerMainGui;
@@ -57,23 +69,23 @@ public class ControllerTicket extends ControllerWindow {
 	@Override
 	public boolean saveRegistry() {
 		DtoTicket ticket = new DtoTicket();
-		if(dtoCarSelect == null) {
+		if (dtoCarSelect == null) {
 			Messages.showError("Debes seleccionar un auto.");
 			return false;
 		}
-		if( dtoPeopleSelect == null) {
+		if (dtoPeopleSelect == null) {
 			Messages.showError("Debes seleccionar una persona.");
 			return false;
 		}
 		ticket.setIdPesona(dtoPeopleSelect.getId());
 		ticket.setIdAuto(dtoCarSelect.getId());
 		try {
-			if( _listTicket.add(ticket) ) {
+			if (_listTicket.add(ticket)) {
 				_listTicket.loadList();
 				resetSelects();
-				
+
 				reloadData();
-			}else {
+			} else {
 				Messages.showError("No se pudo agregar..");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
@@ -132,7 +144,7 @@ public class ControllerTicket extends ControllerWindow {
 		}
 		_ticketGuiView.setModelTable(data);
 		_ticketGuiView.getTable().addKeyListener(this);
-		 _ticketGuiView.getTable().addMouseListener(new MauseClickedOnTableTicke(this));
+		_ticketGuiView.getTable().addMouseListener(new MauseClickedOnTableTicke(this));
 
 		return true;
 
@@ -141,9 +153,50 @@ public class ControllerTicket extends ControllerWindow {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _ticketGui.getBtnAdd()) {
-			saveRegistry();
+			if (_ticketGui.getBtnAdd().getText().equalsIgnoreCase("Terminar estacionamiento")) {
+
+				Instant instant = Instant.now();
+				Timestamp timestamp = Timestamp.from(instant);
+				
+				long diff = timestamp.getTime() - dtoTicket.getDate().getTime();
+				
+				int seconds = (int) diff / 1000;
+				int hours = seconds / 3600;
+				int minutes = (seconds % 3600) / 60;
+				seconds = (seconds % 3600) % 60;
+
+				int total = 0;
+				if (minutes > 15) 
+					total += PRECIO_HORA;
+				 else {
+					if (hours == 0) 
+						total += PRECIO_HORA;
+				}
+
+				total += (hours * PRECIO_HORA);
+
+				dtoTicket.setTotalPago(total);
+				dtoTicket.setEstatus(Status.Pagado.toString());
+				
+				try {
+					if (_listTicket.update(dtoTicket, actualTicketSelect)) {
+						_listTicket.loadList();
+						resetSelects();
+						reloadData();
+					}
+
+				} catch (ClassNotFoundException | SQLException e1) {
+					Messages.showError(e1.getLocalizedMessage());
+					System.out.println(e1.getMessage());
+				}
+				Messages.showMessage(
+						"El tiempo estacionad Horas: " + hours + " Minutos: " + minutes + " Segundos: " + seconds);
+			} else
+				saveRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnCancel()) {
 			System.out.println("Cancelar");
+			resetSelects();
+			_ticketGui.resetBtnAdd();
 		} else if (e.getSource() == _ticketGui.getBtnCar()) {
 			openListCard();
 		} else if (e.getSource() == _ticketGui.getBtnPeople()) {
@@ -282,38 +335,38 @@ public class ControllerTicket extends ControllerWindow {
 			}
 		}
 	}
-	
-	
+
 	// GUI
-	
+
 	private void resetSelects() {
 		_ticketGui.resetBtnSelect();
 		this.dtoCarSelect = null;
 		this.dtoPeopleSelect = null;
 	}
-	
+
 	private class MauseClickedOnTableTicke extends MouseAdapter {
 		private ControllerTicket controllerTicket;
-		
 
 		public MauseClickedOnTableTicke(ControllerTicket controllerTicket) {
-			this.controllerTicket = controllerTicket;	
+			this.controllerTicket = controllerTicket;
 		}
 
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
 				int contador = controllerTicket._ticketGuiView.getTable().getSelectedRow();
-				
+
+				controllerTicket.actualTicketSelect = contador;
 				controllerTicket._ticketGui.getBtnCar()
-				.setText("Se selecionó a " + _listTicket.getOne(contador).getPlacaAuto());
-				
+						.setText("Se selecionó a " + _listTicket.getOne(contador).getPlacaAuto());
+
 				controllerTicket._ticketGui.getBtnPeople()
-				.setText("Se selecionó a " + _listTicket.getOne(contador).getEmailAuto());
-				
+						.setText("Se selecionó a " + _listTicket.getOne(contador).getEmailAuto());
+
+				controllerTicket.dtoTicket = _listTicket.getOne(contador);
+
 				controllerTicket._ticketGui.getBtnAdd().setText("Terminar estacionamiento");
 			}
 		}
 	}
-	
-	
+
 }

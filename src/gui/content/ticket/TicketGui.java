@@ -175,5 +175,9 @@ private static final long serialVersionUID = 1L;
 		btnPeople.setText(TEXT_PEOPLE_SELECT);
 	}
 	
+	public void resetBtnAdd() {
+		btnAdd.setText(BTN_ADD);
+	}
+	
 
 }

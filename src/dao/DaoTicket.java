@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 	private static final String _GET_ONE = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.id = ?";
 	
 	
-	private static final String _UPDATE = "UPDATE boleto SET fecha_salida = ?,total_pago = ?,estatus = ? WHERE id = ?";
+	private static final String _UPDATE = "UPDATE boleto SET fecha_salida = now(),total_pago = ?,estatus = 'Pagado' WHERE id = ?";
 	private static final String _DELETE = "DELETE FROM boleto WHERE id = ?";
 
 	@Override
@@ -59,10 +61,10 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
 		PreparedStatement preparedStatement = connectionPostgresql.prepareStatement(_UPDATE);
 		///
-		preparedStatement.setString(1, dto.getFechaSalida());
-		preparedStatement.setDouble(2, dto.getTotalPago());
-		preparedStatement.setString(3, dto.getEstatus());
-		preparedStatement.setInt(4, dto.getId());
+		//preparedStatement.setString(1, dto.getFechaSalida());
+		preparedStatement.setDouble(1, dto.getTotalPago());
+		//preparedStatement.setString(2, dto.getEstatus());
+		preparedStatement.setInt(2, dto.getId());
 
 		int resultUpdate = preparedStatement.executeUpdate();
 
@@ -132,6 +134,8 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 			dtoTicket.setPlacaAuto(resultSet.getString(4));
 			dtoTicket.setId(resultSet.getInt(5));
 			dtoTicket.setFechaEntrada(resultSet.getString(6));
+			dtoTicket.setDate(resultSet.getTimestamp(6));
+			
 			dtoTicket.setFechaSalida(resultSet.getString(7));
 			dtoTicket.setTotalPago(resultSet.getDouble(8));
 			dtoTicket.setEstatus(resultSet.getString(9));

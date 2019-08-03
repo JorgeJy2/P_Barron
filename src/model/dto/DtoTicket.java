@@ -1,5 +1,9 @@
 package model.dto;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+
 import observer.Observable;
 
 /**
@@ -29,6 +33,8 @@ public class DtoTicket extends Observable{
 	
 	
 	private String fechaEntrada;
+	private Timestamp date;
+	
 	private String fechaSalida;
 	private double totalPago;
 	private String estatus;
@@ -144,6 +150,16 @@ public class DtoTicket extends Observable{
 
 	public void setEmailAuto(String emailAuto) {
 		this.emailAuto = emailAuto;
+	}
+	
+	
+
+	public Timestamp getDate() {
+		return date;
+	}
+
+	public void setDate(Timestamp date) {
+		this.date = date;
 	}
 
 	@Override
