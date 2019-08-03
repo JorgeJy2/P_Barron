@@ -1,6 +1,6 @@
-org.postgresql.util.PSQLException: ERROR: la columna «estatus» es de tipo estatus_boleto pero la expresión es de tipo character varying
+org.postgresql.util.PSQLException: ERROR: la columna «total_pago» es de tipo numeric pero la expresión es de tipo character varying
   Hint: Necesitará reescribir la expresión o aplicarle una conversión de tipo.
-  Position: 66
+  Position: 53
 	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
 	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
 	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
@@ -10,10 +10,11 @@ org.postgresql.util.PSQLException: ERROR: la columna «estatus» es de tipo estatu
 	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:120)
 	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:136)
 	at org.apache.commons.dbcp2.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:136)
-	at dao.DaoTicket.update(DaoTicket.java:69)
+	at dao.DaoTicket.update(DaoTicket.java:70)
 	at dao.DaoTicket.update(DaoTicket.java:1)
-	at model.list.ListTicket.update(ListTicket.java:101)
-	at controller.ControllerTicket.actionPerformed(ControllerTicket.java:204)
+	at model.list.ListTicket.update(ListTicket.java:98)
+	at controller.ControllerTicket.updateRegistry(ControllerTicket.java:130)
+	at controller.ControllerTicket.actionPerformed(ControllerTicket.java:192)
 	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
 	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
 	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)

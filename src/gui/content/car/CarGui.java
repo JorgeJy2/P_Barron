@@ -25,7 +25,6 @@ public class CarGui extends JPanel implements IObserver{
 	private static final String TEXT_COLOR = "Color";
 	
 	private static final String SRC_IMG = "imgs/car.png";
-
 	private static final String SRC_IMG_DEL = "imgs/borrar.png";
 	private static final String SRC_IMG_REPORT = "imgs/report.png";
 

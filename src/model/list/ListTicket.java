@@ -11,8 +11,6 @@ import model.dto.DtoTicket;
 
 import model.list.interador.DaoInteractor;
 import model.list.interador.Interator;
-import model.list.paginator.Paginator;
-import model.list.paginator.PaginatorDao;
 
 public class ListTicket implements Listable<DtoTicket> {
 
@@ -68,7 +66,6 @@ public class ListTicket implements Listable<DtoTicket> {
 			SaveErrosDao.saveErrors(e);
 			throw new SQLException(e.getMessage());
 		}
-
 	}
 
 	@Override

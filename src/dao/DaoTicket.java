@@ -30,7 +30,7 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 	private static final String _GET_ONE = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.id = ?";
 	
 	
-	private static final String _UPDATE = "UPDATE boleto SET fecha_salida = now(),total_pago = ?,estatus = 'Pagado' WHERE id = ?";
+	private static final String _UPDATE = "UPDATE boleto SET fecha_salida = now(),total_pago = ?,estatus = CAST(? AS estatus_boleto) WHERE id = ?";
 	private static final String _DELETE = "DELETE FROM boleto WHERE id = ?";
 
 	@Override
@@ -63,8 +63,9 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		///
 		//preparedStatement.setString(1, dto.getFechaSalida());
 		preparedStatement.setDouble(1, dto.getTotalPago());
-		//preparedStatement.setString(2, dto.getEstatus());
-		preparedStatement.setInt(2, dto.getId());
+		preparedStatement.setString(2, dto.getEstatus());
+		
+		preparedStatement.setInt(3, dto.getId());
 
 		int resultUpdate = preparedStatement.executeUpdate();
 

@@ -124,7 +124,7 @@ public class ControllerTicket extends ControllerWindow {
 		total += (hours * PRECIO_HORA);
 
 		dtoTicket.setTotalPago(total);
-		dtoTicket.setEstatus(Status.Pagado.toString());
+		dtoTicket.setEstatus("Pagado");
 		
 		try {
 			if (_listTicket.update(dtoTicket, actualTicketSelect)) {
