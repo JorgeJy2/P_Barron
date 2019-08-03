@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.ControllerWindowAdapter;
 import gui.content.car.CarContainerMainGui;
 import gui.content.people.PeopleContainerMainGui;
 import gui.content.ticket.TicketContainerMainGui;
@@ -149,7 +150,7 @@ public class MainFragment   extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
-		//this.addWindowListener(new ControllerWindowAdapter());
+		this.addWindowListener(new ControllerWindowAdapter());
 	
 	}
 	

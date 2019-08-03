@@ -28,7 +28,23 @@ public class ControllerPeople extends ControllerWindow{
 		listPeople = ListPeople.getInstance();
 		scrollableTable = new ScrollableTable(this);
 		
+		
+		
 		addScrollTable();
+		
+		if(listPeople.sizeDtos() > 0 ) {
+			System.out.println("Contiene datos...");
+		}else {
+			System.out.println("No contiene datos cargar..");
+			try {
+				listPeople.loadList();
+			}catch (ClassNotFoundException | SQLException e) {
+				Messages.showError("  "+e.getMessage());
+				
+			}  
+			
+		}
+		
 		reloadData();
 	}
 
@@ -71,8 +87,7 @@ public class ControllerPeople extends ControllerWindow{
 
 	@Override
 	public boolean reloadData() {
-		try {
-        	listPeople.loadList();
+		
         	String[][] data= new String[listPeople.sizeDtos()][5]; 
             Interator<DtoPeople> interator =  listPeople.getAll(); 
     		while(interator.hasNext()) {
@@ -89,10 +104,7 @@ public class ControllerPeople extends ControllerWindow{
         	//view.getTable().addMouseListener(mauseClickedOnTable);
         	
         	return true;
-		} catch (ClassNotFoundException | SQLException e) {
-			Messages.showError("  "+e.getMessage());
-			return false;
-		}  
+		
 	}
 
 	@Override
