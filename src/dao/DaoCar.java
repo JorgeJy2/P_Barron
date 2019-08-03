@@ -185,9 +185,9 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		return list;
 	}
 	
-	public void generateReport() throws ClassNotFoundException, SQLException {
-		 
-		CompileReporte.excecuteReport(PoolConnection.getInstancePool().getConnectionToPoll(),"reporte.jasper");
+	public void generateReport(String name_report) throws ClassNotFoundException, SQLException { 
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+		CompileReporte.excecuteReport(connectionPostgresql,name_report);
 	}
 
 }

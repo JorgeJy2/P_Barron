@@ -11,8 +11,7 @@ import java.sql.SQLException;
 import java.util.concurrent.Executor;
 
 import javax.swing.JScrollBar;
-
-import dao.DaoCar;
+ 
 import gui.content.car.CarContainerMainGui;
 import gui.content.car.CarGui;
 import gui.content.car.CarGuiView;
@@ -26,8 +25,7 @@ public class ControllerCar extends ControllerWindow {
 	 
 	private CarContainerMainGui viewCar; 
 	private CarGuiView carGuiView;
-	private CarGui carGui;
-	private DaoCar daoCar;
+	private CarGui carGui; 
 	
 	private DtoCar dtoCar;
 	private int indexSelectOnView;
@@ -309,12 +307,11 @@ public class ControllerCar extends ControllerWindow {
 			 filter();
 		} else if(e.getSource() == carGui.getBtnCancel()) {
 			if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
-				newRegistry = true;
+				newRegistry = true; 
 				carGuiView.getTable().clearSelection();
 				setDataOfView();
 			}else {
-				carGuiView.getTable().setRowSelectionInterval(0, 0);
-				dtoCar = listCar.getList().get(indexSelectOnView);
+				carGuiView.getTable().setRowSelectionInterval(0, 0); 
 				newRegistry = false;
 				setDataOfView();
 			}
@@ -328,7 +325,7 @@ public class ControllerCar extends ControllerWindow {
 			} 	
 		}else if(e.getSource() == carGui.getBtnInforme()) {
 			try {
-				daoCar.generateReport();
+				((ListCar) listCar).getReport("reporte.jasper");
 			} catch (ClassNotFoundException e1) {
 				Messages.showError(" "+e1.getMessage());
 			} catch (SQLException e1) {
@@ -349,25 +346,12 @@ public class ControllerCar extends ControllerWindow {
 			  {
 				  this.controllerCar.indexSelectOnView = this.controllerCar.carGuiView.getTable().getSelectedRow();
 				  this.controllerCar.newRegistry = false;
+				  dtoCar = listCar.getList().get(indexSelectOnView);
 				  this.controllerCar.setDataOfView();
 			  }
 		}
 	}
 	
-
-	
-//	this.addWindowListener(new java.awt.event.WindowAdapter() {
-//		@Override
-//		public void windowClosing(WindowEvent arg0) {
-//			try {
-//				ConnectionDB.getInstance().close();
-//			} catch (ClassNotFoundException | SQLException e) {
-//				Messages.showError(e.getLocalizedMessage());
-//			}
-//			System.out.println("Adios...");
-//			System.exit(0);
-//		}
-//	});
 	
 	public void loadNextCars () {
 		Executor executor = new Executor() {

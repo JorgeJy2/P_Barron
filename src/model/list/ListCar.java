@@ -186,4 +186,10 @@ public class ListCar implements Listable<DtoCar> {
 			throw new SQLException(e.getMessage());
 		}
 	}
+
+	public boolean getReport(String name_report) throws ClassNotFoundException, SQLException {
+		((DaoCar) _daoAuto).generateReport(name_report);
+		return true;
+	}
+ 
 }

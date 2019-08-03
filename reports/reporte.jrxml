@@ -3,7 +3,6 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1c395fa8-e18c-40bc-9ebf-55e5249a6b5c">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="smart.xml"/>
-	<parameter name="Parameter1" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT id, modelo, placa, color
 	FROM estacion.automovil;]]>
@@ -32,10 +31,6 @@
 				</textElement>
 				<text><![CDATA[ESTACIONAMIENTO]]></text>
 			</staticText>
-			<image>
-				<reportElement x="35" y="0" width="70" height="50" uuid="9e800cbb-ddeb-4e01-924d-b349fb100443"/>
-				<imageExpression><![CDATA["C:/Users/MARCK 1/Downloads/boleto-de-estacionamiento.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -50,7 +45,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="22" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="141" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="ecda7a86-c0dd-4d60-85b7-b3fb4701402b">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="89f6e3f0-fd28-49fa-9186-0363c286c158"/>
@@ -90,7 +85,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="22" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="141" height="20" uuid="20eb0c04-40da-4f1e-ad22-15d6c1396f97">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="89f6e3f0-fd28-49fa-9186-0363c286c158"/>
@@ -122,12 +117,15 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="47">
+			<textField evaluationTime="Report">
+				<reportElement x="0" y="26" width="100" height="20" uuid="dc785f1b-d46f-4d53-93a1-1520590fbb8b"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="464" y="30" width="100" height="16" uuid="196ff0e4-11a9-49ab-a1da-9d2f826656bd"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
