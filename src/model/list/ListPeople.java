@@ -4,17 +4,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.DaoCar;
+import javax.swing.JOptionPane;
+ 
 import dao.DaoInterface;
 import dao.DaoPeople;
-import dao.SaveErrosDao;
-import model.dto.DtoCar;
+import dao.SaveErrosDao; 
 import model.dto.DtoPeople;
 
 import model.list.interador.DaoInteractor;
 import model.list.interador.Interator;
 import model.list.paginator.Paginator;
 import model.list.paginator.PaginatorDao;
+import report.FormatReport;
 
 public class ListPeople implements Listable<DtoPeople> {
 
@@ -162,16 +163,14 @@ public class ListPeople implements Listable<DtoPeople> {
 
 	@Override
 	public void loadListFilter(String parameter, String value) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-
 		_listPeople = _daoPeople.getFilter(parameter, value);
 	 
 	}
 	
 	 
 	
-	public boolean getReport(String name_report) throws ClassNotFoundException, SQLException {
-		((DaoPeople) _daoPeople).generateReport(name_report);
+	public boolean getReport(FormatReport format) throws ClassNotFoundException, SQLException { 
+		((DaoPeople) _daoPeople).generateReport(format); 
 		return true;
 	}
 }

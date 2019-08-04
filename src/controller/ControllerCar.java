@@ -6,14 +6,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
- 
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import gui.content.car.CarContainerMainGui;
 import gui.content.car.CarGui;
 import gui.content.car.CarGuiView;
 import gui.dialogs.Messages;
 import model.dto.DtoCar;
 import model.list.ListCar;
+import model.list.ListPeople;
 import model.list.Listable;
+import report.FormatReport;
+import report.ReportCar;
+import report.ReportPeople;
+import report.decoratorComponent.ReportFilterCar;
 
 
 public class ControllerCar extends ControllerWindow {
@@ -352,15 +360,38 @@ public class ControllerCar extends ControllerWindow {
 				Messages.showMessage(" Eliminado");
 			} 	
 		}else if(e.getSource() == carGui.getBtnInforme()) {
-			try {
-				((ListCar) listCar).getReport("reporte.jasper");
-			} catch (ClassNotFoundException e1) {
-				Messages.showError(" "+e1.getMessage());
-			} catch (SQLException e1) {
-				Messages.showError(" "+e1.getMessage());
-			}
+			searchReport() ;
 		}
 	}
+	
+	private void searchReport() {
+		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)"};
+		JFrame frame = new JFrame();
+		
+	    String index = (String) JOptionPane.showInputDialog(frame,"Qué reporte deseas ver?","Formato de Reporte",
+		        JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+	    
+	    FormatReport format = null;
+	    boolean execute = false;
+	    if (index.equalsIgnoreCase("Reporte Simple")) {
+	    	format = new ReportCar();
+	    	execute = true;
+		}else { 
+			format =new ReportFilterCar(this,new ReportCar());
+			execute = true;
+		} 
+	    if (execute) {
+	    	try {
+				((ListCar) listCar).getReport(format);
+			} catch (ClassNotFoundException e1) { 
+				e1.printStackTrace();
+			} catch (SQLException e1) { 
+				e1.printStackTrace();
+			} 
+		}
+		
+	}
+
 	
 	private class MauseClickedOnTable extends MouseAdapter{
 		private ControllerCar controllerCar;
@@ -372,8 +403,7 @@ public class ControllerCar extends ControllerWindow {
 		{
 			  if (evnt.getClickCount() == 1)
 			  {
-				  this.controllerCar.indexSelectOnView = this.controllerCar.controllerViewCard.getSelectedRow();
-				  
+				  this.controllerCar.indexSelectOnView = this.controllerCar.controllerViewCard.getSelectedRow(); 
 				  this.controllerCar.newRegistry = false;
 				  dtoCar = listCar.getOne(indexSelectOnView);
 				  this.controllerCar.setDataOfView();
@@ -381,7 +411,10 @@ public class ControllerCar extends ControllerWindow {
 		}
 	}
 	
-	
+	public String getParametro() { 
+		return JOptionPane.showInputDialog(null, "Ingresa Párametro de Busqueda");
+	}
+
 	
 	
 	
