@@ -235,6 +235,7 @@ public class ControllerTicket extends ControllerWindow {
 			
 		}
 		_ticketGuiView.setModelTable(data);
+		
 		return true;
 	}
 
@@ -249,14 +250,22 @@ public class ControllerTicket extends ControllerWindow {
 			resetSelects();
 			_ticketGui.resetBtnAdd();
 		} else if (e.getSource() == _ticketGui.getBtnCar()) {
+			if( !inViewFragmentCard ) {
+				openListCard();
+				inViewFragmentCard = true;
+			}else{
+				System.out.println("Existe fragmento en vista.. card");
+			}
 			
-			openListCard();
 		} else if (e.getSource() == _ticketGui.getBtnPeople()) {
-			if(!inViewFragmentPeople) 
+			if(!inViewFragmentPeople) {
 				openListPeople();
+				inViewFragmentPeople = true;
+			}	
 			else
 				System.out.println("Existe fragmento en vista...");
 		} else if (e.getSource() == _ticketGui.getBtnDelete()) {
+			
 			deleteRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnInforme()) {
 			
@@ -289,7 +298,7 @@ public class ControllerTicket extends ControllerWindow {
 		}
 	}
 
-	private void openListPeople() {
+	private  void openListPeople() {
 
 		JFrame applicationFrame;
 
@@ -325,56 +334,56 @@ public class ControllerTicket extends ControllerWindow {
 		guiView.getTable().addMouseListener(new MauseClickedOnTable(this, guiView));
 		applicationFrame = new JFrame("Seleciona a la persona");
 		applicationFrame.getContentPane().add(guiView);
-		applicationFrame.addWindowListener(new WindowCloseManager(this));
+		applicationFrame.addWindowListener(new WindowClosePeople(this));
 		applicationFrame.pack();
 		applicationFrame.setVisible(true);
 	}
+	
 
-	private void openListCard() {
+	private  void openListCard() {
 
 		JFrame applicationFrame;
 
 		CarGuiView carGuiView = new CarGuiView();
 
-		ListCar listCar = ListCar.getInstance();
-		if (listCar.sizeDtos() <= 0) {
-			try {
-				listCar.loadList();
-			} catch (ClassNotFoundException | SQLException e) {
-				Messages.showMessage(e.getLocalizedMessage());
-			}
-		}
-		String[][] data = new String[listCar.sizeDtos()][5];
-		Interator<DtoCar> inte = listCar.getAll();
-		while (inte.hasNext()) {
-			int pointerCar = inte.now();
-			DtoCar car = inte.next();
-			data[pointerCar][0] = car.getModelo();
-			data[pointerCar][1] = car.getPlaca();
-			data[pointerCar][2] = car.getColor();
-		}
-		carGuiView.setModelTable(data);
-
+	
+		ControllerViewCard card = new ControllerViewCard(carGuiView);
+		
 		carGuiView.getTable().addMouseListener(new MauseClickedOnTableCard(this, carGuiView));
-		applicationFrame = new JFrame("Seleciona a la persona");
+		applicationFrame = new JFrame("Seleciona a la coche");
 		applicationFrame.getContentPane().add(carGuiView);
-		applicationFrame.addWindowListener(new WindowCloseManager(this));
+		applicationFrame.addWindowListener(new WindowCloseCard(this));
 		applicationFrame.pack();
 		applicationFrame.setVisible(true);
 	}
 
-	private static class WindowCloseManager extends WindowAdapter {
+	private static final class WindowClosePeople extends WindowAdapter {
 		
 		private ControllerTicket controllerTicket;
 		
-		public WindowCloseManager(ControllerTicket controllerTicket) {
-			this.controllerTicket = controllerTicket;
-			
+		public WindowClosePeople(ControllerTicket controllerTicket) {
+			this.controllerTicket = controllerTicket;			
 		}
 		
 		
 		public void windowClosing(WindowEvent evt) {
 			controllerTicket.inViewFragmentPeople = false;
+
+		}
+	}
+	
+	private static final class WindowCloseCard extends WindowAdapter {
+		
+		private ControllerTicket controllerTicket;
+		
+		public WindowCloseCard(ControllerTicket controllerTicket) {
+			this.controllerTicket = controllerTicket;			
+		}
+		
+		
+		public void windowClosing(WindowEvent evt) {
+			controllerTicket.inViewFragmentCard = false;
+
 		}
 	}
 
@@ -391,6 +400,7 @@ public class ControllerTicket extends ControllerWindow {
 			if (evnt.getClickCount() == 1) {
 				int contador = guiView.getTable().getSelectedRow();
 				controllerTicket.dtoPeopleSelect = ListPeople.getInstance().getOne(contador);
+				controllerTicket.actualTicketSelect = contador;
 				controllerTicket._ticketGui.getBtnPeople()
 						.setText("Se selecionó a " + controllerTicket.dtoPeopleSelect.getName());
 			}

@@ -1,16 +1,11 @@
 package controller;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.util.concurrent.Executor;
-
-import javax.swing.JScrollBar;
  
 import gui.content.car.CarContainerMainGui;
 import gui.content.car.CarGui;
@@ -19,7 +14,7 @@ import gui.dialogs.Messages;
 import model.dto.DtoCar;
 import model.list.ListCar;
 import model.list.Listable;
-import model.list.interador.Interator; 
+
 
 public class ControllerCar extends ControllerWindow {
 	 
@@ -29,27 +24,34 @@ public class ControllerCar extends ControllerWindow {
 	
 	private DtoCar dtoCar;
 	private int indexSelectOnView;
-	private MauseClickedOnTable mauseClickedOnTable;
+
 	private boolean newRegistry;
 	
 	private Listable<DtoCar> listCar;
 	
-	private ScrollableTable scrollableTable;
+	//private ScrollableTable scrollableTable;
+	
+	private ControllerViewCard controllerViewCard;
 	
 	public ControllerCar(CarContainerMainGui viewCar) {
 		this.viewCar = viewCar;
 		listCar = ListCar.getInstance(); 
-		mauseClickedOnTable = new MauseClickedOnTable(this);
-		scrollableTable = new ScrollableTable(this); 
+		
+		//scrollableTable = new ScrollableTable(this); 
+		
 		carGuiView = this.viewCar.getCarGuiView();
+		controllerViewCard = new ControllerViewCard(carGuiView, listCar);
+		
+		controllerViewCard.setClicTable(new MauseClickedOnTable(this));
+		controllerViewCard.setKeyTable(this);
 		carGui = this.viewCar.getCarGui();
 		
 		addListener();
 		addScrollTable();
 		
-		carGuiView.getTable().addKeyListener(this);
+		/*carGuiView.getTable().addKeyListener(this);
     	carGuiView.getTable().addMouseListener(mauseClickedOnTable);
-		
+		*/
 		if ( listCar.sizeDtos() <= 0) {
 			try {
 				listCar.loadList();
@@ -78,9 +80,11 @@ public class ControllerCar extends ControllerWindow {
 					listCar.add(dtoCar);
 					
 					reloadData();
+					/*
 					carGuiView.getTable().setRowSelectionInterval(0,0);
 					carGuiView.getScrollPaneTable().getViewport().setViewPosition(new Point(0,0));
-					
+					*/
+					controllerViewCard.selectOneRowTable();
 					return true;
 				}
 			} catch (ClassNotFoundException e) { 
@@ -95,7 +99,7 @@ public class ControllerCar extends ControllerWindow {
 
 	@Override
 	public boolean filter() { 
-
+		/*
         try {
         	listCar.loadListFilter(carGuiView.getCbxFilter(), carGuiView.getTxtFilter().getText());
         	String[][] data= new String[listCar.sizeDtos()][5]; 
@@ -113,7 +117,9 @@ public class ControllerCar extends ControllerWindow {
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
 			return false;
-		}  
+		}  */
+		controllerViewCard.filterTable();
+		return true;
 	}
 
 	@Override
@@ -121,9 +127,12 @@ public class ControllerCar extends ControllerWindow {
 		try {
 			
 			if (listCar.update(dtoCar, indexSelectOnView)) {
+				/*
 				carGuiView.getTable().setValueAt(dtoCar.getModelo(), indexSelectOnView, 0);
 				carGuiView.getTable().setValueAt(dtoCar.getPlaca(), indexSelectOnView, 1);
 				carGuiView.getTable().setValueAt(dtoCar.getColor(), indexSelectOnView, 2);
+				*/
+				controllerViewCard.updateTable(dtoCar, indexSelectOnView);
 				//setDataOfView();
 				newRegistry = false;
 				return true;
@@ -140,11 +149,13 @@ public class ControllerCar extends ControllerWindow {
 		try {
 			//dtoCar = listCar.getOne(indexSelectOnView);
 			listCar.delete(indexSelectOnView);
-			if (carGuiView.getTable().getSelectedRow() < 0) {
+			//if (carGuiView.getTable().getSelectedRow() < 0) {
+			if (controllerViewCard.getSelectedRow() < 0) {
 				newRegistry = true;
 			}else {
 				newRegistry = false;
-				dtoCar = listCar.getOne(carGuiView.getTable().getSelectedRow());
+				//dtoCar = listCar.getOne(carGuiView.getTable().getSelectedRow());
+				dtoCar = listCar.getOne(controllerViewCard.getSelectedRow());
 			}
 			listCar.loadList();
 			reloadData();
@@ -197,12 +208,17 @@ public class ControllerCar extends ControllerWindow {
 
 	@Override
     public void keyReleased( KeyEvent d ) { 
-       if( carGuiView.getTable().getSelectedRows().length > 0 ) { 
-         indexSelectOnView = carGuiView.getTable().getSelectedRow();
-         dtoCar = listCar.getOne(indexSelectOnView);
+      // if( carGuiView.getTable().getSelectedRows().length > 0 ) { 
+		if( controllerViewCard.getLengthSelectedRows() > 0 ) { 
+        // indexSelectOnView = carGuiView.getTable().getSelectedRow();
+		 indexSelectOnView = controllerViewCard.getSelectedRow();
+		 dtoCar = listCar.getOne(indexSelectOnView);
+		 /*
          dtoCar.setModelo(carGuiView.getTable().getValueAt(indexSelectOnView, 0).toString());
          dtoCar.setPlaca(carGuiView.getTable().getValueAt(indexSelectOnView, 1).toString());
          dtoCar.setColor(carGuiView.getTable().getValueAt(indexSelectOnView, 2).toString());
+         */
+		 dtoCar = controllerViewCard.getDataSelect(indexSelectOnView);
        }
        updateRegistry();
     }
@@ -236,6 +252,7 @@ public class ControllerCar extends ControllerWindow {
 	
 	@Override
 	public boolean reloadData() {
+		controllerViewCard.reloadData();
 		/*
         try {
         	listCar.loadList();
@@ -258,6 +275,7 @@ public class ControllerCar extends ControllerWindow {
 			return false;
 		}  */
 		
+		/*
 		String[][] data= new String[listCar.sizeDtos()][5]; 
         Interator<DtoCar> inte =  listCar.getAll(); 
 		while(inte.hasNext()) {
@@ -268,6 +286,7 @@ public class ControllerCar extends ControllerWindow {
         	data[pointerCar][2] = car.getColor();
 		} 
     	carGuiView.setModelTable(data);
+    	*/
     	return true;
 	}
 	
@@ -292,7 +311,9 @@ public class ControllerCar extends ControllerWindow {
 	@Override
 	public boolean addListener() { 
 		try {
-			carGuiView.getBtnFilter().addActionListener(this);
+			//carGuiView.getBtnFilter().addActionListener(this);
+			
+			
 			carGui.getBtnAdd().addActionListener(this);
 			carGui.getBtnDelete().addActionListener(this);
 			carGui.getBtnCancel().addActionListener(this);
@@ -306,20 +327,19 @@ public class ControllerCar extends ControllerWindow {
 	}
 	
 	public void addScrollTable() {
-		carGuiView.getScrollPaneTable().getVerticalScrollBar().addAdjustmentListener(scrollableTable);	
+		//carGuiView.getScrollPaneTable().getVerticalScrollBar().addAdjustmentListener(scrollableTable);	
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) { 
-		if (e.getSource() == carGuiView.getBtnFilter()) {
-			 filter();
-		} else if(e.getSource() == carGui.getBtnCancel()) {
+		 if(e.getSource() == carGui.getBtnCancel()) {
 			if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
 				newRegistry = true; 
-				carGuiView.getTable().clearSelection();
+				controllerViewCard.clearSelection();
 				setDataOfView();
 			}else {
-				carGuiView.getTable().setRowSelectionInterval(0, 0); 
+				//carGuiView.getTable().setRowSelectionInterval(0, 0); 
+				controllerViewCard.selectOneRowTable();
 				newRegistry = false;
 				setDataOfView();
 			}
@@ -352,7 +372,8 @@ public class ControllerCar extends ControllerWindow {
 		{
 			  if (evnt.getClickCount() == 1)
 			  {
-				  this.controllerCar.indexSelectOnView = this.controllerCar.carGuiView.getTable().getSelectedRow();
+				  this.controllerCar.indexSelectOnView = this.controllerCar.controllerViewCard.getSelectedRow();
+				  
 				  this.controllerCar.newRegistry = false;
 				  dtoCar = listCar.getOne(indexSelectOnView);
 				  this.controllerCar.setDataOfView();
@@ -361,44 +382,7 @@ public class ControllerCar extends ControllerWindow {
 	}
 	
 	
-	public void loadNextCars () {
-		Executor executor = new Executor() {
-			@Override
-			public void execute(Runnable arg0) {
-				arg0.run();
-			}
-		};
-
-		executor.execute(() -> {
-			try {
-				if(listCar.reloadNext()) 
-					reloadData();
-			} catch (ClassNotFoundException | SQLException e) {
-				Messages.showError(" "+e.getLocalizedMessage());
-			}
-		});
-	}
-	//Inner Class Event to view
-	private class ScrollableTable implements AdjustmentListener {
-		
-		private ControllerCar controllerCar; 
-		public ScrollableTable(ControllerCar controllerCar) {
-			this.controllerCar = controllerCar;
-		}
-		
-		@Override
-		public void adjustmentValueChanged(AdjustmentEvent e) {
-			  if(!e.getValueIsAdjusting()){    
-	                JScrollBar source = (JScrollBar) e.getAdjustable();
-	                int extent = source.getModel().getExtent();
-	                int maximum = source.getModel().getMaximum();
-	                if(e.getValue() + extent == maximum){
-	                	controllerCar.loadNextCars();
-	                }
-	            }
-		}
-		
-	}
+	
 	
 	
 	
