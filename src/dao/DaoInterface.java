@@ -1,13 +1,15 @@
 package dao;
+
 /**
  * 
  * Archivo: DaoInterface.java
  * 
  * Objetivo: Proporcionar una interfaz para unificar las operaciones que se realizan
- * por medio del patrón de diseño DAO, generalizando la transmición en una clase generica.
+ * por medio del patr�n de dise�o DAO, generalizando la transmici�n en una clase gen�rica.
  * 
- * @author: jorge
- * @Date: 01/05/2019
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco.
+ * @version 1.0 
+ *  @param <Model> Modelo
  * 
  */
 import java.sql.SQLException;
@@ -19,7 +21,8 @@ public interface DaoInterface<Model> {
 	/**
 	 * add
 	 * 
-	 * Agrega los valores de los atributos de la clase DTO generica con la que se está trabajando.
+	 * Agrega los valores de los atributos de la clase DTO generica con la que se
+	 * está trabajando.
 	 * 
 	 * @param dto
 	 * @return Instancia de tipo de dato primitivo
@@ -31,10 +34,12 @@ public interface DaoInterface<Model> {
 	/**
 	 * update
 	 * 
-	 * Actualiza los valores de los atributos de la clase DTO generica con la que se está trabajando.
+	 * Actualiza los valores de los atributos de la clase DTO generica con la que se
+	 * está trabajando.
 	 * 
 	 * @param dto
-	 * @return booleano (True sí la operación es correcta, False sí no se pudo realizar la operación)
+	 * @return booleano (True sí la operación es correcta, False sí no se pudo
+	 *         realizar la operación)
 	 * @throws SQLException
 	 * @throws ClssNotFoundException
 	 */
@@ -46,7 +51,8 @@ public interface DaoInterface<Model> {
 	 * Elimina el registro que contenga la clave recibida.
 	 * 
 	 * @param key
-	 * @return booleano (True sí la operación es correcta, False sí no se pudo realizar la operación)
+	 * @return booleano (True sí la operación es correcta, False sí no se pudo
+	 *         realizar la operación)
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
@@ -55,7 +61,8 @@ public interface DaoInterface<Model> {
 	/**
 	 * get
 	 * 
-	 * Obtiene una instancia con los valores del registro que contenga la clave recibida.
+	 * Obtiene una instancia con los valores del registro que contenga la clave
+	 * recibida.
 	 * 
 	 * 
 	 * @param key
@@ -68,15 +75,17 @@ public interface DaoInterface<Model> {
 	/**
 	 * get all
 	 * 
-	 * Obtiene una istancia de la interface {@link List}  con todos los registros almacenados de tipo Dto generico.
+	 * Obtiene una istancia de la interface {@link List} con todos los registros
+	 * almacenados de tipo Dto generico.
 	 * 
 	 * @return
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
 	List<Model> getAll() throws SQLException, ClassNotFoundException;
-	
+
 	List<Model> getPaginator(int init, int end) throws SQLException, ClassNotFoundException;
-	List<Model> getFilter(String parameter,String value) throws SQLException, ClassNotFoundException;
+
+	List<Model> getFilter(String parameter, String value) throws SQLException, ClassNotFoundException;
 
 }
