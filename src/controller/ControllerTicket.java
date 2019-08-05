@@ -25,8 +25,16 @@ import model.list.ListPeople;
 import model.list.ListTicket;
 import model.list.interador.Interator;
 
+/**
+ * Archivo: ControllerTicket.java contiene la definición de la clase
+ * ControllerTicket que extiende de ControllerWindow.
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco.
+ * @version 1.0
+ *
+ */
 public class ControllerTicket extends ControllerWindow {
-
+	// declaración de atributos
 	private static final Double PRECIO_HORA = 40.0;
 	private static final Double PRECIO_TICKECT_PERDIDO = 200.0;
 
@@ -35,13 +43,13 @@ public class ControllerTicket extends ControllerWindow {
 	};
 
 	// Messages
-	private static final String MISS_CARD 	= "Es necesario seleccionar un auto.";
+	private static final String MISS_CARD = "Es necesario seleccionar un auto.";
 	private static final String MISS_PEOPLE = "Es necesario seleccionar una persona.";
 	private static final String MISS_TICKET = "Es necesario seleccionar una boleto.";
 
 	private static final String TEXT_END_TICKET = "Terminar estacionamiento";
-	
-	private static final String ERROR_SAVE 	 = "No se pudo agregar, consulta el archivo de errores";
+
+	private static final String ERROR_SAVE = "No se pudo agregar, consulta el archivo de errores";
 	private static final String ERROR_UPDATE = "No se pudo actualizar, consulta el archivo de errores";
 	private static final String ERROR_DELETE = "No se pudo eliminar, consulta el archivo de errores";
 
@@ -60,11 +68,15 @@ public class ControllerTicket extends ControllerWindow {
 	private DtoTicket dtoTicket;
 
 	private int actualTicketSelect;
-	
-	private boolean inViewFragmentPeople =false;
-	private boolean inViewFragmentCard =false;
-	
 
+	private boolean inViewFragmentPeople = false;
+	private boolean inViewFragmentCard = false;
+
+	/**
+	 * Constructor con parámetro
+	 * 
+	 * @param containerMainGui objeto de tipo TicketContainerMainGui
+	 */
 	public ControllerTicket(TicketContainerMainGui containerMainGui) {
 
 		this._containerMainGui = containerMainGui;
@@ -82,8 +94,13 @@ public class ControllerTicket extends ControllerWindow {
 			Messages.showMessage(e.getLocalizedMessage());
 		}
 
-	}
+	}// cierre constructor
 
+	/**
+	 * Método validateData Valida si la información es nula
+	 * 
+	 * @return retorna valor booleano
+	 */
 	private boolean validateData() {
 		if (dtoCarSelect == null) {
 			Messages.showError(MISS_CARD);
@@ -95,8 +112,13 @@ public class ControllerTicket extends ControllerWindow {
 		}
 
 		return true;
-	}
+	}// cierre método validateData
 
+	/**
+	 * Método saveRegistry Guarda los valores de Ticket
+	 * 
+	 * @return retorna valor booleano
+	 */
 	@Override
 	public boolean saveRegistry() {
 
@@ -121,21 +143,31 @@ public class ControllerTicket extends ControllerWindow {
 		}
 
 		return false;
-	}
+	}// cierre método saveRegistry
 
+	/**
+	 * Método filter Filtra la lista de Ticket
+	 * 
+	 * @return retorna valor booleano
+	 */
 	@Override
 	public boolean filter() {
 		try {
 			_listTicket.loadListFilter(_ticketGuiView.getCbxFilter(), _ticketGuiView.getTxtFilter().getText());
 			reloadData();
-			
+
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
 			System.out.println(e.getMessage());
 		}
 		return false;
-	}
+	}// cierre método filter
 
+	/**
+	 * Método updateRegistry Actualiza los datos de Ticket
+	 * 
+	 * @return retorna valor booleano
+	 */
 	@Override
 	public boolean updateRegistry() {
 
@@ -183,8 +215,13 @@ public class ControllerTicket extends ControllerWindow {
 		}
 
 		return true;
-	}
+	}// cierre método updateRegistry
 
+	/**
+	 * Método deleteRegistry Elimina un registro de Ticket
+	 * 
+	 * @return retorna un valor de tipo booleano
+	 */
 	@Override
 	public boolean deleteRegistry() {
 		if (dtoTicket != null) {
@@ -202,9 +239,9 @@ public class ControllerTicket extends ControllerWindow {
 			Messages.showError(MISS_TICKET);
 
 		return false;
-	}
-	
+	}// cierre método deleteRegistry
 
+	// getter y setter
 	@Override
 	public boolean getDataOfView() {
 		// TODO Auto-generated method stub
@@ -217,6 +254,11 @@ public class ControllerTicket extends ControllerWindow {
 		return false;
 	}
 
+	/**
+	 * Método reloadData Recarga los datos a la vista
+	 * 
+	 * @return retorna un valor booleano
+	 */
 	@Override
 	public boolean reloadData() {
 
@@ -232,73 +274,85 @@ public class ControllerTicket extends ControllerWindow {
 			data[pointerCar][3] = ticket.getFechaSalida();
 			data[pointerCar][4] = ticket.getTotalPago() + "";
 			data[pointerCar][5] = ticket.getEstatus();
-			
+
 		}
 		_ticketGuiView.setModelTable(data);
-		
-		return true;
-	}
 
+		return true;
+	}// cierre método reloadData
+
+	/**
+	 * Método actionPerformed Realiza las acciones de cada evento de los botones.
+	 * 
+	 * @param e objeto de tipo ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _ticketGui.getBtnAdd()) {
-			if (_ticketGui.getBtnAdd().getText().equals(TEXT_END_TICKET)) 
+			if (_ticketGui.getBtnAdd().getText().equals(TEXT_END_TICKET))
 				updateRegistry();
-			 else
+			else
 				saveRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnCancel()) {
 			resetSelects();
 			_ticketGui.resetBtnAdd();
 		} else if (e.getSource() == _ticketGui.getBtnCar()) {
-			if( !inViewFragmentCard ) {
+			if (!inViewFragmentCard) {
 				openListCard();
 				inViewFragmentCard = true;
-			}else{
+			} else {
 				System.out.println("Existe fragmento en vista.. card");
 			}
-			
+
 		} else if (e.getSource() == _ticketGui.getBtnPeople()) {
-			if(!inViewFragmentPeople) {
+			if (!inViewFragmentPeople) {
 				openListPeople();
 				inViewFragmentPeople = true;
-			}	
-			else
+			} else
 				System.out.println("Existe fragmento en vista...");
 		} else if (e.getSource() == _ticketGui.getBtnDelete()) {
-			
+
 			deleteRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnInforme()) {
-			
-		}else if (e.getSource() == _ticketGuiView.getBtnFilter()) {
+
+		} else if (e.getSource() == _ticketGuiView.getBtnFilter()) {
 			filter();
 		}
-	}
+	}// cierre método actionPerformed
 
+	/**
+	 * Método addListener Escuha los eventos de los botones.
+	 * 
+	 * @return retorna un valor booleano.
+	 */
 	@Override
 	public boolean addListener() {
 		try {
-			//Butons
+			// Butons
 			_ticketGui.getBtnAdd().addActionListener(this);
 			_ticketGui.getBtnCancel().addActionListener(this);
 			_ticketGui.getBtnCar().addActionListener(this);
 			_ticketGui.getBtnPeople().addActionListener(this);
 			_ticketGui.getBtnDelete().addActionListener(this);
 			_ticketGui.getBtnInforme().addActionListener(this);
-			
+
 			_ticketGuiView.getBtnFilter().addActionListener(this);
-			
-			//Table
+
+			// Table
 			_ticketGuiView.getTable().addKeyListener(this);
 			_ticketGuiView.getTable().addMouseListener(new MauseClickedOnTableTicke(this));
-			
+
 			return true;
 		} catch (Exception e) {
 			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}
+	}// cierre método addListener
 
-	private  void openListPeople() {
+	/**
+	 * Método openListPeople Abre la lista People
+	 */
+	private void openListPeople() {
 
 		JFrame applicationFrame;
 
@@ -337,65 +391,120 @@ public class ControllerTicket extends ControllerWindow {
 		applicationFrame.addWindowListener(new WindowClosePeople(this));
 		applicationFrame.pack();
 		applicationFrame.setVisible(true);
-	}
-	
+	}// cierre método openListPeople
 
-	private  void openListCard() {
+	/**
+	 * Método openListCard Abre la lista Card
+	 */
+	private void openListCard() {
 
 		JFrame applicationFrame;
 
 		CarGuiView carGuiView = new CarGuiView();
 
-	
 		ControllerViewCard card = new ControllerViewCard(carGuiView);
-		
+
 		carGuiView.getTable().addMouseListener(new MauseClickedOnTableCard(this, carGuiView));
 		applicationFrame = new JFrame("Seleciona a la coche");
 		applicationFrame.getContentPane().add(carGuiView);
 		applicationFrame.addWindowListener(new WindowCloseCard(this));
 		applicationFrame.pack();
 		applicationFrame.setVisible(true);
-	}
+	}// cierre método openListCard
+
+	/**
+	 * Archivo: ControllerTicket.java contiene la definición de la clase
+	 * WindowClosePeople que extiende de WindowAdapter.
+	 * 
+	 * @author Jorge Jacobo, Marcos Guillermo, Gabriel García, Amanda Franco
+	 *
+	 */
 
 	private static final class WindowClosePeople extends WindowAdapter {
-		
+		// declaración de atributo
 		private ControllerTicket controllerTicket;
-		
+
+		/**
+		 * Constructor con parámetro
+		 * 
+		 * @param controllerTicket objeto de tipo ControllerTicket
+		 */
 		public WindowClosePeople(ControllerTicket controllerTicket) {
-			this.controllerTicket = controllerTicket;			
+			this.controllerTicket = controllerTicket;
 		}
-		
-		
+
+		/**
+		 * Método windowClosing Cierra el fragment People
+		 * 
+		 * @param evt objeto de tipo WindowEvent
+		 */
 		public void windowClosing(WindowEvent evt) {
 			controllerTicket.inViewFragmentPeople = false;
 
-		}
-	}
-	
+		}// cierre método windowClosing
+	}// cierre clase WindowClosePeople
+
+	/**
+	 * Archivo: ControlleTicket.java contiene la definición de la clase
+	 * WindowCloseCard que extiende de WindowAdapter
+	 * 
+	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+	 * @version 1.0
+	 *
+	 */
 	private static final class WindowCloseCard extends WindowAdapter {
-		
+		// declaración de atributos
 		private ControllerTicket controllerTicket;
-		
+
+		/**
+		 * Constructor con parámetro
+		 * 
+		 * @param controllerTicket objeto de tipo ControllerTicket
+		 */
 		public WindowCloseCard(ControllerTicket controllerTicket) {
-			this.controllerTicket = controllerTicket;			
+			this.controllerTicket = controllerTicket;
 		}
-		
-		
+
+		/**
+		 * Método windowClosing
+		 * 
+		 * @param evt objeto de tipo WindowEvent
+		 */
 		public void windowClosing(WindowEvent evt) {
 			controllerTicket.inViewFragmentCard = false;
 
-		}
-	}
+		}// cierre método windowClosing
+	}// cierre clase WindowCloseCard
 
+	/**
+	 * Archivo: ControlleTicket.java contiene la definición de la clase
+	 * MauseClickedOnTable que extiende de MouseAdapter
+	 * 
+	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+	 * @version 1.0
+	 *
+	 */
 	private class MauseClickedOnTable extends MouseAdapter {
+		// declaración de atributos
 		private ControllerTicket controllerTicket;
 		private PeopleGuiView guiView;
 
+		/**
+		 * Constructor con parámetros
+		 * 
+		 * @param controllerTicket objeto de tipo ControllerTicket
+		 * @param guiView          objeto de tipo PeopleGuiView
+		 */
 		public MauseClickedOnTable(ControllerTicket controllerTicket, PeopleGuiView guiView) {
 			this.controllerTicket = controllerTicket;
 			this.guiView = guiView;
-		}
+		}// cierre constructor
 
+		/**
+		 * Método mouseClicked Controla los eventos del mouse
+		 * 
+		 * @param evnt objeto de tipo MouseEvent
+		 */
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
 				int contador = guiView.getTable().getSelectedRow();
@@ -404,18 +513,38 @@ public class ControllerTicket extends ControllerWindow {
 				controllerTicket._ticketGui.getBtnPeople()
 						.setText("Se selecionó a " + controllerTicket.dtoPeopleSelect.getName());
 			}
-		}
-	}
+		}// cierre método mouseClicked
+	}// cierre clase MouseClickedOnTable
 
+	/**
+	 * Archivo: ControlleTicket.java contiene la definición de la clase
+	 * MauseClickedOnTableCars que extiende de MouseAdapter
+	 * 
+	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+	 * @version 1.0
+	 *
+	 */
 	private class MauseClickedOnTableCard extends MouseAdapter {
+		// declaración de atributos
 		private ControllerTicket controllerTicket;
 		private CarGuiView carGuiView;
 
+		/**
+		 * Constructor con parámetros
+		 * 
+		 * @param controllerTicket objeto de tipo ControllerTicket
+		 * @param carGuiView       objeto de tipo CarGuiView
+		 */
 		public MauseClickedOnTableCard(ControllerTicket controllerTicket, CarGuiView carGuiView) {
 			this.controllerTicket = controllerTicket;
 			this.carGuiView = carGuiView;
-		}
+		}// cierre constructor
 
+		/**
+		 * Método mouseClicked Controla los eventos del mouse
+		 * 
+		 * @param evnt objeto de tipo MouseEvent
+		 */
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
 				int contador = carGuiView.getTable().getSelectedRow();
@@ -423,24 +552,47 @@ public class ControllerTicket extends ControllerWindow {
 				controllerTicket._ticketGui.getBtnCar()
 						.setText("Se selecionó a " + controllerTicket.dtoCarSelect.getPlaca());
 			}
-		}
-	}
+		}// cierre método mouseClicked
+	}// cierre clase MauseClickedOnTableCard
 
 	// GUI
 
+	/**
+	 * Método resetSelects
+	 * Regresa a nulo los dto seleccionados.
+	 */
 	private void resetSelects() {
 		_ticketGui.resetBtnSelect();
 		this.dtoCarSelect = null;
 		this.dtoPeopleSelect = null;
-	}
+	}//cierre método resetSelects
+	
 
+	/**
+	 * Archivo: ControlleTicket.java contiene la definición de la clase
+	 * MauseClickedOnTableTicke que extiende de MouseAdapter
+	 * 
+	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+	 * @version 1.0
+	 *
+	 */
 	private class MauseClickedOnTableTicke extends MouseAdapter {
+		//declaración de atributo
 		private ControllerTicket controllerTicket;
 
+		/**
+		 * Constructor con parámetro
+		 * @param controllerTicket objeto de tipo ControllerTicket
+		 */
 		public MauseClickedOnTableTicke(ControllerTicket controllerTicket) {
 			this.controllerTicket = controllerTicket;
-		}
+		}//cierre constructor
 
+		/**
+		 * Método mouseClicked
+		 * Controla los eventos del mouse
+		 * @param evnt objeto de tipo MouseEvent
+		 */
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
 				int contador = controllerTicket._ticketGuiView.getTable().getSelectedRow();
@@ -456,7 +608,7 @@ public class ControllerTicket extends ControllerWindow {
 
 				controllerTicket._ticketGui.getBtnAdd().setText(TEXT_END_TICKET);
 			}
-		}
-	}
+		}//cierre método mouseClicked
+	}//cierre clase MauseClickedOnTableTicke
 
-}
+}//cierre clase ControllerTicket

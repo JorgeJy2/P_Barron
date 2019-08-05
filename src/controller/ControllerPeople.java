@@ -13,218 +13,273 @@ import java.util.concurrent.Executor;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
- 
-import gui.content.people.PeopleContainerMainGui; 
-import gui.dialogs.Messages; 
-import model.dto.DtoPeople; 
-import model.list.ListPeople; 
+
+import gui.content.people.PeopleContainerMainGui;
+import gui.dialogs.Messages;
+import model.dto.DtoPeople;
+import model.list.ListPeople;
 import model.list.interador.Interator;
 import report.FormatReport;
 import report.ReportPeople;
 import report.decoratorComponent.ReportFilterPeople;
 
-public class ControllerPeople extends ControllerWindow{
-
+/**
+ * Archivo: ControllerPeople.java contiene la definición de la clase
+ * ControllerPeople y extiende de la clase ControllerWindow.
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+ * @version 1.0
+ *
+ */
+public class ControllerPeople extends ControllerWindow {
+//declaración de atributos
 	private PeopleContainerMainGui view;
-	
+
 	private ListPeople listPeople;
-	
+
 	private ScrollableTable scrollableTable;
 	private DtoPeople dtoPeople;
 
-	private int indexSelectOnView; 
-	
+	private int indexSelectOnView;
+
 	private MauseClickedOnTable mauseClickedOnTable;
-	private boolean newRegistry;  
-	 
-	
+	private boolean newRegistry;
+
+	/**
+	 * Constructor ControllerPeople con parámetro
+	 * 
+	 * @param view objeto de tipo PeopleContainerMainGui
+	 */
 	public ControllerPeople(PeopleContainerMainGui view) {
 		this.view = view;
 		listPeople = ListPeople.getInstance();
-		scrollableTable = new ScrollableTable(this); 
+		scrollableTable = new ScrollableTable(this);
 		view.getPeopleGuiView().getTable().addMouseListener(new MauseClickedOnTable(this));
 		addScrollTable();
 		addListener();
-		if(listPeople.sizeDtos() > 0 ) {
+		if (listPeople.sizeDtos() > 0) {
 			System.out.println("Contiene datos...");
-		}else {
+		} else {
 			System.out.println("No contiene datos cargar..");
 			try {
 				listPeople.loadList();
-			}catch (ClassNotFoundException | SQLException e) {
-				Messages.showError("  "+e.getMessage());
-				
-			}   
-		} 
+			} catch (ClassNotFoundException | SQLException e) {
+				Messages.showError("  " + e.getMessage());
+
+			}
+		}
 		reloadData();
-	}  
-	public boolean reloadDataList() { 
-        	String[][] data= new String[listPeople.sizeDtos()][5]; 
-            Interator<DtoPeople> inte =  listPeople.getAll(); 
-    		while(inte.hasNext()) {
-    			int pointerPeople = inte.now();
-    			DtoPeople people =inte.next();
-    			data[pointerPeople][0] = people.getName();
-            	data[pointerPeople][1] = people.getFirstName();
-            	data[pointerPeople][2] = people.getLastName();
-            	data[pointerPeople][3] = people.getEmail();
-            	data[pointerPeople][4] = people.getTelephone();
-    		} 
-    		view.getPeopleGuiView().setModelTable(data);
-    		view.getPeopleGuiView().getTable().addKeyListener(this);
-    		view.getPeopleGuiView().getTable().addMouseListener(mauseClickedOnTable); 
-        	return true;
-	
-	}
-	
+	}// cierre constructor
+
+	/**
+	 * Método reloadDataList Obtiene los datos de la lista.
+	 * 
+	 * @return retorna un valor booleano
+	 */
+	public boolean reloadDataList() {
+		String[][] data = new String[listPeople.sizeDtos()][5];
+		Interator<DtoPeople> inte = listPeople.getAll();
+		while (inte.hasNext()) {
+			int pointerPeople = inte.now();
+			DtoPeople people = inte.next();
+			data[pointerPeople][0] = people.getName();
+			data[pointerPeople][1] = people.getFirstName();
+			data[pointerPeople][2] = people.getLastName();
+			data[pointerPeople][3] = people.getEmail();
+			data[pointerPeople][4] = people.getTelephone();
+		}
+		view.getPeopleGuiView().setModelTable(data);
+		view.getPeopleGuiView().getTable().addKeyListener(this);
+		view.getPeopleGuiView().getTable().addMouseListener(mauseClickedOnTable);
+		return true;
+
+	}// cierre método reloadDataList
+
+	/**
+	 * Método saveRegistry Guarda o modifica los datos de People.
+	 * 
+	 * @return retorna un valor booleano
+	 */
 	@Override
 	public boolean saveRegistry() {
 		if (view.getPeopleGui().getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
 			if (getDataOfView()) {
-				updateRegistry(); 
-				//reloadData();
+				updateRegistry();
+				// reloadData();
 				return true;
-			}else {
+			} else {
 				return true;
-			} 
-		}else { 
+			}
+		} else {
 			dtoPeople = new DtoPeople();
 			try {
 				if (getDataOfView()) {
-					listPeople.add(dtoPeople); 
+					listPeople.add(dtoPeople);
 					reloadDataList();
-					view.getPeopleGuiView().getTable().setRowSelectionInterval(0,0);
-					view.getPeopleGuiView().getScrollPaneTable().getViewport().setViewPosition(new Point(0,0));
+					view.getPeopleGuiView().getTable().setRowSelectionInterval(0, 0);
+					view.getPeopleGuiView().getScrollPaneTable().getViewport().setViewPosition(new Point(0, 0));
 					return true;
 				}
-			} catch (ClassNotFoundException e) { 
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
-			} catch (SQLException e) { 
+			} catch (SQLException e) {
 				e.printStackTrace();
-			}	
-			
+			}
+
 		}
 		return false;
-	}
+	}// cierre método saveRegistry
 
+	/**
+	 * Método filter Filtrar los datos de la lista People.
+	 * 
+	 * @return retorna valor booleano
+	 */
 	@Override
 	public boolean filter() {
-        try {
-        	listPeople.loadListFilter(view.getPeopleGuiView().getCbxFilter(), view.getPeopleGuiView().getTxtFilter().getText());
-        	String[][] data= new String[listPeople.sizeDtos()][5]; 
-            Interator<DtoPeople> inte =  listPeople.getAll(); 
-    		while(inte.hasNext()) {
-    			int pointerPeople = inte.now();
-    			DtoPeople people =inte.next();
-    			data[pointerPeople][0] = people.getName();
-            	data[pointerPeople][1] = people.getFirstName();
-            	data[pointerPeople][2] = people.getLastName();
-            	data[pointerPeople][3] = people.getEmail();
-            	data[pointerPeople][4] = people.getTelephone();
-    		} 
-    		view.getPeopleGuiView().setModelTable(data);
-    		view.getPeopleGuiView().getTable().addKeyListener(this);
-    		view.getPeopleGuiView().getTable().addMouseListener(mauseClickedOnTable);
-        	return true;
+		try {
+			listPeople.loadListFilter(view.getPeopleGuiView().getCbxFilter(),
+					view.getPeopleGuiView().getTxtFilter().getText());
+			String[][] data = new String[listPeople.sizeDtos()][5];
+			Interator<DtoPeople> inte = listPeople.getAll();
+			while (inte.hasNext()) {
+				int pointerPeople = inte.now();
+				DtoPeople people = inte.next();
+				data[pointerPeople][0] = people.getName();
+				data[pointerPeople][1] = people.getFirstName();
+				data[pointerPeople][2] = people.getLastName();
+				data[pointerPeople][3] = people.getEmail();
+				data[pointerPeople][4] = people.getTelephone();
+			}
+			view.getPeopleGuiView().setModelTable(data);
+			view.getPeopleGuiView().getTable().addKeyListener(this);
+			view.getPeopleGuiView().getTable().addMouseListener(mauseClickedOnTable);
+			return true;
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
 			return false;
-		}  
-	}
+		}
+	}// cierre método filter
 
+	/**
+	 * Método updateRegistry Actualiza un valor de tipo People.
+	 * 
+	 * @return retorna un valor de tipo booleano.
+	 */
 	@Override
 	public boolean updateRegistry() {
-	try {
-			
+		try {
+
 			if (listPeople.update(dtoPeople, indexSelectOnView)) {
- 
+
 				view.getPeopleGuiView().getTable().setValueAt(dtoPeople.getName(), indexSelectOnView, 0);
 				view.getPeopleGuiView().getTable().setValueAt(dtoPeople.getFirstName(), indexSelectOnView, 1);
 				view.getPeopleGuiView().getTable().setValueAt(dtoPeople.getLastName(), indexSelectOnView, 2);
 				view.getPeopleGuiView().getTable().setValueAt(dtoPeople.getEmail(), indexSelectOnView, 3);
 				view.getPeopleGuiView().getTable().setValueAt(dtoPeople.getTelephone(), indexSelectOnView, 4);
-				//setDataOfView();
+				// setDataOfView();
 				newRegistry = false;
 				return true;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
 		}
-		
-		return false;
-	}
 
+		return false;
+	}// cierre métod updateRegistry
+
+	/**
+	 * Método deleteRegistry Elimina un registro de la lista People.
+	 * 
+	 * @return retorna un valor booleano.
+	 */
 	@Override
 	public boolean deleteRegistry() {
 		try {
-			dtoPeople = listPeople.getList().get(indexSelectOnView); 
+			dtoPeople = listPeople.getList().get(indexSelectOnView);
 			listPeople.delete(indexSelectOnView);
 			if (view.getPeopleGuiView().getTable().getSelectedRow() < 0) {
 				newRegistry = true;
-			}else {
+			} else {
 				newRegistry = false;
 				dtoPeople = listPeople.getList().get(view.getPeopleGuiView().getTable().getSelectedRow());
 			}
 			reloadData();
 			setDataOfView();
 			return true;
-		} catch (ClassNotFoundException e) { 
-			Messages.showError("  "+e.getMessage());
+		} catch (ClassNotFoundException e) {
+			Messages.showError("  " + e.getMessage());
 			return false;
-		} catch (SQLException e) { 
-			Messages.showError("  "+e.getMessage());
+		} catch (SQLException e) {
+			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}
+	}// cierre método deleteRegistry
 
+	/**
+	 * Método getDataOfView Obtiene los datos de la vista.
+	 * 
+	 * @return retorna un valor booleano.
+	 */
 	@Override
 	public boolean getDataOfView() {
 		try {
 			if (validateFieldText(view.getPeopleGui().getTxtName().getText())) {
 				dtoPeople.setName(view.getPeopleGui().getTxtName().getText());
-			}else {
+			} else {
 				Messages.showError("  Campo Nombre inválido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtFirsName().getText())) {
 				dtoPeople.setFirstName(view.getPeopleGui().getTxtFirsName().getText());
-			}else {
+			} else {
 				Messages.showError("  Campo Apellido Paterno inválido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtLastName().getText())) {
 				dtoPeople.setLastName(view.getPeopleGui().getTxtLastName().getText());
-			}else {
+			} else {
 				Messages.showError("  Campo Apellido Materno inválido");
 				return false;
 			}
-			
+
 			if (validateFieldText(view.getPeopleGui().getTxtEmail().getText())) {
 				dtoPeople.setEmail(view.getPeopleGui().getTxtEmail().getText());
-			}else {
+			} else {
 				Messages.showError("  Campo  Correo inválido¿½lido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtTelephone().getText())) {
 				dtoPeople.setTelephone(view.getPeopleGui().getTxtTelephone().getText());
-			}else {
+			} else {
 				Messages.showError("  Campo Télefono inválido");
 				return false;
-			} 
+			}
 			return true;
 		} catch (Exception e) {
-			Messages.showError("  "+e.getMessage());
+			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}
-	
-	private boolean validateFieldText(String text) {
-		if (text.length()<1 || text.equals("") )
-			return false;	
-		
-		return true;
-	}
+	}// cierre método getDataOfView
 
+	/**
+	 * Método validateFieldText Valida el texto de los campos
+	 * 
+	 * @param text valor de tipo String
+	 * @return retorna un valor booleano
+	 */
+	private boolean validateFieldText(String text) {
+		if (text.length() < 1 || text.equals(""))
+			return false;
+
+		return true;
+	}// cierre método validateFieldText
+
+	/**
+	 * Método setDataOfView Envia los datos a la vista.
+	 * 
+	 * @return retorna un valor booleano.
+	 */
 	@Override
 	public boolean setDataOfView() {
 		try {
@@ -235,117 +290,134 @@ public class ControllerPeople extends ControllerWindow{
 				view.getPeopleGui().getTxtEmail().setText("");
 				view.getPeopleGui().getTxtLastName().setText("");
 				view.getPeopleGui().getTxtName().setText("");
-				view.getPeopleGui().getTxtTelephone().setText("");	
+				view.getPeopleGui().getTxtTelephone().setText("");
 				view.getPeopleGui().getBtnDelete().setEnabled(false);
-			}else {
+			} else {
 				dtoPeople = listPeople.getList().get(indexSelectOnView);
-				view.getPeopleGui().getTxtFirsName().setText(dtoPeople.getFirstName() + " ID"+ dtoPeople.getId());
+				view.getPeopleGui().getTxtFirsName().setText(dtoPeople.getFirstName() + " ID" + dtoPeople.getId());
 				view.getPeopleGui().getTxtEmail().setText(dtoPeople.getEmail());
 				view.getPeopleGui().getTxtLastName().setText(dtoPeople.getLastName());
 				view.getPeopleGui().getTxtName().setText(dtoPeople.getName());
-				view.getPeopleGui().getTxtTelephone().setText(dtoPeople.getTelephone());	
+				view.getPeopleGui().getTxtTelephone().setText(dtoPeople.getTelephone());
 				view.getPeopleGui().getBtnAdd().setText("Modificar");
 				view.getPeopleGui().getBtnDelete().setEnabled(true);
 			}
 			return true;
 		} catch (Exception e) {
-			Messages.showError("  "+e.getMessage());
+			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}
+	}// cierre método setDataOfView
 
+	/**
+	 * Método reloadData Recarga los datos a la vista.
+	 * 
+	 * @return retorna un valor booleano.
+	 */
 	@Override
 	public boolean reloadData() {
-		
-        	String[][] data= new String[listPeople.sizeDtos()][5]; 
-            Interator<DtoPeople> interator =  listPeople.getAll(); 
-    		while(interator.hasNext()) {
-    			int countPeoples = interator.now();
-    			DtoPeople people= interator.next();
-            	data[countPeoples][0] = people.getName();
-            	data[countPeoples][1] = people.getLastName();
-            	data[countPeoples][2] = people.getFirstName();
-            	data[countPeoples][3] = people.getEmail();
-            	data[countPeoples][4] = people.getTelephone();
-    		} 
-        	view.getPeopleGuiView().setModelTable(data);
-        	view.getPeopleGuiView().getTable().addKeyListener(this);
-        	view.getPeopleGuiView().getTable().addMouseListener(mauseClickedOnTable);
-        	
-        	return true;
-		
-	}
 
+		String[][] data = new String[listPeople.sizeDtos()][5];
+		Interator<DtoPeople> interator = listPeople.getAll();
+		while (interator.hasNext()) {
+			int countPeoples = interator.now();
+			DtoPeople people = interator.next();
+			data[countPeoples][0] = people.getName();
+			data[countPeoples][1] = people.getLastName();
+			data[countPeoples][2] = people.getFirstName();
+			data[countPeoples][3] = people.getEmail();
+			data[countPeoples][4] = people.getTelephone();
+		}
+		view.getPeopleGuiView().setModelTable(data);
+		view.getPeopleGuiView().getTable().addKeyListener(this);
+		view.getPeopleGuiView().getTable().addMouseListener(mauseClickedOnTable);
+
+		return true;
+
+	}// cierre método reloadData
+
+	/**
+	 * Método keyReleased Evento del teclado
+	 */
 	@Override
-    public void keyReleased( KeyEvent d ) { 
-       if( view.getPeopleGuiView().getTable().getSelectedRows().length > 0 ) { 
-         indexSelectOnView = view.getPeopleGuiView().getTable().getSelectedRow();
-         dtoPeople = listPeople.getList().get(indexSelectOnView);
-         dtoPeople.setName(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 0).toString());
-         dtoPeople.setLastName(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 1).toString());
-         dtoPeople.setFirstName(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 2).toString());
-         dtoPeople.setEmail(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 3).toString());
-         dtoPeople.setTelephone(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 4).toString());
-       }
-       updateRegistry();
-    }
-	
+	public void keyReleased(KeyEvent d) {
+		if (view.getPeopleGuiView().getTable().getSelectedRows().length > 0) {
+			indexSelectOnView = view.getPeopleGuiView().getTable().getSelectedRow();
+			dtoPeople = listPeople.getList().get(indexSelectOnView);
+			dtoPeople.setName(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 0).toString());
+			dtoPeople.setLastName(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 1).toString());
+			dtoPeople.setFirstName(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 2).toString());
+			dtoPeople.setEmail(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 3).toString());
+			dtoPeople.setTelephone(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 4).toString());
+		}
+		updateRegistry();
+	}// cierre método keyReleased
+
+	/**
+	 * Método actionPerformed Realiza las acciones de cada evento de los botones.
+	 */
 	@Override
-	public void actionPerformed(ActionEvent e) { 
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == view.getPeopleGuiView().getBtnFilter()) {
-			 filter();
-		} else if(e.getSource() == view.getPeopleGui().getBtnCancel()) {
+			filter();
+		} else if (e.getSource() == view.getPeopleGui().getBtnCancel()) {
 			if (view.getPeopleGui().getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
-				newRegistry = true; 
+				newRegistry = true;
 				view.getPeopleGuiView().getTable().clearSelection();
 				setDataOfView();
-			}else {
-				view.getPeopleGuiView().getTable().setRowSelectionInterval(0, 0); 
+			} else {
+				view.getPeopleGuiView().getTable().setRowSelectionInterval(0, 0);
 				newRegistry = false;
 				setDataOfView();
 			}
-		}else if(e.getSource() == view.getPeopleGui().getBtnAdd()) {
+		} else if (e.getSource() == view.getPeopleGui().getBtnAdd()) {
 			if (saveRegistry()) {
 				Messages.showMessage(" Guardado");
 			}
-		}else if(e.getSource() == view.getPeopleGui().getBtnDelete()) {
+		} else if (e.getSource() == view.getPeopleGui().getBtnDelete()) {
 			if (deleteRegistry()) {
 				Messages.showMessage(" Eliminado");
-			} 	
-		}else if(e.getSource() == view.getPeopleGui().getBtnInforme()) {
+			}
+		} else if (e.getSource() == view.getPeopleGui().getBtnInforme()) {
 			searchReport();
 		}
-	}
+	}// cierre método actionPerformed
 
+	/**
+	 * Cierre método searchReport Carga el reporte "simple o avanzado".
+	 */
 	private void searchReport() {
-		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)"};
+		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)" };
 		JFrame frame = new JFrame();
-		
-	    String index = (String) JOptionPane.showInputDialog(frame,"Qué reporte deseas ver?","Formato de Reporte",
-		        JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
-	    
-	    FormatReport format = null;
-	    boolean execute = false;
-	    if (index.equalsIgnoreCase("Reporte Simple")) {
-	    	format = new ReportPeople();
-	    	execute = true;
-		}else {
+
+		String index = (String) JOptionPane.showInputDialog(frame, "Qué reporte deseas ver?", "Formato de Reporte",
+				JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+
+		FormatReport format = null;
+		boolean execute = false;
+		if (index.equalsIgnoreCase("Reporte Simple")) {
+			format = new ReportPeople();
+			execute = true;
+		} else {
 			format = new ReportFilterPeople(this, new ReportPeople());
 			execute = true;
-		} 
-	    if (execute) {
-	    	try {
+		}
+		if (execute) {
+			try {
 				((ListPeople) listPeople).getReport(format);
-			} catch (ClassNotFoundException e1) { 
+			} catch (ClassNotFoundException e1) {
 				e1.printStackTrace();
-			} catch (SQLException e1) { 
+			} catch (SQLException e1) {
 				e1.printStackTrace();
-			} 
-		} 
-	}
+			}
+		}
+	}// cierre método searchReport
 
-
-
+	/**
+	 * Método addListener Escuha los eventos de los botones.
+	 * 
+	 * @return retorna un valor booleano.
+	 */
 	@Override
 	public boolean addListener() {
 		try {
@@ -353,19 +425,25 @@ public class ControllerPeople extends ControllerWindow{
 			view.getPeopleGui().getBtnAdd().addActionListener(this);
 			view.getPeopleGui().getBtnDelete().addActionListener(this);
 			view.getPeopleGui().getBtnCancel().addActionListener(this);
-			view.getPeopleGui().getBtnInforme().addActionListener(this); 
-		    return true;
+			view.getPeopleGui().getBtnInforme().addActionListener(this);
+			return true;
 		} catch (Exception e) {
-			Messages.showError("  "+e.getMessage());
+			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}
-	
+	}// cierre método addListener
+
+	/**
+	 * Método addScrollTable Agrega un scroll a la tabla.
+	 */
 	public void addScrollTable() {
-		view.getPeopleGuiView().getScrollPaneTable().getVerticalScrollBar().addAdjustmentListener(scrollableTable);	
-	}
-	
-	public void loadNextCars () {
+		view.getPeopleGuiView().getScrollPaneTable().getVerticalScrollBar().addAdjustmentListener(scrollableTable);
+	}// cierre método addScrollTable
+
+	/**
+	 * Método loadNextCars Carga los datos del carro que pertenece a People
+	 */
+	public void loadNextCars() {
 		Executor executor = new Executor() {
 			@Override
 			public void execute(Runnable arg0) {
@@ -375,57 +453,99 @@ public class ControllerPeople extends ControllerWindow{
 
 		executor.execute(() -> {
 			try {
-				if(listPeople.reloadNext()) 
+				if (listPeople.reloadNext())
 					reloadData();
 			} catch (ClassNotFoundException | SQLException e) {
-				Messages.showError(" "+e.getLocalizedMessage());
+				Messages.showError(" " + e.getLocalizedMessage());
 			}
 		});
-	}
- 
+	}// cierre método loadNextCars
+
 //Inner Class Event to view
-	
-	private class MauseClickedOnTable extends MouseAdapter{
-			private ControllerPeople controllerPeople; 
-			public MauseClickedOnTable(ControllerPeople controllerPeople) {
-				this.controllerPeople = controllerPeople;
-			}
-			public void mouseClicked(MouseEvent evnt)
-			{
-				  if (evnt.getClickCount() == 1)
-				  {
-					  this.controllerPeople.indexSelectOnView =  this.controllerPeople.view.getPeopleGuiView().getTable().getSelectedRow();
-					  this.controllerPeople.newRegistry = false;
-					  this.controllerPeople.dtoPeople = this.controllerPeople.listPeople.getList().get(indexSelectOnView);
-					  this.controllerPeople.setDataOfView();
-				  }
+	/**
+	 * Archivo: ControllerPeople.java contiene la definición de la clase
+	 * MauseClickedOnTable que extiende de MouseAdapter.
+	 * 
+	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+	 * @version 1.0
+	 *
+	 */
+	private class MauseClickedOnTable extends MouseAdapter {
+		// declaración de atributos
+		private ControllerPeople controllerPeople;
+
+		/**
+		 * Constructor con parámetro
+		 * 
+		 * @param controllerPeople objeto de tipo ControllerPeople
+		 */
+		public MauseClickedOnTable(ControllerPeople controllerPeople) {
+			this.controllerPeople = controllerPeople;
+		}
+
+		/**
+		 * Método mouseClicked Controla los eventos del mouse
+		 * 
+		 * @param evnt objeto de tipo MouseEvent
+		 */
+		public void mouseClicked(MouseEvent evnt) {
+			if (evnt.getClickCount() == 1) {
+				this.controllerPeople.indexSelectOnView = this.controllerPeople.view.getPeopleGuiView().getTable()
+						.getSelectedRow();
+				this.controllerPeople.newRegistry = false;
+				this.controllerPeople.dtoPeople = this.controllerPeople.listPeople.getList().get(indexSelectOnView);
+				this.controllerPeople.setDataOfView();
 			}
 		}
-		
+	}// cierre clase MauseClickedOnTable
+
+	/**
+	 * Archivo: ControllerPeople.java que contiene la definición de la clase
+	 * ScrollableTable que implementa de AdjustmentListener.
+	 * 
+	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+	 * @version 1.0
+	 *
+	 */
 	private class ScrollableTable implements AdjustmentListener {
-		
+		// declaración de atributo
 		private ControllerPeople controller;
-		
+
+		/**
+		 * Constructor con parámetro
+		 * 
+		 * @param controller objeto de tipo ControllerPeople
+		 */
 		public ScrollableTable(ControllerPeople controller) {
 			this.controller = controller;
-		}
-		
+		}// cierre constructor
+
+		/**
+		 * Método adjustmentValueChanged
+		 * 
+		 * @param e objeto de tipo AdjustmentEvent
+		 */
 		@Override
 		public void adjustmentValueChanged(AdjustmentEvent e) {
-			  if(!e.getValueIsAdjusting()){    
-	                JScrollBar source = (JScrollBar) e.getAdjustable();
-	                int extent = source.getModel().getExtent();
-	                int maximum = source.getModel().getMaximum();
-	                if(e.getValue() + extent == maximum){
-	                	System.out.println("Final");
-	                	controller.loadNextCars();
-	                }
-	            }
-		} 
-	}
+			if (!e.getValueIsAdjusting()) {
+				JScrollBar source = (JScrollBar) e.getAdjustable();
+				int extent = source.getModel().getExtent();
+				int maximum = source.getModel().getMaximum();
+				if (e.getValue() + extent == maximum) {
+					System.out.println("Final");
+					controller.loadNextCars();
+				}
+			}
+		}// cierre método adjustmentValueChanged
+	}// cierre clase ScrollableTable
 
-	public String getParametro() { 
+	/**
+	 * Método getParametro
+	 * 
+	 * @return retorna un valor de tipo String
+	 */
+	public String getParametro() {
 		return JOptionPane.showInputDialog(null, "Ingresa Digitos de una placa para búsqueda");
-	}
+	}// cierre método getParametro
 
-}
+}// cierre clase ControllerPeople
