@@ -3,77 +3,89 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout; 
-
+import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel; 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gui.resource.ResourcesGui;
 
-public class CarFrame  extends JFrame {
-
+/**
+ * Archivo: CarFrame.java contiene la definición de la clase CarFrame que
+ * extiende de JFrame
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+ * @version 1.0
+ *
+ */
+public class CarFrame extends JFrame {
+	// declaración de atributos
 	private static final int MIN_V = 350;
 	private static final int MIN_H = 500;
-	
+
 	private static final String SRC_MENU = "imgs/ic_menu.png";
 
-	private static  String title = "Automï¿½vil ";
+	private static String title = "Automï¿½vil ";
 
 	private static final long serialVersionUID = 1L;
+	// declaración de componentes
 	private JPanel contentPanel;
 	private JPanel panelTitle;
 	private JPanel panelChange;
-	
+
 	private JLabel lbTitle;
 	private JLabel lbMenu;
-	
+
 	private JPanel panelMenu;
 	private JPanel conteint;
-	
-	public CarFrame(JPanel contentPanel) {		
+
+	/**
+	 * Constructor con parámetro.
+	 * 
+	 * @param contentPanel objeto de tipo JPanel
+	 */
+	public CarFrame(JPanel contentPanel) {
 		this.contentPanel = contentPanel;
 		this.setLocationRelativeTo(null);
 		createGui();
-	}
-	
+	}// cierre contrtuctor
+
+	// método que crea la vista
 	private void createGui() {
 		this.setLayout(new BorderLayout());
-		
+
 		// ================== TITLE start ==================
 		panelTitle = new JPanel();
 		panelTitle.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panelTitle.setBackground(ResourcesGui.COLOR.getPrimaryColor());
-		
+
 		lbTitle = new JLabel(title);
 		lbTitle.setFont(ResourcesGui.FONT.geFontTitle());
-		lbTitle.setForeground( ResourcesGui.COLOR.getSecondColor());
+		lbTitle.setForeground(ResourcesGui.COLOR.getSecondColor());
 		lbTitle.setBorder(ResourcesGui.BORDER.getBorderTitle());
-		
+
 		lbMenu = new JLabel();
 		lbMenu.setIcon(new ImageIcon(SRC_MENU));
-		
+
 		panelTitle.add(lbMenu);
 		panelTitle.add(lbTitle);
 		this.add(panelTitle, BorderLayout.PAGE_START);
 		// ================== TITLE end ==================
-		
+
 		panelMenu = new JPanel();
 		panelMenu.setLayout(new BorderLayout());
-		
+
 		panelMenu.setBorder(ResourcesGui.BORDER.getBorderConteinerMain());
-		
+
 		JButton btnCar = new JButton();
 		btnCar.setIcon(new ImageIcon("imgs/car.png"));
 		JButton btnPeople = new JButton("");
 		btnPeople.setIcon(new ImageIcon("imgs/people.png"));
 		JButton btnTicket = new JButton("");
 		btnTicket.setIcon(new ImageIcon("imgs/ticket.png"));
-		
-	
 
 		btnCar.setBackground(ResourcesGui.COLOR.getPrimaryColor());
 		btnCar.setBorder(ResourcesGui.BORDER.getBorderBtnAcept());
@@ -82,55 +94,52 @@ public class CarFrame  extends JFrame {
 		btnPeople.setBackground(ResourcesGui.COLOR.getPrimaryColor());
 		btnPeople.setBorder(ResourcesGui.BORDER.getBorderBtnAcept());
 		btnPeople.setForeground(ResourcesGui.COLOR.getSecondColor());
-		
+
 		btnTicket.setBackground(ResourcesGui.COLOR.getPrimaryColor());
 		btnTicket.setBorder(ResourcesGui.BORDER.getBorderBtnAcept());
 		btnTicket.setForeground(ResourcesGui.COLOR.getSecondColor());
-		
-		JPanel menuTitle= new JPanel();
-		menuTitle.setLayout(new GridLayout(0,1));
+
+		JPanel menuTitle = new JPanel();
+		menuTitle.setLayout(new GridLayout(0, 1));
 		JLabel titleSubTitle = new JLabel("Estacionamiento");
 		titleSubTitle.setFont(ResourcesGui.FONT.geFontTitle());
 		JLabel titleMenu = new JLabel("ProCar");
 		titleMenu.setFont(ResourcesGui.FONT.getFontText());
-		
+
 		menuTitle.add(titleSubTitle);
 		menuTitle.add(titleMenu);
-	
+
 		panelMenu.add(menuTitle, BorderLayout.PAGE_START);
-		
+
 		JPanel panelOption = new JPanel();
-		panelOption.setLayout(new GridLayout(0,1,30,10));
+		panelOption.setLayout(new GridLayout(0, 1, 30, 10));
 		panelOption.add(btnCar);
 		panelOption.add(btnPeople);
 		panelOption.add(btnTicket);
-		
+
 		panelMenu.add(panelOption, BorderLayout.CENTER);
-		
-		
-		JPanel piedPaginaTitle= new JPanel();
-		piedPaginaTitle.setLayout(new GridLayout(0,1));
+
+		JPanel piedPaginaTitle = new JPanel();
+		piedPaginaTitle.setLayout(new GridLayout(0, 1));
 		JLabel info = new JLabel("Versiï¿½n 1.0");
 		piedPaginaTitle.add(info);
-			
-		
+
 		panelMenu.add(piedPaginaTitle, BorderLayout.PAGE_END);
-		
-		conteint = new JPanel();	
+
+		conteint = new JPanel();
 		conteint.setLayout(new BorderLayout());
 		conteint.add(panelMenu, BorderLayout.LINE_START);
 		panelChange = new JPanel();
 		panelChange.setLayout(new BorderLayout());
-		panelChange.add(contentPanel,BorderLayout.CENTER);
+		panelChange.add(contentPanel, BorderLayout.CENTER);
 		conteint.add(panelChange, BorderLayout.CENTER);
-		
+
 		this.setMinimumSize(new Dimension(MIN_V, MIN_H));
 		this.add(conteint, BorderLayout.CENTER);
-		this.pack();	
+		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		
-	}
-	
-	
-}
+
+	}// cierre método createGui
+
+}// cierre clase CarFrame

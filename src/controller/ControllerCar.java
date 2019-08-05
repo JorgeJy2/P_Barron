@@ -24,8 +24,17 @@ import report.FormatReport;
 import report.ReportCar;
 import report.decoratorComponent.ReportFilterCar;
 
-public class ControllerCar extends ControllerWindow {
+/**
+ * Archivo: ControllerCar.java contiene la definiciï¿½n de la clase ControllerCar
+ * y extiende de la clase ControllerWindow.
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+ * @version 1.0
+ *
+ */
 
+public class ControllerCar extends ControllerWindow {
+	// declaraciï¿½n de atributos
 	private CarContainerMainGui viewCar;
 	private CarGuiView carGuiView;
 	private CarGui carGui;
@@ -41,6 +50,11 @@ public class ControllerCar extends ControllerWindow {
 
 	private ControllerViewCard controllerViewCard;
 
+	/**
+	 * Constructor ControllerCar que recibe un objeto de CarContainerMainGui.
+	 * 
+	 * @param viewCar objeto de tipo CarContainerMainGui.
+	 */
 	public ControllerCar(CarContainerMainGui viewCar) {
 		this.viewCar = viewCar;
 		listCar = ListCar.getInstance();
@@ -70,8 +84,13 @@ public class ControllerCar extends ControllerWindow {
 		}
 		reloadData();
 
-	}
+	}// cierre constructor
 
+	/**
+	 * Mï¿½todo saveRegistry(). Registra o modifica un carro.
+	 * 
+	 * @return retorna valor booleano
+	 */
 	@Override
 	public boolean saveRegistry() {
 		if (carGui.getBtnAdd().getText().equalsIgnoreCase("Modificar")) {
@@ -104,8 +123,13 @@ public class ControllerCar extends ControllerWindow {
 
 		}
 		return false;
-	}
+	}// cierre mï¿½todo saveRegistry
 
+	/**
+	 * Mï¿½todo filter(). Llama el mï¿½todo filterTable().
+	 * 
+	 * @return retorna un valor booleano
+	 */
 	@Override
 	public boolean filter() {
 		/*
@@ -121,8 +145,15 @@ public class ControllerCar extends ControllerWindow {
 		 */
 		controllerViewCard.filterTable();
 		return true;
-	}
+	}// cierre mï¿½todo filter
 
+	/**
+	 * Mï¿½todo updateRegistry(). Actualiza la tabla de los registros de car.
+	 * 
+	 * @return retorna un valor booleano.
+	 * @exception Excepciï¿½n de clase y de base de datos.
+	 * 
+	 */
 	@Override
 	public boolean updateRegistry() {
 		try {
@@ -143,8 +174,14 @@ public class ControllerCar extends ControllerWindow {
 		}
 
 		return false;
-	}
+	}// cierre mï¿½todo update
 
+	/**
+	 * Mï¿½todo deleteRegistry(). Elimina un registro de la tabla Car.
+	 * 
+	 * @return retorna un valor booleano
+	 * @exception Excepcion de clase y de base de datos.
+	 */
 	@Override
 	public boolean deleteRegistry() {
 		try {
@@ -167,43 +204,59 @@ public class ControllerCar extends ControllerWindow {
 			return false;
 		}
 
-	}
+	}// cierre mï¿½todo deleteRegistry
 
+	/**
+	 * Mï¿½todo getDataOfView
+	 * 
+	 * @return retona un valor booleano.
+	 */
 	@Override
 	public boolean getDataOfView() {
 		try {
 			if (validateFieldText(carGui.getTxtColor().getText())) {
 				dtoCar.setColor(carGui.getTxtColor().getText());
 			} else {
-				Messages.showError("Campo Color inválido");
+				Messages.showError("Campo Color invï¿½lido");
 				return false;
 			}
 			if (validateFieldText(carGui.getTxtModelo().getText())) {
 				dtoCar.setModelo(carGui.getTxtModelo().getText());
 			} else {
-				Messages.showError("Campo Modelo inválido");
+				Messages.showError("Campo Modelo invï¿½lido");
 				return false;
 			}
 			if (validateFieldText(carGui.getTxtPlaca().getText())) {
 				dtoCar.setPlaca(carGui.getTxtPlaca().getText());
 			} else {
-				Messages.showError("Campo Placa inválido");
+				Messages.showError("Campo Placa invï¿½lido");
 				return false;
 			}
 			return true;
 		} catch (Exception e) {
-			Messages.showError(e.getMessage());
+			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}
+	}// cierre mï¿½todo getDataOfView
 
+	/**
+	 * Mï¿½todo validateFieldText().
+	 * 
+	 * @param text valor de tipo String
+	 * @return valor de retorno booleano
+	 */
 	private boolean validateFieldText(String text) {
 		if (text.length() < 1 || text.equals(""))
 			return false;
 
 		return true;
-	}
+	}// cierre mï¿½todo validateFieldText
 
+	/**
+	 * Mï¿½todo keyReleased
+	 * 
+	 * @param d de tipo KeyEvent
+	 */
 	@Override
 	public void keyReleased(KeyEvent d) {
 		// if( carGuiView.getTable().getSelectedRows().length > 0 ) {
@@ -222,8 +275,13 @@ public class ControllerCar extends ControllerWindow {
 			dtoCar = controllerViewCard.getDataSelect(indexSelectOnView);
 		}
 		updateRegistry();
-	}
+	}// cierre mï¿½todo keyReleased
 
+	/**
+	 * Mï¿½todo setDataOfView Envï¿½a los datos a la vista.
+	 * 
+	 * @return retorna un valor booleano
+	 */
 	@Override
 	public boolean setDataOfView() {
 		try {
@@ -244,11 +302,16 @@ public class ControllerCar extends ControllerWindow {
 			}
 			return true;
 		} catch (Exception e) {
-			Messages.showError(e.getMessage());
+			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}
+	}// cierre mï¿½todo setDataOfView
 
+	/**
+	 * Mï¿½todo reloadData. Recarga los datos en la vista.
+	 * 
+	 * @return retorna un valor booleano
+	 */
 	@Override
 	public boolean reloadData() {
 		controllerViewCard.reloadData();
@@ -273,7 +336,7 @@ public class ControllerCar extends ControllerWindow {
 		 * carGuiView.setModelTable(data);
 		 */
 		return true;
-	}
+	}// cierre mï¿½todo reloadData
 
 	/*
 	 * public boolean reloadDataList() { String[][] data= new
@@ -285,6 +348,11 @@ public class ControllerCar extends ControllerWindow {
 	 * carGuiView.getTable().addMouseListener(mauseClickedOnTable); return true; }
 	 */
 
+	/**
+	 * Mï¿½todo addListener Agrega los eventos a los botones
+	 * 
+	 * @return retorna un valor booleano
+	 */
 	@Override
 	public boolean addListener() {
 		try {
@@ -297,15 +365,21 @@ public class ControllerCar extends ControllerWindow {
 
 			return true;
 		} catch (Exception e) {
-			Messages.showError(e.getMessage());
+			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}
+	}// cierre mï¿½tod addListener
 
 	public void addScrollTable() {
 		// carGuiView.getScrollPaneTable().getVerticalScrollBar().addAdjustmentListener(scrollableTable);
 	}
 
+	/**
+	 * Mï¿½todo actionPerformed Controla las acciones que se realizan dentro de los
+	 * eventos de los botones.
+	 * 
+	 * @param e objeto de tipo ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == carGui.getBtnCancel()) {
@@ -325,18 +399,21 @@ public class ControllerCar extends ControllerWindow {
 			}
 		} else if (e.getSource() == carGui.getBtnDelete()) {
 			if (deleteRegistry()) {
-				Messages.showMessage("Eliminado");
+				Messages.showMessage(" Eliminado");
 			}
 		} else if (e.getSource() == carGui.getBtnInforme()) {
 			searchReport();
 		}
-	}
+	}// cierre mï¿½todo actionPerformed
 
+	/**
+	 * Mï¿½todo searchReport() Carga dos tipos de reporte "simple o avanzado".
+	 */
 	private void searchReport() {
 		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)" };
 		JFrame frame = new JFrame();
 
-		String index = (String) JOptionPane.showInputDialog(frame, "Qué reporte deseas ver?", "Formato de Reporte",
+		String index = (String) JOptionPane.showInputDialog(frame, "Quï¿½ reporte deseas ver?", "Formato de Reporte",
 				JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
 
 		if (index != null) {
@@ -364,15 +441,33 @@ public class ControllerCar extends ControllerWindow {
 			}
 		}
 
-	}
+	}// cierre mï¿½todo searchReport
 
+	/**
+	 * Archivo:ControllerCar.java contiene la definiciï¿½n de la clase
+	 * MauseClickedOnTable que extiende de MouseAdapter
+	 * 
+	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+	 *
+	 */
 	private class MauseClickedOnTable extends MouseAdapter {
+		// declaraciï¿½n de atributos
 		private ControllerCar controllerCar;
 
+		/**
+		 * Constructor con parï¿½metro
+		 * 
+		 * @param controllerCar objeto de tipo ControllerCar
+		 */
 		public MauseClickedOnTable(ControllerCar controllerCar) {
 			this.controllerCar = controllerCar;
 		}
-
+			
+		/**
+		 * Mï¿½todo mouseClicked Controla los eventos del mouse
+		 * 
+		 * @param evnt objeto de tipo MouseEvent
+		 */
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
 				this.controllerCar.indexSelectOnView = this.controllerCar.controllerViewCard.getSelectedRow();
@@ -380,11 +475,16 @@ public class ControllerCar extends ControllerWindow {
 				dtoCar = listCar.getOne(indexSelectOnView);
 				this.controllerCar.setDataOfView();
 			}
-		}
-	}
+		}// cierre mï¿½todo mouseClicked
+	}// cierre de clase MauseClickedOnTable
 
+	/**
+	 * Mï¿½todo getParametro
+	 * 
+	 * @return retorna un valor de tipo String
+	 */
 	public String getParametro() {
-		return JOptionPane.showInputDialog(null, "Ingresa Párametro de Busqueda");
-	}
+		return JOptionPane.showInputDialog(null, "Ingresa Pï¿½rametro de Busqueda");
+	}// cierre mï¿½todo getParametro
 
-}
+}// cierre clase ControllerCar
