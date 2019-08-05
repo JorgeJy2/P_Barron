@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -16,15 +17,15 @@ import gui.content.car.CarGuiView;
 import gui.dialogs.Messages;
 import model.dto.DtoCar;
 import model.list.ListCar;
-import model.list.ListPeople;
+
 import model.list.Listable;
+import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
 import report.ReportCar;
-import report.ReportPeople;
 import report.decoratorComponent.ReportFilterCar;
 
 /**
- * Archivo: ControllerCar.java contiene la definición de la clase ControllerCar
+ * Archivo: ControllerCar.java contiene la definiciï¿½n de la clase ControllerCar
  * y extiende de la clase ControllerWindow.
  * 
  * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -33,7 +34,7 @@ import report.decoratorComponent.ReportFilterCar;
  */
 
 public class ControllerCar extends ControllerWindow {
-	// declaración de atributos
+	// declaraciï¿½n de atributos
 	private CarContainerMainGui viewCar;
 	private CarGuiView carGuiView;
 	private CarGui carGui;
@@ -86,7 +87,7 @@ public class ControllerCar extends ControllerWindow {
 	}// cierre constructor
 
 	/**
-	 * Método saveRegistry(). Registra o modifica un carro.
+	 * Mï¿½todo saveRegistry(). Registra o modifica un carro.
 	 * 
 	 * @return retorna valor booleano
 	 */
@@ -122,10 +123,10 @@ public class ControllerCar extends ControllerWindow {
 
 		}
 		return false;
-	}// cierre método saveRegistry
+	}// cierre mï¿½todo saveRegistry
 
 	/**
-	 * Método filter(). Llama el método filterTable().
+	 * Mï¿½todo filter(). Llama el mï¿½todo filterTable().
 	 * 
 	 * @return retorna un valor booleano
 	 */
@@ -144,13 +145,13 @@ public class ControllerCar extends ControllerWindow {
 		 */
 		controllerViewCard.filterTable();
 		return true;
-	}// cierre método filter
+	}// cierre mï¿½todo filter
 
 	/**
-	 * Método updateRegistry(). Actualiza la tabla de los registros de car.
+	 * Mï¿½todo updateRegistry(). Actualiza la tabla de los registros de car.
 	 * 
 	 * @return retorna un valor booleano.
-	 * @exception Excepción de clase y de base de datos.
+	 * @exception Excepciï¿½n de clase y de base de datos.
 	 * 
 	 */
 	@Override
@@ -173,10 +174,10 @@ public class ControllerCar extends ControllerWindow {
 		}
 
 		return false;
-	}// cierre método update
+	}// cierre mï¿½todo update
 
 	/**
-	 * Método deleteRegistry(). Elimina un registro de la tabla Car.
+	 * Mï¿½todo deleteRegistry(). Elimina un registro de la tabla Car.
 	 * 
 	 * @return retorna un valor booleano
 	 * @exception Excepcion de clase y de base de datos.
@@ -198,18 +199,15 @@ public class ControllerCar extends ControllerWindow {
 			reloadData();
 			setDataOfView();
 			return true;
-		} catch (ClassNotFoundException e) {
-			Messages.showError("  " + e.getMessage());
-			return false;
-		} catch (SQLException e) {
-			Messages.showError("  " + e.getMessage());
+		} catch (ClassNotFoundException | SQLException e) {
+			Messages.showError(e.getMessage());
 			return false;
 		}
 
-	}// cierre método deleteRegistry
+	}// cierre mï¿½todo deleteRegistry
 
 	/**
-	 * Método getDataOfView
+	 * Mï¿½todo getDataOfView
 	 * 
 	 * @return retona un valor booleano.
 	 */
@@ -219,19 +217,19 @@ public class ControllerCar extends ControllerWindow {
 			if (validateFieldText(carGui.getTxtColor().getText())) {
 				dtoCar.setColor(carGui.getTxtColor().getText());
 			} else {
-				Messages.showError("  Campo Color invï¿½lido");
+				Messages.showError("Campo Color invï¿½lido");
 				return false;
 			}
 			if (validateFieldText(carGui.getTxtModelo().getText())) {
 				dtoCar.setModelo(carGui.getTxtModelo().getText());
 			} else {
-				Messages.showError("  Campo Modelo invï¿½lido");
+				Messages.showError("Campo Modelo invï¿½lido");
 				return false;
 			}
 			if (validateFieldText(carGui.getTxtPlaca().getText())) {
 				dtoCar.setPlaca(carGui.getTxtPlaca().getText());
 			} else {
-				Messages.showError("  Campo Placa invï¿½lido");
+				Messages.showError("Campo Placa invï¿½lido");
 				return false;
 			}
 			return true;
@@ -239,10 +237,10 @@ public class ControllerCar extends ControllerWindow {
 			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}// cierre método getDataOfView
+	}// cierre mï¿½todo getDataOfView
 
 	/**
-	 * Método validateFieldText().
+	 * Mï¿½todo validateFieldText().
 	 * 
 	 * @param text valor de tipo String
 	 * @return valor de retorno booleano
@@ -252,10 +250,10 @@ public class ControllerCar extends ControllerWindow {
 			return false;
 
 		return true;
-	}// cierre método validateFieldText
+	}// cierre mï¿½todo validateFieldText
 
 	/**
-	 * Método keyReleased
+	 * Mï¿½todo keyReleased
 	 * 
 	 * @param d de tipo KeyEvent
 	 */
@@ -277,10 +275,10 @@ public class ControllerCar extends ControllerWindow {
 			dtoCar = controllerViewCard.getDataSelect(indexSelectOnView);
 		}
 		updateRegistry();
-	}// cierre método keyReleased
+	}// cierre mï¿½todo keyReleased
 
 	/**
-	 * Método setDataOfView Envía los datos a la vista.
+	 * Mï¿½todo setDataOfView Envï¿½a los datos a la vista.
 	 * 
 	 * @return retorna un valor booleano
 	 */
@@ -307,10 +305,10 @@ public class ControllerCar extends ControllerWindow {
 			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}// cierre método setDataOfView
+	}// cierre mï¿½todo setDataOfView
 
 	/**
-	 * Método reloadData. Recarga los datos en la vista.
+	 * Mï¿½todo reloadData. Recarga los datos en la vista.
 	 * 
 	 * @return retorna un valor booleano
 	 */
@@ -338,7 +336,7 @@ public class ControllerCar extends ControllerWindow {
 		 * carGuiView.setModelTable(data);
 		 */
 		return true;
-	}// cierre método reloadData
+	}// cierre mï¿½todo reloadData
 
 	/*
 	 * public boolean reloadDataList() { String[][] data= new
@@ -351,7 +349,7 @@ public class ControllerCar extends ControllerWindow {
 	 */
 
 	/**
-	 * Método addListener Agrega los eventos a los botones
+	 * Mï¿½todo addListener Agrega los eventos a los botones
 	 * 
 	 * @return retorna un valor booleano
 	 */
@@ -370,14 +368,14 @@ public class ControllerCar extends ControllerWindow {
 			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}// cierre métod addListener
+	}// cierre mï¿½tod addListener
 
 	public void addScrollTable() {
 		// carGuiView.getScrollPaneTable().getVerticalScrollBar().addAdjustmentListener(scrollableTable);
 	}
 
 	/**
-	 * Método actionPerformed Controla las acciones que se realizan dentro de los
+	 * Mï¿½todo actionPerformed Controla las acciones que se realizan dentro de los
 	 * eventos de los botones.
 	 * 
 	 * @param e objeto de tipo ActionEvent
@@ -397,7 +395,7 @@ public class ControllerCar extends ControllerWindow {
 			}
 		} else if (e.getSource() == carGui.getBtnAdd()) {
 			if (saveRegistry()) {
-				Messages.showMessage(" Guardado");
+				Messages.showMessage("Guardado");
 			}
 		} else if (e.getSource() == carGui.getBtnDelete()) {
 			if (deleteRegistry()) {
@@ -406,61 +404,67 @@ public class ControllerCar extends ControllerWindow {
 		} else if (e.getSource() == carGui.getBtnInforme()) {
 			searchReport();
 		}
-	}// cierre método actionPerformed
+	}// cierre mï¿½todo actionPerformed
 
 	/**
-	 * Método searchReport() Carga dos tipos de reporte "simple o avanzado".
+	 * Mï¿½todo searchReport() Carga dos tipos de reporte "simple o avanzado".
 	 */
 	private void searchReport() {
 		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)" };
 		JFrame frame = new JFrame();
 
-		String index = (String) JOptionPane.showInputDialog(frame, "Qué reporte deseas ver?", "Formato de Reporte",
+		String index = (String) JOptionPane.showInputDialog(frame, "Quï¿½ reporte deseas ver?", "Formato de Reporte",
 				JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
 
-		FormatReport format = null;
-		boolean execute = false;
-		if (index.equalsIgnoreCase("Reporte Simple")) {
-			format = new ReportCar();
-			execute = true;
-		} else {
-			format = new ReportFilterCar(this, new ReportCar());
-			execute = true;
-		}
-		if (execute) {
-			try {
-				((ListCar) listCar).getReport(format);
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+		if (index != null) {
+			FormatReport format = null;
+			boolean execute = false;
+			if (index.equalsIgnoreCase("Reporte Simple")) {
+				format = new ReportCar();
+				execute = true;
+			} else {
+				format = new ReportFilterCar(this, new ReportCar());
+				execute = true;
+			}
+			if (execute) {
+
+				try {
+					try {
+						listCar.getReport(format);
+					} catch (net.sf.jasperreports.engine.JRRuntimeException es) {
+						Messages.showError(es.getLocalizedMessage());
+						System.out.println(es.getMessage());
+					}
+				} catch (ClassNotFoundException | SQLException | JRException | IOException e1) {
+					Messages.showError(e1.getLocalizedMessage());
+				}
 			}
 		}
 
-	}// cierre método searchReport
+	}// cierre mï¿½todo searchReport
 
 	/**
-	 * Archivo:ControllerCar.java contiene la definición de la clase
+	 * Archivo:ControllerCar.java contiene la definiciï¿½n de la clase
 	 * MauseClickedOnTable que extiende de MouseAdapter
 	 * 
 	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
 	 *
 	 */
 	private class MauseClickedOnTable extends MouseAdapter {
-		// declaración de atributos
+		// declaraciï¿½n de atributos
 		private ControllerCar controllerCar;
 
 		/**
-		 * Constructor con parámetro
+		 * Constructor con parï¿½metro
 		 * 
 		 * @param controllerCar objeto de tipo ControllerCar
 		 */
 		public MauseClickedOnTable(ControllerCar controllerCar) {
 			this.controllerCar = controllerCar;
 		}
-
+			
 		/**
-		 * Método mouseClicked Controla los eventos del mouse
+		 * Mï¿½todo mouseClicked Controla los eventos del mouse
 		 * 
 		 * @param evnt objeto de tipo MouseEvent
 		 */
@@ -471,16 +475,16 @@ public class ControllerCar extends ControllerWindow {
 				dtoCar = listCar.getOne(indexSelectOnView);
 				this.controllerCar.setDataOfView();
 			}
-		}// cierre método mouseClicked
+		}// cierre mï¿½todo mouseClicked
 	}// cierre de clase MauseClickedOnTable
 
 	/**
-	 * Método getParametro
+	 * Mï¿½todo getParametro
 	 * 
 	 * @return retorna un valor de tipo String
 	 */
 	public String getParametro() {
-		return JOptionPane.showInputDialog(null, "Ingresa Párametro de Busqueda");
-	}// cierre método getParametro
+		return JOptionPane.showInputDialog(null, "Ingresa Pï¿½rametro de Busqueda");
+	}// cierre mï¿½todo getParametro
 
 }// cierre clase ControllerCar

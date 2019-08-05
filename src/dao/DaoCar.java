@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
@@ -10,11 +11,11 @@ import java.util.List;
 
 import connection.PoolConnection;
 import model.dto.DtoCar;
+import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
-import report.ReportCar;
 
 /**
- * Archivo: DaoCar.java contiene la definición de la clase DaoCar que implementa
+ * Archivo: DaoCar.java contiene la definiciï¿½n de la clase DaoCar que implementa
  * DaoInterface.
  * 
  * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -23,7 +24,7 @@ import report.ReportCar;
  */
 
 public class DaoCar implements DaoInterface<DtoCar> {
-	// declaración de atributos
+	// declaraciï¿½n de atributos
 	private static final String _ADD = "INSERT INTO automovil(modelo,placa,color) VALUES (?,?,?) RETURNING id";
 	private static final String _UPDATE = "UPDATE automovil SET modelo = ? , placa = ?, color = ? WHERE id = ?";
 	private static final String _DELETE = "DELETE FROM automovil WHERE id = ?";
@@ -37,7 +38,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	private static final String _GET_FILTER = "SELECT id,modelo,placa,color FROM automovil WHERE UPPER(@)  LIKE # ORDER BY id DESC";
 
 	/**
-	 * Método add
+	 * Mï¿½todo add
 	 * 
 	 * @param dto objeto de tipo DtoCar
 	 * @return retorna un objeto
@@ -63,10 +64,10 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		preparedStatement.close();
 		connectionPostgresql.close();
 		return idAdded;
-	}// cierre método add
+	}// cierre mï¿½todo add
 
 	/**
-	 * Método update
+	 * Mï¿½todo update
 	 * 
 	 * @param dto objeto de tipo DtoCar
 	 * @return retorna un valor de tipo booleano
@@ -90,10 +91,10 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		connectionPostgresql.close();
 
 		return (resultUpdate > 0);
-	}// cierre método update
+	}// cierre mï¿½todo update
 
 	/**
-	 * Método delete
+	 * Mï¿½todo delete
 	 * 
 	 * @param key de tipo objeto
 	 * @return retorna valor de tipo booleano
@@ -113,10 +114,10 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		connectionPostgresql.close();
 
 		return (result > 0);
-	}// cierre método delete
+	}// cierre mï¿½todo delete
 
 	/**
-	 * Método get
+	 * Mï¿½todo get
 	 * 
 	 * @param key de tipo objeto
 	 * @return retorna un objeto de tipo DtoCar
@@ -149,10 +150,10 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		connectionPostgresql.close();
 
 		return resultDao;
-	}// cierre método get
+	}// cierre mï¿½todo get
 
 	/**
-	 * Método getAll
+	 * Mï¿½todo getAll
 	 * 
 	 * @return retorna un objeto de tipo Lista
 	 * @exception excepcion de tipo clase y base de datos
@@ -180,10 +181,10 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		connectionPostgresql.close();
 
 		return list;
-	}// cierre método getAll
+	}// cierre mï¿½todo getAll
 
 	/**
-	 * Método getPaginator
+	 * Mï¿½todo getPaginator
 	 * 
 	 * @param init valor de tipo entero
 	 * @param end  valor de tipo entero
@@ -219,7 +220,7 @@ public class DaoCar implements DaoInterface<DtoCar> {
 	}// cierre metodo getPaginator
 
 	/**
-	 * Método getFilter
+	 * Mï¿½todo getFilter
 	 * 
 	 * @param parameter valor de tipo String
 	 * @param value     valor de tipo String
@@ -246,21 +247,23 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		connectionPostgresql.close();
 
 		return list;
-	}// cierre método getFilter
+	}// cierre mï¿½todo getFilter
 
 	/**
-	 * Método generateReport
+	 * Mï¿½todo generateReport
 	 * 
 	 * @param format objeto de tipo FormatReport
 	 * @throws ClassNotFoundException excepcion de clase
 	 * @throws SQLException           excepcion de base de datos
+	 * @throws JRException 
+	 * @throws IOException 
 	 */
-	public void generateReport(FormatReport format) throws ClassNotFoundException, SQLException {
+	public void generateReport(FormatReport format) throws ClassNotFoundException, SQLException, JRException, IOException {
 		FormatReport reportPeople = format;
 		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
 		reportPeople.obtenerInforme();
 		reportPeople.compilarInforme();
 		reportPeople.MuestraInforme();
-	}// cierre método generateReport
+	}// cierre mï¿½todo generateReport
 
 }// cierre clase DaoCar

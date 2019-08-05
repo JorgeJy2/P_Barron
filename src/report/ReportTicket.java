@@ -11,21 +11,20 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
-public class ReportCar extends FormatReport {
+public class ReportTicket extends FormatReport {
 
-	private static final String REPORTE = "reporte.jasper";
+	private static final String REPORTE = "boleto.jasper";
 
 	@Override
 	public void obtenerInforme() throws JRException {
 		jasperPrint = JasperFillManager.fillReport("reports/" + REPORTE, null, conexion);
-
 	}
 
 	@Override
 	public void compilarInforme() throws JRException {
 		exportar = new JRPdfExporter();
 		exportar.setExporterInput(new SimpleExporterInput(jasperPrint));
-		exportar.setExporterOutput(new SimpleOutputStreamExporterOutput("reports/reporte.pdf"));
+		exportar.setExporterOutput(new SimpleOutputStreamExporterOutput("reports/boleto.pdf"));
 		conf = new SimplePdfExporterConfiguration();
 		exportar.setConfiguration(conf);
 		exportar.exportReport();
@@ -33,7 +32,7 @@ public class ReportCar extends FormatReport {
 
 	@Override
 	public void MuestraInforme() throws IOException {
-		File path = new File("reports/reporte.pdf");
+		File path = new File("reports/boleto.pdf");
 		Desktop.getDesktop().open(path);
 	}
 

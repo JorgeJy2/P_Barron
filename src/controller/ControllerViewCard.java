@@ -13,6 +13,7 @@ import java.util.concurrent.Executor;
 
 import javax.swing.JScrollBar;
 
+import controller.concurrente.ExecuterThread;
 import gui.content.car.CarGuiView;
 
 import gui.dialogs.Messages;
@@ -24,7 +25,7 @@ import model.list.Listable;
 import model.list.interador.Interator;
 
 /**
- * Archivo: ControllerViewCard.java contiene la definición de la clase
+ * Archivo: ControllerViewCard.java contiene la definiciï¿½n de la clase
  * ControllerViewCard.
  * 
  * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -32,12 +33,12 @@ import model.list.interador.Interator;
  *
  */
 public class ControllerViewCard {
-	// declaración de atributos
+	// declaraciï¿½n de atributos
 	private CarGuiView carGuiView;
 	private Listable<DtoCar> listCar;
 
 	/**
-	 * Constructor con parámetros
+	 * Constructor con parï¿½metros
 	 * 
 	 * @param carGuiView objeto de tipo CarGuiView
 	 * @param listCar    objeto de tipo Listable
@@ -51,7 +52,7 @@ public class ControllerViewCard {
 	}// cierre constructor
 
 	/**
-	 * Constructor con parámetro
+	 * Constructor con parï¿½metro
 	 * 
 	 * @param carGuiView objeto de tipo CarGuiView
 	 */
@@ -74,24 +75,24 @@ public class ControllerViewCard {
 	}// cierre constructor
 
 	/**
-	 * Método setKeyTable
+	 * Mï¿½todo setKeyTable
 	 * 
 	 * @param arg0 objeto de tipo KeyListener
 	 */
 	public void setKeyTable(KeyListener arg0) {
 		carGuiView.getTable().addKeyListener(arg0);
-	}// cierre método setKeyTable
+	}// cierre mï¿½todo setKeyTable
 
 	/**
-	 * Método seledtOneRowTable Selecciona una fila de la tabla
+	 * Mï¿½todo seledtOneRowTable Selecciona una fila de la tabla
 	 */
 	public void selectOneRowTable() {
 		carGuiView.getTable().setRowSelectionInterval(0, 0);
 		carGuiView.getScrollPaneTable().getViewport().setViewPosition(new Point(0, 0));
-	}// cierre método selectOneRowTable
+	}// cierre mï¿½todo selectOneRowTable
 
 	/**
-	 * Método filterTable Filtra la tabla Car
+	 * Mï¿½todo filterTable Filtra la tabla Car
 	 */
 	public void filterTable() {
 		try {
@@ -109,10 +110,10 @@ public class ControllerViewCard {
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
 		}
-	}// cierre método filterTable
+	}// cierre mï¿½todo filterTable
 
 	/**
-	 * Método updateTable Actualiza tabla
+	 * Mï¿½todo updateTable Actualiza tabla
 	 * 
 	 * @param car      objeto de tipo DtoCar
 	 * @param position variable de tipo entero
@@ -121,28 +122,28 @@ public class ControllerViewCard {
 		carGuiView.getTable().setValueAt(car.getModelo(), position, 0);
 		carGuiView.getTable().setValueAt(car.getPlaca(), position, 1);
 		carGuiView.getTable().setValueAt(car.getColor(), position, 2);
-	}// cierre método updateTable
+	}// cierre mï¿½todo updateTable
 
 	/**
-	 * Método getSelectedRow Obtiene la selección de una fila
+	 * Mï¿½todo getSelectedRow Obtiene la selecciï¿½n de una fila
 	 * 
 	 * @return retorna un valor entero
 	 */
 	public int getSelectedRow() {
 		return carGuiView.getTable().getSelectedRow();
-	}// cierre método getSelectedRow
+	}// cierre mï¿½todo getSelectedRow
 
 	/**
-	 * Método getLengthSelectedRows Obtiene la longitud de las filas
+	 * Mï¿½todo getLengthSelectedRows Obtiene la longitud de las filas
 	 * 
 	 * @return retorna un valor entero
 	 */
 	public int getLengthSelectedRows() {
 		return carGuiView.getTable().getSelectedRows().length;
-	}// cierre método getLengthSelectedRows
+	}// cierre mï¿½todo getLengthSelectedRows
 
 	/**
-	 * Método getDataSelect Obtiene la información seleccionada.
+	 * Mï¿½todo getDataSelect Obtiene la informaciï¿½n seleccionada.
 	 * 
 	 * @param position valor de tipo entero
 	 * @return retorna un objeto de tipo DtoCar
@@ -153,10 +154,10 @@ public class ControllerViewCard {
 		dtoCar.setPlaca(carGuiView.getTable().getValueAt(position, 1).toString());
 		dtoCar.setColor(carGuiView.getTable().getValueAt(position, 2).toString());
 		return dtoCar;
-	}// cierre método getDataSelect
+	}// cierre mï¿½todo getDataSelect
 
 	/**
-	 * Método reloadData Recarga los datos
+	 * Mï¿½todo reloadData Recarga los datos
 	 */
 	public void reloadData() {
 		String[][] data = new String[listCar.sizeDtos()][5];
@@ -169,28 +170,28 @@ public class ControllerViewCard {
 			data[pointerCar][2] = car.getColor();
 		}
 		carGuiView.setModelTable(data);
-	}// cierre método reloadData
+	}// cierre mï¿½todo reloadData
 
 	/**
-	 * Método setActionListener
+	 * Mï¿½todo setActionListener
 	 */
 	public void setActionListener() {
-		// TODO: Implementación lambda.
+		// TODO: Implementaciï¿½n lambda.
 		carGuiView.getBtnFilter().addActionListener((ActionEvent e) -> {
 			filterTable();
 		});
 
-	}// cierre método setActionListener
+	}// cierre mï¿½todo setActionListener
 
 	/**
-	 * Método addScroll Método que agrega un scroll
+	 * Mï¿½todo addScroll Mï¿½todo que agrega un scroll
 	 */
 	public void addScroll() {
 		carGuiView.getScrollPaneTable().getVerticalScrollBar().addAdjustmentListener(new ScrollableTable(this));
-	}// cierre método addScroll
+	}// cierre mï¿½todo addScroll
 
 	/**
-	 * Archivo: ControllerViewCard.java contiene la definición de la clase
+	 * Archivo: ControllerViewCard.java contiene la definiciï¿½n de la clase
 	 * ScrollableTable que implementa AdjustmentListener.
 	 * 
 	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -199,7 +200,7 @@ public class ControllerViewCard {
 	 */
 	// Inner Class Event to view
 	private class ScrollableTable implements AdjustmentListener {
-		// declaración de atributos
+		// declaraciï¿½n de atributos
 		private ControllerViewCard controllerCar;
 
 		/**
@@ -212,7 +213,7 @@ public class ControllerViewCard {
 		}// cierre constructor
 
 		/**
-		 * Método adjusmentValueChanged Ajusta la scrollbar dependiendo los valores.
+		 * Mï¿½todo adjusmentValueChanged Ajusta la scrollbar dependiendo los valores.
 		 * 
 		 * @param e objeto de tipo AdjustmentEvent
 		 */
@@ -227,10 +228,10 @@ public class ControllerViewCard {
 					System.out.println("llego al final");
 				}
 			}
-		}// cierre método adjustmentValueChanged
+		}// cierre mï¿½todo adjustmentValueChanged
 	}// cierre clase ScrollableTable
 
-	// Método loadNextCars
+	// Mï¿½todo loadNextCars
 	public void loadNextCars() {
 		Executor executor = new Executor() {
 			@Override
@@ -247,17 +248,17 @@ public class ControllerViewCard {
 				Messages.showError(" " + e.getLocalizedMessage());
 			}
 		});
-	}// cierre método loadNextCars
+	}// cierre mï¿½todo loadNextCars
 
 	/**
-	 * Método clearSelection Limpia la selección.
+	 * Mï¿½todo clearSelection Limpia la selecciï¿½n.
 	 */
 	public void clearSelection() {
 		carGuiView.getTable().clearSelection();
-	}// cierre método clearSelection
+	}// cierre mï¿½todo clearSelection
 
 	/**
-	 * Método setClicTable Escucha cuando se da clic a la tabla
+	 * Mï¿½todo setClicTable Escucha cuando se da clic a la tabla
 	 * 
 	 * @param mousAdapter
 	 */

@@ -7,6 +7,7 @@ import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.concurrent.Executor;
 
@@ -19,12 +20,13 @@ import gui.dialogs.Messages;
 import model.dto.DtoPeople;
 import model.list.ListPeople;
 import model.list.interador.Interator;
+import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
 import report.ReportPeople;
 import report.decoratorComponent.ReportFilterPeople;
 
 /**
- * Archivo: ControllerPeople.java contiene la definición de la clase
+ * Archivo: ControllerPeople.java contiene la definiciï¿½n de la clase
  * ControllerPeople y extiende de la clase ControllerWindow.
  * 
  * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -32,7 +34,7 @@ import report.decoratorComponent.ReportFilterPeople;
  *
  */
 public class ControllerPeople extends ControllerWindow {
-//declaración de atributos
+//declaraciï¿½n de atributos
 	private PeopleContainerMainGui view;
 
 	private ListPeople listPeople;
@@ -46,7 +48,7 @@ public class ControllerPeople extends ControllerWindow {
 	private boolean newRegistry;
 
 	/**
-	 * Constructor ControllerPeople con parámetro
+	 * Constructor ControllerPeople con parï¿½metro
 	 * 
 	 * @param view objeto de tipo PeopleContainerMainGui
 	 */
@@ -72,7 +74,7 @@ public class ControllerPeople extends ControllerWindow {
 	}// cierre constructor
 
 	/**
-	 * Método reloadDataList Obtiene los datos de la lista.
+	 * Mï¿½todo reloadDataList Obtiene los datos de la lista.
 	 * 
 	 * @return retorna un valor booleano
 	 */
@@ -93,10 +95,10 @@ public class ControllerPeople extends ControllerWindow {
 		view.getPeopleGuiView().getTable().addMouseListener(mauseClickedOnTable);
 		return true;
 
-	}// cierre método reloadDataList
+	}// cierre mï¿½todo reloadDataList
 
 	/**
-	 * Método saveRegistry Guarda o modifica los datos de People.
+	 * Mï¿½todo saveRegistry Guarda o modifica los datos de People.
 	 * 
 	 * @return retorna un valor booleano
 	 */
@@ -128,10 +130,10 @@ public class ControllerPeople extends ControllerWindow {
 
 		}
 		return false;
-	}// cierre método saveRegistry
+	}// cierre mï¿½todo saveRegistry
 
 	/**
-	 * Método filter Filtrar los datos de la lista People.
+	 * Mï¿½todo filter Filtrar los datos de la lista People.
 	 * 
 	 * @return retorna valor booleano
 	 */
@@ -159,10 +161,10 @@ public class ControllerPeople extends ControllerWindow {
 			Messages.showError(e.getLocalizedMessage());
 			return false;
 		}
-	}// cierre método filter
+	}// cierre mï¿½todo filter
 
 	/**
-	 * Método updateRegistry Actualiza un valor de tipo People.
+	 * Mï¿½todo updateRegistry Actualiza un valor de tipo People.
 	 * 
 	 * @return retorna un valor de tipo booleano.
 	 */
@@ -186,10 +188,10 @@ public class ControllerPeople extends ControllerWindow {
 		}
 
 		return false;
-	}// cierre métod updateRegistry
+	}// cierre mï¿½tod updateRegistry
 
 	/**
-	 * Método deleteRegistry Elimina un registro de la lista People.
+	 * Mï¿½todo deleteRegistry Elimina un registro de la lista People.
 	 * 
 	 * @return retorna un valor booleano.
 	 */
@@ -214,10 +216,10 @@ public class ControllerPeople extends ControllerWindow {
 			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}// cierre método deleteRegistry
+	}// cierre mï¿½todo deleteRegistry
 
 	/**
-	 * Método getDataOfView Obtiene los datos de la vista.
+	 * Mï¿½todo getDataOfView Obtiene los datos de la vista.
 	 * 
 	 * @return retorna un valor booleano.
 	 */
@@ -227,32 +229,32 @@ public class ControllerPeople extends ControllerWindow {
 			if (validateFieldText(view.getPeopleGui().getTxtName().getText())) {
 				dtoPeople.setName(view.getPeopleGui().getTxtName().getText());
 			} else {
-				Messages.showError("  Campo Nombre inválido");
+				Messages.showError("  Campo Nombre invï¿½lido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtFirsName().getText())) {
 				dtoPeople.setFirstName(view.getPeopleGui().getTxtFirsName().getText());
 			} else {
-				Messages.showError("  Campo Apellido Paterno inválido");
+				Messages.showError("  Campo Apellido Paterno invï¿½lido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtLastName().getText())) {
 				dtoPeople.setLastName(view.getPeopleGui().getTxtLastName().getText());
 			} else {
-				Messages.showError("  Campo Apellido Materno inválido");
+				Messages.showError("  Campo Apellido Materno invï¿½lido");
 				return false;
 			}
 
 			if (validateFieldText(view.getPeopleGui().getTxtEmail().getText())) {
 				dtoPeople.setEmail(view.getPeopleGui().getTxtEmail().getText());
 			} else {
-				Messages.showError("  Campo  Correo inválido¿½lido");
+				Messages.showError("  Campo  Correo invï¿½lidoï¿½ï¿½lido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtTelephone().getText())) {
 				dtoPeople.setTelephone(view.getPeopleGui().getTxtTelephone().getText());
 			} else {
-				Messages.showError("  Campo Télefono inválido");
+				Messages.showError("  Campo Tï¿½lefono invï¿½lido");
 				return false;
 			}
 			return true;
@@ -260,10 +262,10 @@ public class ControllerPeople extends ControllerWindow {
 			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}// cierre método getDataOfView
+	}// cierre mï¿½todo getDataOfView
 
 	/**
-	 * Método validateFieldText Valida el texto de los campos
+	 * Mï¿½todo validateFieldText Valida el texto de los campos
 	 * 
 	 * @param text valor de tipo String
 	 * @return retorna un valor booleano
@@ -273,10 +275,10 @@ public class ControllerPeople extends ControllerWindow {
 			return false;
 
 		return true;
-	}// cierre método validateFieldText
+	}// cierre mï¿½todo validateFieldText
 
 	/**
-	 * Método setDataOfView Envia los datos a la vista.
+	 * Mï¿½todo setDataOfView Envia los datos a la vista.
 	 * 
 	 * @return retorna un valor booleano.
 	 */
@@ -307,10 +309,10 @@ public class ControllerPeople extends ControllerWindow {
 			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}// cierre método setDataOfView
+	}// cierre mï¿½todo setDataOfView
 
 	/**
-	 * Método reloadData Recarga los datos a la vista.
+	 * Mï¿½todo reloadData Recarga los datos a la vista.
 	 * 
 	 * @return retorna un valor booleano.
 	 */
@@ -334,10 +336,10 @@ public class ControllerPeople extends ControllerWindow {
 
 		return true;
 
-	}// cierre método reloadData
+	}// cierre mï¿½todo reloadData
 
 	/**
-	 * Método keyReleased Evento del teclado
+	 * Mï¿½todo keyReleased Evento del teclado
 	 */
 	@Override
 	public void keyReleased(KeyEvent d) {
@@ -351,10 +353,10 @@ public class ControllerPeople extends ControllerWindow {
 			dtoPeople.setTelephone(view.getPeopleGuiView().getTable().getValueAt(indexSelectOnView, 4).toString());
 		}
 		updateRegistry();
-	}// cierre método keyReleased
+	}// cierre mï¿½todo keyReleased
 
 	/**
-	 * Método actionPerformed Realiza las acciones de cada evento de los botones.
+	 * Mï¿½todo actionPerformed Realiza las acciones de cada evento de los botones.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -381,40 +383,47 @@ public class ControllerPeople extends ControllerWindow {
 		} else if (e.getSource() == view.getPeopleGui().getBtnInforme()) {
 			searchReport();
 		}
-	}// cierre método actionPerformed
+	}// cierre mï¿½todo actionPerformed
 
 	/**
-	 * Cierre método searchReport Carga el reporte "simple o avanzado".
+	 * Cierre mï¿½todo searchReport Carga el reporte "simple o avanzado".
 	 */
 	private void searchReport() {
 		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)" };
 		JFrame frame = new JFrame();
 
-		String index = (String) JOptionPane.showInputDialog(frame, "Qué reporte deseas ver?", "Formato de Reporte",
+		String index = (String) JOptionPane.showInputDialog(frame, "Quï¿½ reporte deseas ver?", "Formato de Reporte",
 				JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+		if (index != null) {
+			FormatReport format = null;
+			boolean execute = false;
+			if (index.equalsIgnoreCase("Reporte Simple")) {
+				format = new ReportPeople();
+				execute = true;
+			} else {
+				format = new ReportFilterPeople(this, new ReportPeople());
+				execute = true;
+			}
+			if (execute) {
 
-		FormatReport format = null;
-		boolean execute = false;
-		if (index.equalsIgnoreCase("Reporte Simple")) {
-			format = new ReportPeople();
-			execute = true;
-		} else {
-			format = new ReportFilterPeople(this, new ReportPeople());
-			execute = true;
-		}
-		if (execute) {
-			try {
-				((ListPeople) listPeople).getReport(format);
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+				try {
+					try {
+						listPeople.getReport(format);
+					} catch (net.sf.jasperreports.engine.JRRuntimeException es) {
+						Messages.showError(es.getLocalizedMessage());
+						System.out.println(es.getMessage());
+					}
+				} catch (ClassNotFoundException | SQLException | JRException | IOException e1) {
+					System.out.println("Error.....");
+					Messages.showError(e1.getLocalizedMessage());
+				}
 			}
 		}
-	}// cierre método searchReport
+
+	}
 
 	/**
-	 * Método addListener Escuha los eventos de los botones.
+	 * Mï¿½todo addListener Escuha los eventos de los botones.
 	 * 
 	 * @return retorna un valor booleano.
 	 */
@@ -431,17 +440,17 @@ public class ControllerPeople extends ControllerWindow {
 			Messages.showError("  " + e.getMessage());
 			return false;
 		}
-	}// cierre método addListener
+	}// cierre mï¿½todo addListener
 
 	/**
-	 * Método addScrollTable Agrega un scroll a la tabla.
+	 * Mï¿½todo addScrollTable Agrega un scroll a la tabla.
 	 */
 	public void addScrollTable() {
 		view.getPeopleGuiView().getScrollPaneTable().getVerticalScrollBar().addAdjustmentListener(scrollableTable);
-	}// cierre método addScrollTable
+	}// cierre mï¿½todo addScrollTable
 
 	/**
-	 * Método loadNextCars Carga los datos del carro que pertenece a People
+	 * Mï¿½todo loadNextCars Carga los datos del carro que pertenece a People
 	 */
 	public void loadNextCars() {
 		Executor executor = new Executor() {
@@ -459,11 +468,11 @@ public class ControllerPeople extends ControllerWindow {
 				Messages.showError(" " + e.getLocalizedMessage());
 			}
 		});
-	}// cierre método loadNextCars
+	}// cierre mï¿½todo loadNextCars
 
 //Inner Class Event to view
 	/**
-	 * Archivo: ControllerPeople.java contiene la definición de la clase
+	 * Archivo: ControllerPeople.java contiene la definiciï¿½n de la clase
 	 * MauseClickedOnTable que extiende de MouseAdapter.
 	 * 
 	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -471,11 +480,11 @@ public class ControllerPeople extends ControllerWindow {
 	 *
 	 */
 	private class MauseClickedOnTable extends MouseAdapter {
-		// declaración de atributos
+		// declaraciï¿½n de atributos
 		private ControllerPeople controllerPeople;
 
 		/**
-		 * Constructor con parámetro
+		 * Constructor con parï¿½metro
 		 * 
 		 * @param controllerPeople objeto de tipo ControllerPeople
 		 */
@@ -484,7 +493,7 @@ public class ControllerPeople extends ControllerWindow {
 		}
 
 		/**
-		 * Método mouseClicked Controla los eventos del mouse
+		 * Mï¿½todo mouseClicked Controla los eventos del mouse
 		 * 
 		 * @param evnt objeto de tipo MouseEvent
 		 */
@@ -500,7 +509,7 @@ public class ControllerPeople extends ControllerWindow {
 	}// cierre clase MauseClickedOnTable
 
 	/**
-	 * Archivo: ControllerPeople.java que contiene la definición de la clase
+	 * Archivo: ControllerPeople.java que contiene la definiciï¿½n de la clase
 	 * ScrollableTable que implementa de AdjustmentListener.
 	 * 
 	 * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -508,11 +517,11 @@ public class ControllerPeople extends ControllerWindow {
 	 *
 	 */
 	private class ScrollableTable implements AdjustmentListener {
-		// declaración de atributo
+		// declaraciï¿½n de atributo
 		private ControllerPeople controller;
 
 		/**
-		 * Constructor con parámetro
+		 * Constructor con parï¿½metro
 		 * 
 		 * @param controller objeto de tipo ControllerPeople
 		 */
@@ -521,7 +530,7 @@ public class ControllerPeople extends ControllerWindow {
 		}// cierre constructor
 
 		/**
-		 * Método adjustmentValueChanged
+		 * Mï¿½todo adjustmentValueChanged
 		 * 
 		 * @param e objeto de tipo AdjustmentEvent
 		 */
@@ -536,16 +545,16 @@ public class ControllerPeople extends ControllerWindow {
 					controller.loadNextCars();
 				}
 			}
-		}// cierre método adjustmentValueChanged
+		}// cierre mï¿½todo adjustmentValueChanged
 	}// cierre clase ScrollableTable
 
 	/**
-	 * Método getParametro
+	 * Mï¿½todo getParametro
 	 * 
 	 * @return retorna un valor de tipo String
 	 */
 	public String getParametro() {
-		return JOptionPane.showInputDialog(null, "Ingresa Digitos de una placa para búsqueda");
-	}// cierre método getParametro
+		return JOptionPane.showInputDialog(null, "Ingresa Digitos de una placa para bï¿½squeda");
+	}// cierre mï¿½todo getParametro
 
 }// cierre clase ControllerPeople

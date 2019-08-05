@@ -1,20 +1,20 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 import connection.PoolConnection;
 import model.dto.DtoPeople;
+import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
-import report.Report;
-import report.ReportPeople;
+
 
 /**
- * Archivo: DaoPeople.java contiene la definición de la clase DaoPeople que
+ * Archivo: DaoPeople.java contiene la definiciï¿½n de la clase DaoPeople que
  * implementa DaoInterface.
  * 
  * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -22,7 +22,7 @@ import report.ReportPeople;
  *
  */
 public class DaoPeople implements DaoInterface<DtoPeople> {
-	// declaración de atributos
+	// declaraciï¿½n de atributos
 	private static final String _ADD = "INSERT INTO persona (nombre,apellido_paterno,apellido_materno,telefono,correo) VALUES (?,?,?,?,?) RETURNING id";
 	private static final String _GET_ONE = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona WHERE id=?";
 	private static final String _GET_ALL = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona  ";
@@ -36,9 +36,9 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	private static final String _UPDATE = "UPDATE persona SET nombre=?,apellido_paterno=?,apellido_materno=?,telefono=?,correo=? WHERE id= ?";
 	private static final String _GET_FILTER = "SELECT id,nombre,apellido_paterno,apellido_materno,telefono,correo FROM persona WHERE UPPER(@)  LIKE # ORDER BY id DESC";
 
-	// Métodos implementados de la interface DaoInterface
+	// Mï¿½todos implementados de la interface DaoInterface
 	/**
-	 * Método add
+	 * Mï¿½todo add
 	 * 
 	 * @param dto objeto de tipo DtoPeople
 	 * @return retorna un objeto
@@ -65,10 +65,10 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		preparedStatement.close();
 		connectionPostgresql.close();
 		return idResult;
-	}// cierre método add
+	}// cierre mï¿½todo add
 
 	/**
-	 * Método update
+	 * Mï¿½todo update
 	 * 
 	 * @param dto objeto de tipo DtoPeople
 	 * @return retorna un valor de tipo booleano
@@ -91,10 +91,10 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		connectionPostgresql.close();
 
 		return (tuplasChange > 0);
-	}// cierre método update
+	}// cierre mï¿½todo update
 
 	/**
-	 * Método delete
+	 * Mï¿½todo delete
 	 * 
 	 * @param key de tipo objeto
 	 * @return retorna valor de tipo booleano
@@ -112,10 +112,10 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		connectionPostgresql.close();
 
 		return (result > 0);
-	}// cierre método delete
+	}// cierre mï¿½todo delete
 
 	/**
-	 * Método get
+	 * Mï¿½todo get
 	 * 
 	 * @param key de tipo objeto
 	 * @return retorna un objeto de tipo DtoCar
@@ -144,10 +144,10 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		preparedStatement.close();
 		connectionPostgresql.close();
 		return dtoPeople;
-	}// cierre método get
+	}// cierre mï¿½todo get
 
 	/**
-	 * Método getAll
+	 * Mï¿½todo getAll
 	 * 
 	 * @return retorna un objeto de tipo Lista
 	 * @exception excepcion de tipo clase y base de datos
@@ -182,10 +182,10 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		connectionPostgresql.close();
 
 		return listPeople;
-	}// cierre método getAll
+	}// cierre mï¿½todo getAll
 
 	/**
-	 * Método getPaginator
+	 * Mï¿½todo getPaginator
 	 * 
 	 * @param init valor de tipo entero
 	 * @param end  valor de tipo entero
@@ -224,10 +224,10 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		connectionPostgresql.close();
 
 		return listPeople;
-	}// cierre método getPaginator
+	}// cierre mï¿½todo getPaginator
 
 	/**
-	 * Método getFilter
+	 * Mï¿½todo getFilter
 	 * 
 	 * @param parameter valor de tipo String
 	 * @param value     valor de tipo String
@@ -255,20 +255,22 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		preparedStatement.close();
 		connectionPostgresql.close();
 		return list;
-	}// cierre método getFilter
+	}// cierre mï¿½todo getFilter
 
 	/**
-	 * Método generateReport
+	 * Mï¿½todo generateReport
 	 * 
 	 * @param format objeto de tipo FormatReport
 	 * @throws ClassNotFoundException excepcion de clase
 	 * @throws SQLException           excepcion de base de datos
+	 * @throws IOException 
+	 * @throws JRException 
 	 */
-	public void generateReport(FormatReport format) throws ClassNotFoundException, SQLException {
+	public void generateReport(FormatReport format) throws ClassNotFoundException, SQLException, IOException, JRException {
 		FormatReport reportPeople = format;
 		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
 		reportPeople.obtenerInforme();
 		reportPeople.compilarInforme();
 		reportPeople.MuestraInforme();
-	}// cierre método generateReport
+	}// cierre mï¿½todo generateReport
 }// cierre clase DaoPeople

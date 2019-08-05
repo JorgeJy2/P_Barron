@@ -1,49 +1,126 @@
 package gui.dialogs;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.BorderLayout;
 
+import java.awt.Container;
+
+import java.awt.FlowLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+
+import gui.resource.ResourcesGui;
 
 public class Messages {
 
-	public static void showMessage(String msg){
-		 ImageIcon icon = new ImageIcon("imgs/como.png");
-	        JPanel panel = new JPanel();
-	        panel.setBackground(new Color(102, 205, 130));
-	        panel.setSize(new Dimension(400, 100));
-	        panel.setLayout(null);
+	private static final String PATH_IMG_ERR = "imgs/aversion.png";
+	private static final String TITLE_ERR = "¡Lo sentimos ocurrió un error!";
+	private static final String I_UNDESTAND = "Entiendo";
 
-	        JLabel label = new JLabel(msg);
-	        label.setBounds(0, 0, 400, 64);
-	        label.setFont(new Font("Arial", Font.BOLD, 11));
-	        label.setHorizontalAlignment(SwingConstants.CENTER);
-	        panel.add(label);
-	        UIManager.put("OptionPane.minimumSize",new Dimension(400, 100));        
-	        JOptionPane.showMessageDialog(null, panel, "Información", JOptionPane.INFORMATION_MESSAGE, icon);
-	}
-	
-	public static void showError(String msg){
-		msg=msg+"\r\n please read load File.";
-		 ImageIcon icon = new ImageIcon("imgs/aversion.png");
-	        JPanel panel = new JPanel();
-	        panel.setBackground(new Color(255, 0, 0));
-	        panel.setSize(new Dimension(240, 100));
-	        panel.setLayout(null);
-	        JLabel label = new JLabel(msg);
-	        label.setBounds(0, 0, 260, 60);
-	        label.setFont(new Font("Arial", Font.BOLD, 11));
-	        label.setHorizontalAlignment(SwingConstants.HORIZONTAL);
-	        panel.add(label);
-	        UIManager.put("OptionPane.minimumSize",new Dimension(350, 100));        
-	        JOptionPane.showMessageDialog(null, panel, "Información de ERROR", JOptionPane.ERROR_MESSAGE, icon);
+	private static final String PATH_IMG_INFO = "imgs/como.png";
+	private static final String TITLE_INFO = "Información";
+
+	public static void showMessage(String msg) {
+
+		JDialog dialog = new JDialog(new JFrame(), TITLE_INFO);
+
+		dialog.setBackground(ResourcesGui.COLOR.getSecondColor());
+
+		JPanel topLeft = new JPanel();
+		topLeft.setBackground(ResourcesGui.COLOR.getSecondColor());
+		topLeft.setLayout(new FlowLayout(FlowLayout.LEFT));
+		topLeft.add(new JLabel(new ImageIcon(PATH_IMG_INFO)));
+
+		JPanel topRight = new JPanel();
+		topRight.setBackground(ResourcesGui.COLOR.getSecondColor());
+		topRight.setLayout(new BorderLayout());
+		topRight.add(new JLabel(msg, JLabel.CENTER), BorderLayout.EAST);
+
+		JPanel top = new JPanel();
+		top.setBackground(ResourcesGui.COLOR.getSecondColor());
+		top.setLayout(new BorderLayout(25, 0));
+		top.add(topLeft, BorderLayout.WEST);
+		top.add(topRight, BorderLayout.EAST);
+
+		JButton button = new JButton(I_UNDESTAND);
+		// TODO: Lambdas.
+		button.addActionListener((ae) -> dialog.setVisible(false));
+
+		button.setBackground(ResourcesGui.COLOR.getPrimaryColor());
+
+		button.setForeground(ResourcesGui.COLOR.getSecondColor());
+
+		JPanel dialogPanel = new JPanel();
+		dialogPanel.setBackground(ResourcesGui.COLOR.getSecondColor());
+
+		dialogPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 10));
+
+		dialogPanel.setLayout(new BorderLayout());
+		dialogPanel.add(top, BorderLayout.NORTH);
+		dialogPanel.add(button, BorderLayout.SOUTH);
+		Container cp = dialog.getContentPane();
+
+		cp.add(dialogPanel);
+
+		dialog.setResizable(false);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
 
 	}
-	
+
+	public static void showError(String msg) {
+
+		JDialog dialog = new JDialog(new JFrame(), TITLE_ERR);
+
+		dialog.setBackground(ResourcesGui.COLOR.getSecondColor());
+
+		JPanel topLeft = new JPanel();
+		topLeft.setBackground(ResourcesGui.COLOR.getSecondColor());
+		topLeft.setLayout(new FlowLayout(FlowLayout.LEFT));
+		topLeft.add(new JLabel(new ImageIcon(PATH_IMG_ERR)));
+
+		JPanel topRight = new JPanel();
+		topRight.setBackground(ResourcesGui.COLOR.getSecondColor());
+		topRight.setLayout(new BorderLayout());
+		topRight.add(new JLabel(msg, JLabel.CENTER), BorderLayout.EAST);
+
+		JPanel top = new JPanel();
+		top.setBackground(ResourcesGui.COLOR.getSecondColor());
+		top.setLayout(new BorderLayout(25, 0));
+		top.add(topLeft, BorderLayout.WEST);
+		top.add(topRight, BorderLayout.EAST);
+
+		JButton button = new JButton(I_UNDESTAND);
+		// TODO: Lambdas.
+		button.addActionListener((ae) -> dialog.setVisible(false));
+
+		button.setBackground(ResourcesGui.COLOR.getWaringColor());
+
+		button.setForeground(ResourcesGui.COLOR.getSecondColor());
+
+		JPanel dialogPanel = new JPanel();
+		dialogPanel.setBackground(ResourcesGui.COLOR.getSecondColor());
+
+		dialogPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 10));
+
+		dialogPanel.setLayout(new BorderLayout());
+		dialogPanel.add(top, BorderLayout.NORTH);
+		dialogPanel.add(button, BorderLayout.SOUTH);
+		Container cp = dialog.getContentPane();
+
+		cp.add(dialogPanel);
+
+		dialog.setResizable(false);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+
+	}
+
 }

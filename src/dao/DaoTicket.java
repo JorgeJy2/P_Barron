@@ -1,19 +1,20 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import connection.PoolConnection;
 import model.dto.DtoTicket;
+import net.sf.jasperreports.engine.JRException;
+import report.FormatReport;
 
 /**
- * Archivo: DaoTicket.java contiene la definición de la clase DaoTicket que
+ * Archivo: DaoTicket.java contiene la definiciï¿½n de la clase DaoTicket que
  * implementa DaoInterface.
  * 
  * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
@@ -21,7 +22,7 @@ import model.dto.DtoTicket;
  *
  */
 public class DaoTicket implements DaoInterface<DtoTicket> {
-	// declaración de atributos
+	// declaraciï¿½n de atributos
 	private static final String _ADD = "INSERT INTO boleto (id_auto,id_persona) VALUES (?,?) RETURNING id";
 
 	/*
@@ -40,18 +41,21 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 
 	private static final String _GET_ALL = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id "
 			+ "inner join automovil on boleto.id_auto = automovil.id ORDER BY boleto.id DESC";
+	
+	
+	
+	
+	private static final String _GET_ONE = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.id = ? ORDER BY boleto.id DESC";	
 
-	private static final String _GET_ONE = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.id = ? ORDER BY boleto.id DESC";
-
-	private static final String _GET_FILTER = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.@ LIKE # ORDER BY boleto.id DESC";
-
+	//private static final String _GET_FILTER = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.@ LIKE # ORDER BY boleto.id DESC";
+	
 	private static final String _GET_FILTER_ = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id ";
 
 	private static final String _UPDATE = "UPDATE boleto SET fecha_salida = now(),total_pago = ?,estatus = CAST(? AS estatus_boleto) WHERE id = ?";
 	private static final String _DELETE = "DELETE FROM boleto WHERE id = ?";
 
 	/**
-	 * Método add
+	 * Mï¿½todo add
 	 * 
 	 * @param dto objeto de tipo DtoTicket
 	 * @return retorna un objeto
@@ -78,10 +82,10 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		connectionPostgresql.close();
 
 		return resultId;
-	}// cierre método add
+	}// cierre mï¿½todo add
 
 	/**
-	 * Método update
+	 * Mï¿½todo update
 	 * 
 	 * @param dto objeto de tipo DtoTicket
 	 * @return retorna un valor de tipo booleano
@@ -103,10 +107,10 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		preparedStatement.close();
 		connectionPostgresql.close();
 		return (resultUpdate > 0);
-	}// cierre método update
+	}// cierre mï¿½todo update
 
 	/**
-	 * Método delete
+	 * Mï¿½todo delete
 	 * 
 	 * @param key de tipo objeto
 	 * @return retorna valor de tipo booleano
@@ -121,10 +125,10 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		preparedStatement.close();
 		connectionPostgresql.close();
 		return (resultDelete > 0);
-	}// cierre método delete
+	}// cierre mï¿½todo delete
 
 	/**
-	 * Método get
+	 * Mï¿½todo get
 	 * 
 	 * @param key de tipo objeto
 	 * @return retorna un objeto de tipo DtoCar
@@ -157,10 +161,10 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		connectionPostgresql.close();
 
 		return dtoTicket;
-	}// cierre método get
+	}// cierre mï¿½todo get
 
 	/**
-	 * Método getAll
+	 * Mï¿½todo getAll
 	 * 
 	 * @return retorna un objeto de tipo Lista
 	 * @exception excepcion de tipo clase y base de datos
@@ -199,10 +203,10 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		connectionPostgresql.close();
 
 		return listaBoleto;
-	}// cierre método getAll
+	}// cierre mï¿½todo getAll
 
 	/**
-	 * Método getPaginator
+	 * Mï¿½todo getPaginator
 	 * 
 	 * @param init valor de tipo entero
 	 * @param end  valor de tipo entero
@@ -240,10 +244,10 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 
 		return listaBoleto;
 
-	}// cierre método getPaginator
+	}// cierre mï¿½todo getPaginator
 
 	/**
-	 * Método getFilter
+	 * Mï¿½todo getFilter
 	 * 
 	 * @param parameter valor de tipo String
 	 * @param value     valor de tipo String
@@ -296,6 +300,14 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		connectionPostgresql.close();
 
 		return listaBoleto;
-	}// cierre método getFilter
+	}// cierre mï¿½todo getFilter
 
-}// cierre clase DaoTicket
+	@Override
+	public void generateReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException { 
+		FormatReport reportPeople = format; 
+		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
+		reportPeople.obtenerInforme();
+		reportPeople.compilarInforme();
+		reportPeople.MuestraInforme();
+	}
+}

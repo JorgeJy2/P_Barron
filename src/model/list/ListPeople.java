@@ -1,11 +1,10 @@
 package model.list;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
- 
 import dao.DaoInterface;
 import dao.DaoPeople;
 import dao.SaveErrosDao; 
@@ -15,6 +14,7 @@ import model.list.interador.DaoInteractor;
 import model.list.interador.Interator;
 import model.list.paginator.Paginator;
 import model.list.paginator.PaginatorDao;
+import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
 
 public class ListPeople implements Listable<DtoPeople> {
@@ -168,9 +168,9 @@ public class ListPeople implements Listable<DtoPeople> {
 	}
 	
 	 
-	
-	public boolean getReport(FormatReport format) throws ClassNotFoundException, SQLException { 
-		((DaoPeople) _daoPeople).generateReport(format); 
+	@Override
+	public boolean getReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException { 
+		_daoPeople.generateReport(format); 
 		return true;
 	}
 }

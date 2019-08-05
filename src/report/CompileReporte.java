@@ -15,24 +15,25 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class CompileReporte {
 
-//	public static void excecuteReport(Connection conexion,String name) { 
-//			try {		
-//					JasperPrint  jasperPrint = JasperFillManager.fillReport(
-//							"reports/"+name, null,
-//							conexion);
-//					JRPdfExporter exp = new JRPdfExporter();
-//					exp.setExporterInput(new SimpleExporterInput(jasperPrint));
-//					exp.setExporterOutput(new SimpleOutputStreamExporterOutput("reporte.pdf"));
-//					SimplePdfExporterConfiguration conf = new SimplePdfExporterConfiguration();
-//					exp.setConfiguration(conf);
-//					exp.exportReport(); 
-//					JasperPrint jasperPrintWindow; 
-//						jasperPrintWindow = JasperFillManager.fillReport(
-//								"reports/"+name, null,conexion);
-//					JasperViewer jasperViewer = new JasperViewer(jasperPrintWindow,false);
-//					jasperViewer.setVisible(true);	 
-//				} catch (JRException e) {
-//				JOptionPane.showMessageDialog(null, e.getMessage());
-//				} 
-//	}
+	public static void excecuteReport(Connection conexion,String name) { 
+			try {		
+					JasperPrint  jasperPrint = JasperFillManager.fillReport(
+							"reports/"+name, null,
+							conexion);
+					
+					JRPdfExporter exp = new JRPdfExporter();
+					exp.setExporterInput(new SimpleExporterInput(jasperPrint));
+					exp.setExporterOutput(new SimpleOutputStreamExporterOutput("reporte.pdf"));
+					SimplePdfExporterConfiguration conf = new SimplePdfExporterConfiguration();
+					exp.setConfiguration(conf);
+					exp.exportReport(); 
+					JasperPrint jasperPrintWindow; 
+						jasperPrintWindow = JasperFillManager.fillReport(
+								"reports/"+name, null,conexion);
+					JasperViewer jasperViewer = new JasperViewer(jasperPrintWindow,false);
+					jasperViewer.setVisible(true);	 
+				} catch (JRException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				} 
+	}
 }

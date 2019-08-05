@@ -1,11 +1,11 @@
 package dao;
-
+import java.io.IOException;
 /**
  * 
  * Archivo: DaoInterface.java
  * 
  * Objetivo: Proporcionar una interfaz para unificar las operaciones que se realizan
- * por medio del patrón de diseño DAO, generalizando la transmición en una clase genérica.
+ * por medio del patrï¿½n de diseï¿½o DAO, generalizando la transmiciï¿½n en una clase genï¿½rica.
  * 
  * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco.
  * @version 1.0 
@@ -15,6 +15,9 @@ package dao;
 import java.sql.SQLException;
 
 import java.util.List;
+
+import net.sf.jasperreports.engine.JRException;
+import report.FormatReport;
 
 public interface DaoInterface<Model> {
 
@@ -88,4 +91,7 @@ public interface DaoInterface<Model> {
 
 	List<Model> getFilter(String parameter, String value) throws SQLException, ClassNotFoundException;
 
+	
+	void generateReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException;
+	
 }

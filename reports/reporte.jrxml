@@ -23,31 +23,46 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="58" splitType="Stretch">
+		<band height="57" splitType="Stretch">
 			<staticText>
-				<reportElement x="130" y="0" width="350" height="38" uuid="79e7aa19-0b56-4b93-aa51-fe53718cdde0"/>
+				<reportElement x="102" y="0" width="350" height="38" uuid="79e7aa19-0b56-4b93-aa51-fe53718cdde0"/>
 				<textElement textAlignment="Center">
-					<font fontName="Bell MT" size="25" isBold="true"/>
+					<font fontName="SansSerif" size="25" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ESTACIONAMIENTO]]></text>
+				<text><![CDATA[Automoviles]]></text>
+			</staticText>
+			<image>
+				<reportElement x="14" y="7" width="50" height="50" uuid="4c73847e-8345-42e4-89cb-cf0c1f204ecb"/>
+				<imageExpression><![CDATA["/imgs/car.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="503" y="10" width="54" height="28" uuid="f8753306-a87c-4510-b1c5-195f8787b843"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Procar]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="32" splitType="Stretch">
+		<band height="39" splitType="Stretch">
 			<staticText>
 				<reportElement x="120" y="0" width="350" height="30" uuid="50ddaf26-7650-4666-914d-835adfaefb40"/>
 				<textElement textAlignment="Center">
-					<font fontName="Bell MT" size="25" isBold="true"/>
+					<font fontName="SansSerif" size="25" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Aútos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="183" y="9" width="189" height="20" uuid="2325e398-8871-474d-b8a2-b01adf24f3e8"/>
+				<text><![CDATA[Automoviles registrados en el sistema]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="141" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="ecda7a86-c0dd-4d60-85b7-b3fb4701402b">
+				<reportElement mode="Opaque" x="0" y="0" width="141" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="ecda7a86-c0dd-4d60-85b7-b3fb4701402b">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="89f6e3f0-fd28-49fa-9186-0363c286c158"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -56,7 +71,7 @@
 				<text><![CDATA[id]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="141" y="0" width="138" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="989dfd8b-960e-4dba-99b2-f8522d34ae6c">
+				<reportElement mode="Opaque" x="141" y="0" width="138" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="989dfd8b-960e-4dba-99b2-f8522d34ae6c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8297ff98-9fe3-428c-872f-650af4f2a9b9"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -65,7 +80,7 @@
 				<text><![CDATA[modelo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="279" y="0" width="138" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="9d39ae6d-9e45-4895-a87b-3adeaea82497">
+				<reportElement mode="Opaque" x="279" y="0" width="138" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="9d39ae6d-9e45-4895-a87b-3adeaea82497">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b2cae90-e093-465f-8b55-7770667493a7"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -74,7 +89,7 @@
 				<text><![CDATA[placa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="417" y="0" width="138" height="20" forecolor="#FFFFFF" backcolor="#000000" uuid="dbc365dc-5d76-4dba-b81b-ceb4a37ccce9">
+				<reportElement mode="Opaque" x="417" y="0" width="138" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="dbc365dc-5d76-4dba-b81b-ceb4a37ccce9">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fb9dd117-815f-4d49-b2c4-50d337489308"/>
 				</reportElement>
 				<textElement textAlignment="Center">

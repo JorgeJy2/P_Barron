@@ -1,12 +1,13 @@
 package model.list;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import dao.DaoCar;
 import dao.DaoInterface;
-import dao.DaoPeople;
+
 import dao.SaveErrosDao;
 
 import model.dto.DtoCar;
@@ -15,6 +16,7 @@ import model.list.interador.DaoInteractor;
 import model.list.interador.Interator;
 import model.list.paginator.Paginator;
 import model.list.paginator.PaginatorDao;
+import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
 
 public class ListCar implements Listable<DtoCar> {
@@ -189,8 +191,9 @@ public class ListCar implements Listable<DtoCar> {
 		}
 	}
 
-	public boolean getReport(FormatReport format) throws ClassNotFoundException, SQLException { 
-		((DaoCar) _daoAuto).generateReport(format); 
+	@Override
+	public boolean getReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException { 
+		_daoAuto.generateReport(format); 
 		return true;
 	}
 }
