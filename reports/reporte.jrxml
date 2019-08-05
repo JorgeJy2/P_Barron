@@ -3,6 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1c395fa8-e18c-40bc-9ebf-55e5249a6b5c">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Smart.xml"/>
+	<property name="net.sf.jasperreports.default.font.name" value="Sans Serif"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT id, modelo, placa, color
 	FROM estacion.automovil;]]>
@@ -27,7 +28,7 @@
 			<staticText>
 				<reportElement x="130" y="0" width="350" height="38" uuid="79e7aa19-0b56-4b93-aa51-fe53718cdde0"/>
 				<textElement textAlignment="Center">
-					<font fontName="Bell MT" size="25" isBold="true"/>
+					<font fontName="SansSerif" size="25" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ESTACIONAMIENTO]]></text>
 			</staticText>
@@ -38,7 +39,7 @@
 			<staticText>
 				<reportElement x="120" y="0" width="350" height="30" uuid="50ddaf26-7650-4666-914d-835adfaefb40"/>
 				<textElement textAlignment="Center">
-					<font fontName="Bell MT" size="25" isBold="true"/>
+					<font fontName="SansSerif" size="25" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Aútos]]></text>
 			</staticText>

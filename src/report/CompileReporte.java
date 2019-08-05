@@ -20,6 +20,7 @@ public class CompileReporte {
 					JasperPrint  jasperPrint = JasperFillManager.fillReport(
 							"reports/"+name, null,
 							conexion);
+					
 					JRPdfExporter exp = new JRPdfExporter();
 					exp.setExporterInput(new SimpleExporterInput(jasperPrint));
 					exp.setExporterOutput(new SimpleOutputStreamExporterOutput("reporte.pdf"));
