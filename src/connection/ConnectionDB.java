@@ -37,7 +37,7 @@ public class ConnectionDB {
 	 */
 
 	private static final String _HOST = "127.0.0.1:5432";
-	private static final String _DB_NAME = "estacionamiento";
+	private static final String _DB_NAME = "estacionamiento?currentSchema=estacion";
 	private static final String _USER = "postgres";
 	private static final String _PASSWORD = "123456789";
 
