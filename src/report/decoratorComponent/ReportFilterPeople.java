@@ -17,32 +17,57 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import report.Report;
 
+/**
+ * Archivo: ReportFilterPeople.java contiene la definición de la clase
+ * ReportFilterPeople que extiende de DecoradorReporte.
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+ * @version 1.0
+ *
+ */
 public class ReportFilterPeople extends DecoradorReporte {
-
+	// declaración de atributos
 	private static final String REPORT_PEOPLE_FILTER = "rep_filter_people.jasper";
 
 	private ControllerPeople controller;
 
 	private Map<String, Object> parameters;
 
+	/**
+	 * Constructor con parámetros
+	 * 
+	 * @param controller objeto de tipo ControllerPeople
+	 * @param report     objeto de tipo Report
+	 */
 	public ReportFilterPeople(ControllerPeople controller, Report report) {
 		super(report);
 		this.controller = controller;
 		obtenerParametros();
-	}
+	}// cierre constructor
 
+	// método obtenerParametros
 	public void obtenerParametros() {
 		parameters = new HashMap<String, Object>();
 		parameters.put("search", controller.getParametro());
-	}
+	}// cierre método obtenerParametros
 
+	/**
+	 * Método obtenerInforme
+	 * 
+	 * @throws JRException
+	 */
 	@Override
 	public void obtenerInforme() throws JRException {
 
 		jasperPrint = JasperFillManager.fillReport("reports/" + REPORT_PEOPLE_FILTER, parameters, conexion);
 
-	}
+	}// cierre método obtenerInforme
 
+	/**
+	 * Méttodo compilarInforme
+	 * 
+	 * @throws excepcion JRException
+	 */
 	@Override
 	public void compilarInforme() throws JRException {
 
@@ -52,15 +77,18 @@ public class ReportFilterPeople extends DecoradorReporte {
 		conf = new SimplePdfExporterConfiguration();
 		exportar.setConfiguration(conf);
 		exportar.exportReport();
+	}// cierre método compilarInforme
 
-	}
-
+	/**
+	 * Método MuestraInforme
+	 * 
+	 * @throws excepcion IOException
+	 */
 	@Override
 	public void MuestraInforme() throws IOException {
 
 		File path = new File("reports/reporte.pdf");
 		Desktop.getDesktop().open(path);
+	}// cierre método MuestraInforme
 
-	}
-
-}
+}// cierre clase ReportFilterPeople
