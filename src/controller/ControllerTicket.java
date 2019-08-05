@@ -13,7 +13,6 @@ import java.time.Instant;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import controller.concurrente.ExecuterThread;
 import gui.content.car.CarGuiView;
 import gui.content.people.PeopleGuiView;
 import gui.content.ticket.TicketContainerMainGui;
@@ -31,9 +30,7 @@ import model.list.ListTicket;
 import model.list.interador.Interator;
 import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
-import report.ReportCar;
 import report.ReportTicket;
-import report.decoratorComponent.ReportFilterCar;
 import report.decoratorComponent.ReportFilterTicket;
 
 /**
@@ -313,18 +310,13 @@ public class ControllerTicket extends ControllerWindow {
 			if (!inViewFragmentCard) {
 				openListCard();
 				inViewFragmentCard = true;
-			} else {
-				System.out.println("Existe fragmento en vista.. card");
 			}
-
 		} else if (e.getSource() == _ticketGui.getBtnPeople()) {
 			if (!inViewFragmentPeople) {
 				openListPeople();
 				inViewFragmentPeople = true;
-			} else
-				System.out.println("Existe fragmento en vista...");
+			}
 		} else if (e.getSource() == _ticketGui.getBtnDelete()) {
-
 			deleteRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnInforme()) {
 			searchReport();
@@ -375,9 +367,7 @@ public class ControllerTicket extends ControllerWindow {
 		ListPeople listPeople = ListPeople.getInstance();
 
 		if (listPeople.sizeDtos() > 0) {
-			System.out.println("Contiene datos...");
 		} else {
-			System.out.println("No contiene datos cargar..");
 			try {
 				listPeople.loadList();
 			} catch (ClassNotFoundException | SQLException e) {
@@ -526,7 +516,7 @@ public class ControllerTicket extends ControllerWindow {
 				controllerTicket.dtoPeopleSelect = ListPeople.getInstance().getOne(contador);
 				controllerTicket.actualTicketSelect = contador;
 				controllerTicket._ticketGui.getBtnPeople()
-						.setText("Se selecionï¿½ a " + controllerTicket.dtoPeopleSelect.getName());
+						.setText("Se seleccionaste a " + controllerTicket.dtoPeopleSelect.getName());
 			}
 		}// cierre mï¿½todo mouseClicked
 	}// cierre clase MouseClickedOnTable
@@ -562,11 +552,11 @@ public class ControllerTicket extends ControllerWindow {
 		 */
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
-			
+
 				int contador = carGuiView.getTable().getSelectedRow();
 				controllerTicket.dtoCarSelect = ListCar.getInstance().getOne(contador);
 				controllerTicket._ticketGui.getBtnCar()
-						.setText("Se selecionï¿½ a " + controllerTicket.dtoCarSelect.getPlaca());
+						.setText("Se seleccionaste a " + controllerTicket.dtoCarSelect.getPlaca());
 			}
 		}// cierre mï¿½todo mouseClicked
 	}// cierre clase MauseClickedOnTableCard
@@ -574,15 +564,13 @@ public class ControllerTicket extends ControllerWindow {
 	// GUI
 
 	/**
-	 * Mï¿½todo resetSelects
-	 * Regresa a nulo los dto seleccionados.
+	 * Mï¿½todo resetSelects Regresa a nulo los dto seleccionados.
 	 */
 	private void resetSelects() {
 		_ticketGui.resetBtnSelect();
 		this.dtoCarSelect = null;
 		this.dtoPeopleSelect = null;
-	}//cierre mï¿½todo resetSelects
-	
+	}// cierre mï¿½todo resetSelects
 
 	/**
 	 * Archivo: ControlleTicket.java contiene la definiciï¿½n de la clase
@@ -593,34 +581,35 @@ public class ControllerTicket extends ControllerWindow {
 	 *
 	 */
 	private class MauseClickedOnTableTicke extends MouseAdapter {
-		//declaraciï¿½n de atributo
+		// declaraciï¿½n de atributo
 		private ControllerTicket controllerTicket;
 
 		/**
 		 * Constructor con parï¿½metro
+		 * 
 		 * @param controllerTicket objeto de tipo ControllerTicket
 		 */
 		public MauseClickedOnTableTicke(ControllerTicket controllerTicket) {
 			this.controllerTicket = controllerTicket;
-		}//cierre constructor
+		}// cierre constructor
 
 		/**
-		 * Mï¿½todo mouseClicked
-		 * Controla los eventos del mouse
+		 * Mï¿½todo mouseClicked Controla los eventos del mouse
+		 * 
 		 * @param evnt objeto de tipo MouseEvent
 		 */
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
-				
+
 				controllerTicket.chengeVisible(true);
 				int contador = controllerTicket._ticketGuiView.getTable().getSelectedRow();
 
 				controllerTicket.actualTicketSelect = contador;
 				controllerTicket._ticketGui.getBtnCar()
-						.setText("Se selecionï¿½ a " + _listTicket.getOne(contador).getPlacaAuto());
+						.setText("Se seleccionaste a " + _listTicket.getOne(contador).getPlacaAuto());
 
 				controllerTicket._ticketGui.getBtnPeople()
-						.setText("Se selecionï¿½ a " + _listTicket.getOne(contador).getEmailAuto());
+						.setText("Se seleccionaste a " + _listTicket.getOne(contador).getEmailAuto());
 
 				controllerTicket.dtoTicket = _listTicket.getOne(contador);
 
@@ -628,19 +617,17 @@ public class ControllerTicket extends ControllerWindow {
 			}
 		}
 	}
-	
-	
-	private void searchReport() {
-		
-		ExecuterThread  executor = new ExecuterThread();
-		executor.execute(() -> {
-			String[] reportOption = { "Reporte Simple", "Reporte(mediante busqueda por estatus)" };
-			
-			String index = (String) JOptionPane.showInputDialog(new JFrame(), "Quï¿½ reporte deseas ver?", "Formato de Reporte",
-					JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
 
-			
-			if(index != null) {
+	private void searchReport() {
+
+		Thread threarReport = new Thread(() -> {
+
+			String[] reportOption = { "Reporte Simple", "Reporte(mediante busqueda por estatus)" };
+
+			String index = (String) JOptionPane.showInputDialog(new JFrame(), "¿Qué reporte deseas ver?",
+					"Formato de Reporte", JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+
+			if (index != null) {
 				FormatReport format = null;
 				boolean execute = false;
 				if (index.equalsIgnoreCase("Reporte Simple")) {
@@ -650,7 +637,7 @@ public class ControllerTicket extends ControllerWindow {
 					format = new ReportFilterTicket(this, new ReportTicket());
 					execute = true;
 				}
-				
+
 				if (execute) {
 
 					try {
@@ -666,24 +653,46 @@ public class ControllerTicket extends ControllerWindow {
 				}
 			}
 		});
-		
+
+		threarReport.start();
+		/*
+		 * executor.execute(() -> { String[] reportOption = { "Reporte Simple",
+		 * "Reporte(mediante busqueda por estatus)" };
+		 * 
+		 * String index = (String) JOptionPane.showInputDialog(new JFrame(),
+		 * "Quï¿½ reporte deseas ver?", "Formato de Reporte",
+		 * JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+		 * 
+		 * 
+		 * if(index != null) { FormatReport format = null; boolean execute = false; if
+		 * (index.equalsIgnoreCase("Reporte Simple")) { format = new ReportTicket();
+		 * execute = true; } else { format = new ReportFilterTicket(this, new
+		 * ReportTicket()); execute = true; }
+		 * 
+		 * if (execute) {
+		 * 
+		 * try { try { _listTicket.getReport(format); } catch
+		 * (net.sf.jasperreports.engine.JRRuntimeException es) {
+		 * Messages.showError(es.getLocalizedMessage());
+		 * System.out.println(es.getMessage()); } } catch (ClassNotFoundException |
+		 * SQLException | JRException | IOException e1) {
+		 * Messages.showError(e1.getLocalizedMessage()); } } } });
+		 */
 
 	}
-	
+
 	public String getParametro() {
 		String[] reportOption = { "En espera", "Pagado", "Perdido" };
-		String index = (String) JOptionPane.showInputDialog(new JFrame(), "Quï¿½ reporte deseas ver?", "Formato de Reporte",
-				JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+		String index = (String) JOptionPane.showInputDialog(new JFrame(), "¿Qué reporte deseas ver?",
+				"Formato de Reporte", JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
 
 		return index;
 	}
-	
-	
-	
+
 	private void chengeVisible(boolean status) {
 		_ticketGui.getBtnDelete().setVisible(status);
 		_ticketGui.getCbxLoseTicket().setVisible(status);
 		_ticketGui.getLbLoseTicket().setVisible(status);
 	}
 
-}//cierre clase ControllerTicket
+}// cierre clase ControllerTicket

@@ -268,9 +268,13 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 	 */
 	public void generateReport(FormatReport format) throws ClassNotFoundException, SQLException, IOException, JRException {
 		FormatReport reportPeople = format;
-		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+		
+		reportPeople.setConexion(connectionPostgresql);
 		reportPeople.obtenerInforme();
 		reportPeople.compilarInforme();
 		reportPeople.MuestraInforme();
+		
+		connectionPostgresql.close();
 	}// cierre m�todo generateReport
 }// cierre clase DaoPeople

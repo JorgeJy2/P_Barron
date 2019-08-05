@@ -143,7 +143,7 @@ public class MainFragment extends JFrame {
 
 		JPanel piedPaginaTitle = new JPanel();
 		piedPaginaTitle.setLayout(new GridLayout(0, 1));
-		JLabel info = new JLabel("VersiÃ³n 1.0");
+		JLabel info = new JLabel("Versión 2.2");
 		piedPaginaTitle.add(info);
 
 		panelMenu.add(piedPaginaTitle, BorderLayout.PAGE_END);

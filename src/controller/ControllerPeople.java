@@ -23,7 +23,9 @@ import model.list.interador.Interator;
 import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
 import report.ReportPeople;
+import report.ReportTicket;
 import report.decoratorComponent.ReportFilterPeople;
+import report.decoratorComponent.ReportFilterTicket;
 
 /**
  * Archivo: ControllerPeople.java contiene la definiciï¿½n de la clase
@@ -60,13 +62,11 @@ public class ControllerPeople extends ControllerWindow {
 		addScrollTable();
 		addListener();
 		if (listPeople.sizeDtos() > 0) {
-			System.out.println("Contiene datos...");
 		} else {
-			System.out.println("No contiene datos cargar..");
 			try {
 				listPeople.loadList();
 			} catch (ClassNotFoundException | SQLException e) {
-				Messages.showError("  " + e.getMessage());
+				Messages.showError(e.getMessage());
 
 			}
 		}
@@ -389,37 +389,42 @@ public class ControllerPeople extends ControllerWindow {
 	 * Cierre mï¿½todo searchReport Carga el reporte "simple o avanzado".
 	 */
 	private void searchReport() {
-		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)" };
-		JFrame frame = new JFrame();
+		
+		Thread threarReport = new Thread(() -> {
+			String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)" };
+			JFrame frame = new JFrame();
 
-		String index = (String) JOptionPane.showInputDialog(frame, "Quï¿½ reporte deseas ver?", "Formato de Reporte",
-				JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
-		if (index != null) {
-			FormatReport format = null;
-			boolean execute = false;
-			if (index.equalsIgnoreCase("Reporte Simple")) {
-				format = new ReportPeople();
-				execute = true;
-			} else {
-				format = new ReportFilterPeople(this, new ReportPeople());
-				execute = true;
-			}
-			if (execute) {
+			String index = (String) JOptionPane.showInputDialog(frame, "¿Qué reporte deseas ver?", "Formato de Reporte",
+					JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+			if (index != null) {
+				FormatReport format = null;
+				boolean execute = false;
+				if (index.equalsIgnoreCase("Reporte Simple")) {
+					format = new ReportPeople();
+					execute = true;
+				} else {
+					format = new ReportFilterPeople(this, new ReportPeople());
+					execute = true;
+				}
+				if (execute) {
 
-				try {
 					try {
-						listPeople.getReport(format);
-					} catch (net.sf.jasperreports.engine.JRRuntimeException es) {
-						Messages.showError(es.getLocalizedMessage());
-						System.out.println(es.getMessage());
+						try {
+							listPeople.getReport(format);
+						} catch (net.sf.jasperreports.engine.JRRuntimeException es) {
+							Messages.showError(es.getLocalizedMessage());
+							System.out.println(es.getMessage());
+						}
+					} catch (ClassNotFoundException | SQLException | JRException | IOException e1) {
+						System.out.println(e1.getMessage());
+						Messages.showError(e1.getLocalizedMessage());
 					}
-				} catch (ClassNotFoundException | SQLException | JRException | IOException e1) {
-					System.out.println("Error.....");
-					Messages.showError(e1.getLocalizedMessage());
 				}
 			}
-		}
+		});
 
+		threarReport.start();
+		
 	}
 
 	/**
@@ -540,10 +545,8 @@ public class ControllerPeople extends ControllerWindow {
 				JScrollBar source = (JScrollBar) e.getAdjustable();
 				int extent = source.getModel().getExtent();
 				int maximum = source.getModel().getMaximum();
-				if (e.getValue() + extent == maximum) {
-					System.out.println("Final");
+				if (e.getValue() + extent == maximum) 
 					controller.loadNextCars();
-				}
 			}
 		}// cierre mï¿½todo adjustmentValueChanged
 	}// cierre clase ScrollableTable

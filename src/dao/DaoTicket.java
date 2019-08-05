@@ -305,9 +305,14 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 	@Override
 	public void generateReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException { 
 		FormatReport reportPeople = format; 
-		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
+		
+		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
+		
+		reportPeople.setConexion(connectionPostgresql);
 		reportPeople.obtenerInforme();
 		reportPeople.compilarInforme();
 		reportPeople.MuestraInforme();
+		
+		connectionPostgresql.close();
 	}
 }

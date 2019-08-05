@@ -1,12 +1,9 @@
 package controller.concurrente;
 
-import java.util.concurrent.Executor;
+public class ExecuterThread {
 
-public class ExecuterThread implements Executor{
-
-	@Override
-	public void execute(Runnable command) {
-		command.run();
+	public void execute(Thread command) {
+		command.start();
 	}
 
 }

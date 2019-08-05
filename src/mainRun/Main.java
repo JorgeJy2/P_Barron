@@ -1,9 +1,5 @@
 package mainRun;
 
-import javax.swing.JFrame;
-
-import org.jvnet.substance.SubstanceLookAndFeel;
-
 import gui.MainFragment;
 import gui.content.car.CarContainerMainGui;
 
@@ -24,7 +20,7 @@ public class Main {
 		 * SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlueSteelSkin"
 		 * );
 		 */
-		MainFragment mainFragment = new MainFragment(new CarContainerMainGui());
+		new MainFragment(new CarContainerMainGui());
 
 		/**
 		 * ========= TEST LIST CAR =============

@@ -22,7 +22,9 @@ import model.list.Listable;
 import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
 import report.ReportCar;
+import report.ReportTicket;
 import report.decoratorComponent.ReportFilterCar;
+import report.decoratorComponent.ReportFilterTicket;
 
 /**
  * Archivo: ControllerCar.java contiene la definici�n de la clase ControllerCar
@@ -410,36 +412,44 @@ public class ControllerCar extends ControllerWindow {
 	 * M�todo searchReport() Carga dos tipos de reporte "simple o avanzado".
 	 */
 	private void searchReport() {
-		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)" };
-		JFrame frame = new JFrame();
+		
+		
+		Thread threarReport = new Thread(() -> {
+			String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)" };
+			JFrame frame = new JFrame();
 
-		String index = (String) JOptionPane.showInputDialog(frame, "Qu� reporte deseas ver?", "Formato de Reporte",
-				JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+			String index = (String) JOptionPane.showInputDialog(frame, "Qu� reporte deseas ver?", "Formato de Reporte",
+					JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
 
-		if (index != null) {
-			FormatReport format = null;
-			boolean execute = false;
-			if (index.equalsIgnoreCase("Reporte Simple")) {
-				format = new ReportCar();
-				execute = true;
-			} else {
-				format = new ReportFilterCar(this, new ReportCar());
-				execute = true;
-			}
-			if (execute) {
+			if (index != null) {
+				FormatReport format = null;
+				boolean execute = false;
+				if (index.equalsIgnoreCase("Reporte Simple")) {
+					format = new ReportCar();
+					execute = true;
+				} else {
+					format = new ReportFilterCar(this, new ReportCar());
+					execute = true;
+				}
+				if (execute) {
 
-				try {
 					try {
-						listCar.getReport(format);
-					} catch (net.sf.jasperreports.engine.JRRuntimeException es) {
-						Messages.showError(es.getLocalizedMessage());
-						System.out.println(es.getMessage());
+						try {
+							listCar.getReport(format);
+						} catch (net.sf.jasperreports.engine.JRRuntimeException es) {
+							Messages.showError(es.getLocalizedMessage());
+							System.out.println(es.getMessage());
+						}
+					} catch (ClassNotFoundException | SQLException | JRException | IOException e1) {
+						Messages.showError(e1.getLocalizedMessage());
 					}
-				} catch (ClassNotFoundException | SQLException | JRException | IOException e1) {
-					Messages.showError(e1.getLocalizedMessage());
 				}
 			}
-		}
+		});
+
+		threarReport.start();
+		
+		
 
 	}// cierre m�todo searchReport
 
