@@ -11,15 +11,33 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
+/**
+ * Archivo: ReportTicket.java contiene la definición de la clase ReportTicket
+ * que extiende de FormatReport.
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+ * @version 1.0
+ *
+ */
 public class ReportTicket extends FormatReport {
-
+	// declaración de atributo
 	private static final String REPORTE = "boleto.jasper";
 
+	/**
+	 * Método obtenerInforme
+	 * 
+	 * @throws excepcion JRException
+	 */
 	@Override
 	public void obtenerInforme() throws JRException {
 		jasperPrint = JasperFillManager.fillReport("reports/" + REPORTE, null, conexion);
-	}
+	}// cierre método obtenerInforme
 
+	/**
+	 * Método compilarInforme
+	 * 
+	 * @throws excepcion JRException
+	 */
 	@Override
 	public void compilarInforme() throws JRException {
 		exportar = new JRPdfExporter();
@@ -28,12 +46,17 @@ public class ReportTicket extends FormatReport {
 		conf = new SimplePdfExporterConfiguration();
 		exportar.setConfiguration(conf);
 		exportar.exportReport();
-	}
+	}// cierre método compilarInforme
 
+	/**
+	 * Método MuestraInforme
+	 * 
+	 * @throws excepcion JRException
+	 */
 	@Override
 	public void MuestraInforme() throws IOException {
 		File path = new File("reports/boleto.pdf");
 		Desktop.getDesktop().open(path);
-	}
+	}// cierre método MuestraInforme
 
-}
+}// cierre clase ReportTicket
