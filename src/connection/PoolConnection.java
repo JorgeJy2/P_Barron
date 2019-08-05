@@ -15,12 +15,23 @@ import org.apache.commons.dbcp2.BasicDataSource;
  */
 public class PoolConnection {
 	// declaración de atributos
+	
 	private static final String _DRIVER = "org.postgresql.Driver";
 	private static final String _JDBC = "jdbc:postgresql://";
+	//Remoto
+	/*
 	private static final String _HOST = "54.39.151.174:5432";
 	private static final String _DB_NAME = "estacionamiento?currentSchema=estacion";
 	private static final String _USER = "proyectBE";
 	private static final String _PASSWORD = "proyectBE@@";
+*/
+	//Remoto
+	private static final String _HOST = "127.0.0.1:5432";
+	private static final String _DB_NAME = "estacionamiento?currentSchema=estacion";
+	private static final String _USER = "postgres";
+	private static final String _PASSWORD = "123456789";
+
+
 	private static final String _URL = _JDBC + _HOST + "/" + _DB_NAME;
 	private static BasicDataSource basicDataSource;
 	private static Connection connectionToPool;
