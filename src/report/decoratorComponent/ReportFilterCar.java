@@ -30,7 +30,7 @@ public class ReportFilterCar extends DecoradorReporte{
  
 	public void obtenerParametros() {  
 			 parameters = new HashMap<String, Object>();
-			 parameters.put("busqueda", controller.getParametro());  
+			 parameters.put("search", controller.getParametro());  
 	}
 	
 	@Override
