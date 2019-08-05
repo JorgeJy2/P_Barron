@@ -1,17 +1,17 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.List; 
 import connection.PoolConnection;  
 import model.dto.DtoPeople;
+import net.sf.jasperreports.engine.JRException;
 import report.FormatReport;
-import report.Report;
-import report.ReportPeople;
+
 
 public class DaoPeople implements DaoInterface<DtoPeople> {
 
@@ -201,7 +201,8 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		return list;
 	}
 	
-	public void generateReport(FormatReport format) throws ClassNotFoundException, SQLException { 
+	@Override
+	public void generateReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException { 
 		FormatReport reportPeople = format; 
 		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
 		reportPeople.obtenerInforme();

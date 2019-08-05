@@ -5,18 +5,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
+import controller.concurrente.ExecuterThread;
 import gui.content.car.CarGuiView;
 import gui.content.people.PeopleGuiView;
 import gui.content.ticket.TicketContainerMainGui;
 import gui.content.ticket.TicketGui;
 import gui.content.ticket.TicketGuiView;
+
 import gui.dialogs.Messages;
+
 import model.dto.DtoCar;
 import model.dto.DtoPeople;
 import model.dto.DtoTicket;
@@ -24,6 +29,12 @@ import model.list.ListCar;
 import model.list.ListPeople;
 import model.list.ListTicket;
 import model.list.interador.Interator;
+import net.sf.jasperreports.engine.JRException;
+import report.FormatReport;
+import report.ReportCar;
+import report.ReportTicket;
+import report.decoratorComponent.ReportFilterCar;
+import report.decoratorComponent.ReportFilterTicket;
 
 public class ControllerTicket extends ControllerWindow {
 
@@ -35,13 +46,13 @@ public class ControllerTicket extends ControllerWindow {
 	};
 
 	// Messages
-	private static final String MISS_CARD 	= "Es necesario seleccionar un auto.";
+	private static final String MISS_CARD = "Es necesario seleccionar un auto.";
 	private static final String MISS_PEOPLE = "Es necesario seleccionar una persona.";
 	private static final String MISS_TICKET = "Es necesario seleccionar una boleto.";
 
 	private static final String TEXT_END_TICKET = "Terminar estacionamiento";
-	
-	private static final String ERROR_SAVE 	 = "No se pudo agregar, consulta el archivo de errores";
+
+	private static final String ERROR_SAVE = "No se pudo agregar, consulta el archivo de errores";
 	private static final String ERROR_UPDATE = "No se pudo actualizar, consulta el archivo de errores";
 	private static final String ERROR_DELETE = "No se pudo eliminar, consulta el archivo de errores";
 
@@ -60,10 +71,9 @@ public class ControllerTicket extends ControllerWindow {
 	private DtoTicket dtoTicket;
 
 	private int actualTicketSelect;
-	
-	private boolean inViewFragmentPeople =false;
-	private boolean inViewFragmentCard =false;
-	
+
+	private boolean inViewFragmentPeople = false;
+	private boolean inViewFragmentCard = false;
 
 	public ControllerTicket(TicketContainerMainGui containerMainGui) {
 
@@ -81,6 +91,7 @@ public class ControllerTicket extends ControllerWindow {
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showMessage(e.getLocalizedMessage());
 		}
+		chengeVisible(false);
 
 	}
 
@@ -128,7 +139,7 @@ public class ControllerTicket extends ControllerWindow {
 		try {
 			_listTicket.loadListFilter(_ticketGuiView.getCbxFilter(), _ticketGuiView.getTxtFilter().getText());
 			reloadData();
-			
+
 		} catch (ClassNotFoundException | SQLException e) {
 			Messages.showError(e.getLocalizedMessage());
 			System.out.println(e.getMessage());
@@ -203,7 +214,6 @@ public class ControllerTicket extends ControllerWindow {
 
 		return false;
 	}
-	
 
 	@Override
 	public boolean getDataOfView() {
@@ -232,44 +242,45 @@ public class ControllerTicket extends ControllerWindow {
 			data[pointerCar][3] = ticket.getFechaSalida();
 			data[pointerCar][4] = ticket.getTotalPago() + "";
 			data[pointerCar][5] = ticket.getEstatus();
-			
+
 		}
 		_ticketGuiView.setModelTable(data);
-		
+
 		return true;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == _ticketGui.getBtnAdd()) {
-			if (_ticketGui.getBtnAdd().getText().equals(TEXT_END_TICKET)) 
+			if (_ticketGui.getBtnAdd().getText().equals(TEXT_END_TICKET))
 				updateRegistry();
-			 else
+			else
 				saveRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnCancel()) {
+			chengeVisible(false);
 			resetSelects();
 			_ticketGui.resetBtnAdd();
 		} else if (e.getSource() == _ticketGui.getBtnCar()) {
-			if( !inViewFragmentCard ) {
+			if (!inViewFragmentCard) {
 				openListCard();
 				inViewFragmentCard = true;
-			}else{
+			} else {
 				System.out.println("Existe fragmento en vista.. card");
 			}
-			
+
 		} else if (e.getSource() == _ticketGui.getBtnPeople()) {
-			if(!inViewFragmentPeople) {
+			if (!inViewFragmentPeople) {
 				openListPeople();
 				inViewFragmentPeople = true;
-			}	
-			else
+			} else
 				System.out.println("Existe fragmento en vista...");
 		} else if (e.getSource() == _ticketGui.getBtnDelete()) {
-			
+
 			deleteRegistry();
 		} else if (e.getSource() == _ticketGui.getBtnInforme()) {
-			
-		}else if (e.getSource() == _ticketGuiView.getBtnFilter()) {
+			searchReport();
+
+		} else if (e.getSource() == _ticketGuiView.getBtnFilter()) {
 			filter();
 		}
 	}
@@ -277,20 +288,20 @@ public class ControllerTicket extends ControllerWindow {
 	@Override
 	public boolean addListener() {
 		try {
-			//Butons
+			// Butons
 			_ticketGui.getBtnAdd().addActionListener(this);
 			_ticketGui.getBtnCancel().addActionListener(this);
 			_ticketGui.getBtnCar().addActionListener(this);
 			_ticketGui.getBtnPeople().addActionListener(this);
 			_ticketGui.getBtnDelete().addActionListener(this);
 			_ticketGui.getBtnInforme().addActionListener(this);
-			
+
 			_ticketGuiView.getBtnFilter().addActionListener(this);
-			
-			//Table
+
+			// Table
 			_ticketGuiView.getTable().addKeyListener(this);
 			_ticketGuiView.getTable().addMouseListener(new MauseClickedOnTableTicke(this));
-			
+
 			return true;
 		} catch (Exception e) {
 			Messages.showError("  " + e.getMessage());
@@ -298,7 +309,7 @@ public class ControllerTicket extends ControllerWindow {
 		}
 	}
 
-	private  void openListPeople() {
+	private void openListPeople() {
 
 		JFrame applicationFrame;
 
@@ -338,17 +349,15 @@ public class ControllerTicket extends ControllerWindow {
 		applicationFrame.pack();
 		applicationFrame.setVisible(true);
 	}
-	
 
-	private  void openListCard() {
+	private void openListCard() {
 
 		JFrame applicationFrame;
 
 		CarGuiView carGuiView = new CarGuiView();
 
-	
 		ControllerViewCard card = new ControllerViewCard(carGuiView);
-		
+
 		carGuiView.getTable().addMouseListener(new MauseClickedOnTableCard(this, carGuiView));
 		applicationFrame = new JFrame("Seleciona a la coche");
 		applicationFrame.getContentPane().add(carGuiView);
@@ -358,29 +367,27 @@ public class ControllerTicket extends ControllerWindow {
 	}
 
 	private static final class WindowClosePeople extends WindowAdapter {
-		
+
 		private ControllerTicket controllerTicket;
-		
+
 		public WindowClosePeople(ControllerTicket controllerTicket) {
-			this.controllerTicket = controllerTicket;			
+			this.controllerTicket = controllerTicket;
 		}
-		
-		
+
 		public void windowClosing(WindowEvent evt) {
 			controllerTicket.inViewFragmentPeople = false;
 
 		}
 	}
-	
+
 	private static final class WindowCloseCard extends WindowAdapter {
-		
+
 		private ControllerTicket controllerTicket;
-		
+
 		public WindowCloseCard(ControllerTicket controllerTicket) {
-			this.controllerTicket = controllerTicket;			
+			this.controllerTicket = controllerTicket;
 		}
-		
-		
+
 		public void windowClosing(WindowEvent evt) {
 			controllerTicket.inViewFragmentCard = false;
 
@@ -398,6 +405,7 @@ public class ControllerTicket extends ControllerWindow {
 
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
+				controllerTicket.chengeVisible(true);
 				int contador = guiView.getTable().getSelectedRow();
 				controllerTicket.dtoPeopleSelect = ListPeople.getInstance().getOne(contador);
 				controllerTicket.actualTicketSelect = contador;
@@ -418,6 +426,7 @@ public class ControllerTicket extends ControllerWindow {
 
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
+			
 				int contador = carGuiView.getTable().getSelectedRow();
 				controllerTicket.dtoCarSelect = ListCar.getInstance().getOne(contador);
 				controllerTicket._ticketGui.getBtnCar()
@@ -443,6 +452,8 @@ public class ControllerTicket extends ControllerWindow {
 
 		public void mouseClicked(MouseEvent evnt) {
 			if (evnt.getClickCount() == 1) {
+				
+				controllerTicket.chengeVisible(true);
 				int contador = controllerTicket._ticketGuiView.getTable().getSelectedRow();
 
 				controllerTicket.actualTicketSelect = contador;
@@ -457,6 +468,63 @@ public class ControllerTicket extends ControllerWindow {
 				controllerTicket._ticketGui.getBtnAdd().setText(TEXT_END_TICKET);
 			}
 		}
+	}
+	
+	
+	private void searchReport() {
+		
+		ExecuterThread  executor = new ExecuterThread();
+		executor.execute(() -> {
+			String[] reportOption = { "Reporte Simple", "Reporte(mediante busqueda por estatus)" };
+			
+			String index = (String) JOptionPane.showInputDialog(new JFrame(), "Qué reporte deseas ver?", "Formato de Reporte",
+					JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+
+			
+			if(index != null) {
+				FormatReport format = null;
+				boolean execute = false;
+				if (index.equalsIgnoreCase("Reporte Simple")) {
+					format = new ReportTicket();
+					execute = true;
+				} else {
+					format = new ReportFilterTicket(this, new ReportTicket());
+					execute = true;
+				}
+				
+				if (execute) {
+
+					try {
+						try {
+							_listTicket.getReport(format);
+						} catch (net.sf.jasperreports.engine.JRRuntimeException es) {
+							Messages.showError(es.getLocalizedMessage());
+							System.out.println(es.getMessage());
+						}
+					} catch (ClassNotFoundException | SQLException | JRException | IOException e1) {
+						Messages.showError(e1.getLocalizedMessage());
+					}
+				}
+			}
+		});
+		
+
+	}
+	
+	public String getParametro() {
+		String[] reportOption = { "En espera", "Pagado", "Perdido" };
+		String index = (String) JOptionPane.showInputDialog(new JFrame(), "Qué reporte deseas ver?", "Formato de Reporte",
+				JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+
+		return index;
+	}
+	
+	
+	
+	private void chengeVisible(boolean status) {
+		_ticketGui.getBtnDelete().setVisible(status);
+		_ticketGui.getCbxLoseTicket().setVisible(status);
+		_ticketGui.getLbLoseTicket().setVisible(status);
 	}
 
 }

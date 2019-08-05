@@ -1,3 +1,8 @@
 eclipse.preferences.version=1
+encoding//reports/boleto.jrxml=UTF-8
+encoding//reports/boleto_filter.jrxml=UTF-8
+encoding//reports/image.jrxml=UTF-8
 encoding//reports/personas.jrxml=UTF-8
+encoding//reports/rep_filter_car.jrxml=UTF-8
+encoding//reports/rep_filter_people.jrxml=UTF-8
 encoding//reports/reporte.jrxml=UTF-8

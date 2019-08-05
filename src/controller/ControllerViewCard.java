@@ -13,6 +13,7 @@ import java.util.concurrent.Executor;
 
 import javax.swing.JScrollBar;
 
+import controller.concurrente.ExecuterThread;
 import gui.content.car.CarGuiView;
 
 import gui.dialogs.Messages;
@@ -154,13 +155,7 @@ public class ControllerViewCard {
 	}
 	
 	public void loadNextCars () {
-		Executor executor = new Executor() {
-			@Override
-			public void execute(Runnable arg0) {
-				arg0.run();
-			}
-		};
-
+		ExecuterThread  executor = new ExecuterThread();
 		executor.execute(() -> {
 			try {
 				if(listCar.reloadNext()) 
@@ -169,6 +164,7 @@ public class ControllerViewCard {
 				Messages.showError(" "+e.getLocalizedMessage());
 			}
 		});
+
 	}
 	
 	

@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="personas" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e15d519-eab3-497d-b483-a5c1caac3ee0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rep_filter_people" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e15d519-eab3-497d-b483-a5c1caac3ee0">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Smart.xml"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="search" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT id, nombre, apellido_paterno, apellido_materno, telefono, correo
-	FROM estacion.persona;]]>
+		<![CDATA[SELECT 
+	per.id
+	, per.nombre
+	, per.apellido_paterno
+	, per.apellido_materno
+	, per.telefono
+	, per.correo
+	, aut.placa
+FROM estacion.boleto blt
+INNER JOIN estacion.persona per
+	on per.id = blt.id_persona
+INNER JOIN estacion.automovil aut
+	on aut.id = blt.id_auto
+
+WHERE aut.placa LIKE   '%'||'$P!{search}'||'%' ;]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -35,39 +49,39 @@
 		<property name="com.jaspersoft.studio.field.label" value="correo"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
 	</field>
+	<field name="placa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="placa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="automovil"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="77" y="10" width="400" height="33" uuid="91f5fe7f-a65f-46a3-81ae-30f2d82c45a2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="19"/>
+				</textElement>
+				<text><![CDATA[PERSONAS POR PLACA  DEL AUTOMOVIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="0" y="48" width="157" height="22" uuid="6931f6fc-c9e8-4cc3-9eec-607a123c87f7"/>
+				<textElement>
+					<font fontName="Bell MT"/>
+				</textElement>
+				<text><![CDATA[Estacionamiento]]></text>
+			</staticText>
 			<image>
-				<reportElement x="14" y="7" width="50" height="50" uuid="ef899799-9125-4cd8-80e7-6bdcbdaeb979"/>
+				<reportElement x="14" y="7" width="50" height="50" uuid="4afafc13-0d0c-4066-bed1-43773089939d"/>
 				<imageExpression><![CDATA["/imgs/car.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="503" y="10" width="54" height="28" uuid="ca1b1b92-0e03-4dd7-8c4d-a99b7a525c16"/>
+				<reportElement x="503" y="10" width="54" height="28" uuid="88ec77af-b38a-4595-b4fc-e174a2edc2a3"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Procar]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="102" y="0" width="350" height="38" uuid="864a5d99-d4ed-4880-830b-f0f0ac431753"/>
-				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="20" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Personas]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="197" y="43" width="171" height="20" uuid="b3811760-522a-49c2-b8c8-0c18ad6f63b4"/>
-				<text><![CDATA[Reporte de personas en el sistema]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="120" y="38" width="350" height="30" uuid="4f37d269-a8f8-46e5-9546-cd924e8da28c"/>
-				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="25" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Estatus]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -77,114 +91,123 @@
 	<columnHeader>
 		<band height="22" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="95" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="8ff8bc8b-b496-4e48-8202-c310dce6c423">
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="8ff8bc8b-b496-4e48-8202-c310dce6c423">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1e5ad49c-ca8c-4704-a20f-d1d63a947d63"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Bell MT" isBold="true"/>
 				</textElement>
 				<text><![CDATA[id]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="95" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="9dc63beb-2a15-4b70-bc0f-7f10232f33c2">
+				<reportElement mode="Opaque" x="40" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="9dc63beb-2a15-4b70-bc0f-7f10232f33c2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c0e1fab-fddc-4f13-a7fa-ae4e9ac5a548"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Bell MT" isBold="true"/>
 				</textElement>
 				<text><![CDATA[nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="187" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="b7f2689a-1651-441b-b237-09c1b8edbe4e">
+				<reportElement mode="Opaque" x="132" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="b7f2689a-1651-441b-b237-09c1b8edbe4e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d4b46146-bd53-4f5a-aa20-2251dfda6076"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Bell MT" isBold="true"/>
 				</textElement>
-				<text><![CDATA[apellido_paterno]]></text>
+				<text><![CDATA[apellido paterno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="279" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="11ab4c01-f90b-40d2-900f-f96bdab773d3">
+				<reportElement mode="Opaque" x="224" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="11ab4c01-f90b-40d2-900f-f96bdab773d3">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="899136e1-25a7-4dc8-9d10-a2487ad835ca"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Bell MT" isBold="true"/>
 				</textElement>
-				<text><![CDATA[apellido_materno]]></text>
+				<text><![CDATA[apellido materno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="371" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="b3ba0085-3bce-483f-a352-95fa439b75e1">
+				<reportElement mode="Opaque" x="316" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="b3ba0085-3bce-483f-a352-95fa439b75e1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cb94c5aa-33d2-469d-aa48-f872293a5587"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Bell MT" isBold="true"/>
 				</textElement>
-				<text><![CDATA[telefono]]></text>
+				<text><![CDATA[t�lefono]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="463" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="6eeb5138-7f03-4c4b-be8d-048499583f5b">
+				<reportElement mode="Opaque" x="408" y="0" width="92" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="6eeb5138-7f03-4c4b-be8d-048499583f5b">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75ee1a30-31cc-4c54-8f1d-aaa6d3ce1c3d"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Bell MT" isBold="true"/>
 				</textElement>
 				<text><![CDATA[correo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="500" y="0" width="55" height="20" forecolor="#FFFFFF" backcolor="#1F618D" uuid="c991ccde-e8f3-40bd-852c-3a8a02274868">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9981a418-d0f6-458f-affc-13bb4f58502f"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bell MT" isBold="true"/>
+				</textElement>
+				<text><![CDATA[placa]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="39" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="95" height="22" uuid="88d2277d-8182-4445-8717-5060f93aad81">
+				<reportElement x="0" y="0" width="40" height="22" uuid="88d2277d-8182-4445-8717-5060f93aad81">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1e5ad49c-ca8c-4704-a20f-d1d63a947d63"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font fontName="Bell MT" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="95" y="0" width="92" height="22" uuid="c5ad5f09-c8a8-4ac9-9f7d-8714bc5bb024">
+				<reportElement x="40" y="0" width="92" height="22" uuid="c5ad5f09-c8a8-4ac9-9f7d-8714bc5bb024">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c0e1fab-fddc-4f13-a7fa-ae4e9ac5a548"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font fontName="Bell MT" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="187" y="0" width="92" height="22" uuid="8c8cadbf-5f9d-4f44-82b0-74e95d6b7e12">
+				<reportElement x="132" y="0" width="92" height="22" uuid="8c8cadbf-5f9d-4f44-82b0-74e95d6b7e12">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d4b46146-bd53-4f5a-aa20-2251dfda6076"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font fontName="Bell MT" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{apellido_paterno}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="279" y="0" width="92" height="22" uuid="a07535f5-395b-4d49-8086-2d46f44e4f22">
+				<reportElement x="224" y="0" width="92" height="22" uuid="a07535f5-395b-4d49-8086-2d46f44e4f22">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="899136e1-25a7-4dc8-9d10-a2487ad835ca"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font fontName="Bell MT" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{apellido_materno}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="371" y="0" width="92" height="22" uuid="60dadc51-1824-43b2-b9b7-76d9fd400444">
+				<reportElement x="316" y="0" width="92" height="22" uuid="60dadc51-1824-43b2-b9b7-76d9fd400444">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cb94c5aa-33d2-469d-aa48-f872293a5587"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font fontName="Bell MT" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="463" y="0" width="92" height="22" uuid="2e98dcbb-68dc-421f-b46a-143cb7dca387">
+				<reportElement x="408" y="0" width="92" height="22" uuid="2e98dcbb-68dc-421f-b46a-143cb7dca387">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75ee1a30-31cc-4c54-8f1d-aaa6d3ce1c3d"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="false"/>
+					<font fontName="Bell MT" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
 			</textField>
@@ -200,38 +223,37 @@
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<textField>
+				<reportElement x="500" y="0" width="55" height="22" uuid="a7596b22-76f4-48c1-bf9a-788b423e1d8f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9981a418-d0f6-458f-affc-13bb4f58502f"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Bell MT" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{placa}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="-11" y="11" width="555" height="1" uuid="ffde0804-90e8-496b-86fb-ee363619f187"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-		</band>
-	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="c9e9a989-76ae-4c92-a08c-dba3c3185f04"/>
 				<textElement textAlignment="Right">
-					<font fontName="Serif" size="10" isBold="false"/>
+					<font fontName="Bell MT" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="736cac2d-8f9a-48bb-b4e7-09302ce0e313"/>
 				<textElement>
-					<font fontName="Serif" size="10" isBold="false"/>
+					<font fontName="Bell MT" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="c49bc611-71b3-4860-8112-76288860b48d"/>
 				<textElement>
-					<font fontName="Serif" size="10" isBold="false"/>
+					<font fontName="Bell MT" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>

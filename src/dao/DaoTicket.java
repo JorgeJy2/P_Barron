@@ -1,16 +1,17 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import connection.PoolConnection;
 import model.dto.DtoTicket;
+import net.sf.jasperreports.engine.JRException;
+import report.FormatReport;
 
 public class DaoTicket implements DaoInterface<DtoTicket> {
 	private static final String _ADD = "INSERT INTO boleto (id_auto,id_persona) VALUES (?,?) RETURNING id";
@@ -27,15 +28,15 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 	private static final String _GET_ALL = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id "
 			+ "inner join automovil on boleto.id_auto = automovil.id ORDER BY boleto.id DESC";
 	
+	
+	
+	
 	private static final String _GET_ONE = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.id = ? ORDER BY boleto.id DESC";	
 
-	private static final String _GET_FILTER = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.@ LIKE # ORDER BY boleto.id DESC";
-
+	//private static final String _GET_FILTER = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id WHERE boleto.@ LIKE # ORDER BY boleto.id DESC";
 	
 	private static final String _GET_FILTER_ = "SELECT persona.id,persona.correo,automovil.id,automovil.placa,boleto.id,boleto.fecha_entrada,boleto.fecha_salida,boleto.total_pago,boleto.estatus FROM boleto inner join persona on boleto.id_persona = persona.id inner join automovil on boleto.id_auto = automovil.id ";
 
-	
-	
 	private static final String _UPDATE = "UPDATE boleto SET fecha_salida = now(),total_pago = ?,estatus = CAST(? AS estatus_boleto) WHERE id = ?";
 	private static final String _DELETE = "DELETE FROM boleto WHERE id = ?";
 
@@ -237,4 +238,12 @@ public class DaoTicket implements DaoInterface<DtoTicket> {
 		return listaBoleto;
 	}
 
+	@Override
+	public void generateReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException { 
+		FormatReport reportPeople = format; 
+		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
+		reportPeople.obtenerInforme();
+		reportPeople.compilarInforme();
+		reportPeople.MuestraInforme();
+	}
 }

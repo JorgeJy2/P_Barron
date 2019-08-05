@@ -13,6 +13,8 @@ public class ResourcesGui {
 		private static final Color SECOND_COLOR = Color.white;
 		private static final Color PRIMARY_COLOR = new Color(31, 97, 141);
 		private static final Color ACENT_COLOR = Color.gray;
+		private static final Color WARING_COLOR = new Color(235, 49, 49);
+		
 		
 		public static Color getSecondColor() {
 			return SECOND_COLOR;
@@ -22,6 +24,10 @@ public class ResourcesGui {
 		}
 		public static Color getAcentColor() {
 			return ACENT_COLOR;
+		}
+		
+		public static Color getWaringColor() {
+			return WARING_COLOR;
 		}
 	}
 	

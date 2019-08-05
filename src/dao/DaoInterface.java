@@ -1,4 +1,5 @@
 package dao;
+import java.io.IOException;
 /**
  * 
  * Archivo: DaoInterface.java
@@ -13,6 +14,9 @@ package dao;
 import java.sql.SQLException;
 
 import java.util.List;
+
+import net.sf.jasperreports.engine.JRException;
+import report.FormatReport;
 
 public interface DaoInterface<Model> {
 
@@ -79,4 +83,7 @@ public interface DaoInterface<Model> {
 	List<Model> getPaginator(int init, int end) throws SQLException, ClassNotFoundException;
 	List<Model> getFilter(String parameter,String value) throws SQLException, ClassNotFoundException;
 
+	
+	void generateReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException;
+	
 }

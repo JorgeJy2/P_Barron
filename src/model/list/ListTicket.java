@@ -1,5 +1,6 @@
 package model.list;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ import model.dto.DtoTicket;
 
 import model.list.interador.DaoInteractor;
 import model.list.interador.Interator;
+import net.sf.jasperreports.engine.JRException;
+import report.FormatReport;
 
 public class ListTicket implements Listable<DtoTicket> {
 
@@ -156,6 +159,12 @@ public class ListTicket implements Listable<DtoTicket> {
 	public boolean reloadNext() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public boolean getReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException { 
+		_dao.generateReport(format); 
+		return true;
 	}
 
 }

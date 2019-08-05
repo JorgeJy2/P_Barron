@@ -40,7 +40,7 @@ public class TicketGui extends JPanel implements IObserver {
 	private static final String TEXT_CAR_SELECT = "Seleciona a automovil";
 	private static final String TEXT_LOSE_TICKET = "TIcket perdido";
 
-	private static final int GRID_BTN_ROWS = 2;
+	private static final int GRID_BTN_ROWS = 1;
 	private static final int GRID_BTN_COLS = 2;
 
 	private static final String TEXT_PEOPLE = "Email";
@@ -112,17 +112,27 @@ public class TicketGui extends JPanel implements IObserver {
 
 		btnCar = new JButton(TEXT_CAR_SELECT);
 
+		btnCar.setBackground(ResourcesGui.COLOR.getPrimaryColor());
+		btnCar.setBorder(ResourcesGui.BORDER.getBorderBtnAcept());
+		btnCar.setForeground(ResourcesGui.COLOR.getSecondColor());
+
 		contentForm.add(btnCar);
 		contentForm.add(lbPeople);
 
 		// cbxPeople = new JComboBox<>(DATE_PEOPLE);
 
 		btnPeople = new JButton(TEXT_PEOPLE_SELECT);
+
+		btnPeople.setBackground(ResourcesGui.COLOR.getPrimaryColor());
+		btnPeople.setBorder(ResourcesGui.BORDER.getBorderBtnAcept());
+		btnPeople.setForeground(ResourcesGui.COLOR.getSecondColor());
+
 		contentForm.add(btnPeople);
 
 		cbxLoseTicket = new JCheckBox();
 		cbxLoseTicket.setBackground(ResourcesGui.COLOR.getSecondColor());
 
+	
 		contentForm.add(lbLoseTicket);
 		contentForm.add(cbxLoseTicket);
 
@@ -143,6 +153,7 @@ public class TicketGui extends JPanel implements IObserver {
 
 		contentButtons = new JPanel();
 		contentButtons.setLayout(new GridLayout(GRID_BTN_ROWS, GRID_BTN_COLS, BORDER_BTNS_H, BORDER_BTNS_V));
+		
 		contentButtons.setBackground(ResourcesGui.COLOR.getSecondColor());
 
 		btnAdd = new JButton(BTN_ADD);
@@ -206,6 +217,10 @@ public class TicketGui extends JPanel implements IObserver {
 
 	public JButton getBtnInforme() {
 		return btnInforme;
+	}
+
+	public JLabel getLbLoseTicket() {
+		return lbLoseTicket;
 	}
 	
 	

@@ -1,9 +1,12 @@
 package model.list;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 import model.list.interador.Interator;
+import net.sf.jasperreports.engine.JRException;
+import report.FormatReport;
 
 public interface Listable<Dto> {
 	
@@ -17,4 +20,6 @@ public interface Listable<Dto> {
 	int sizeDtos();
 	boolean reloadNext() throws ClassNotFoundException, SQLException ;
 	void loadListFilter(String parameter,String value) throws ClassNotFoundException, SQLException ;
+	
+	boolean getReport(FormatReport format)  throws ClassNotFoundException, SQLException, JRException, IOException;
 }
