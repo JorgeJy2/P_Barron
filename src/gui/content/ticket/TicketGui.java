@@ -13,8 +13,16 @@ import gui.resource.ResourcesGui;
 
 import observer.IObserver;
 
+/**
+ * Archivo: TicketGui.java contiene la definición de la clase TicketGui que
+ * extiende de JPanel e implementa de IObserver.
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+ * @version 1.0
+ *
+ */
 public class TicketGui extends JPanel implements IObserver {
-
+	// declaración de atributos
 	private static final long serialVersionUID = 1L;
 
 	private static final String BTN_ADD = "Agregar";
@@ -46,7 +54,7 @@ public class TicketGui extends JPanel implements IObserver {
 	private static final String TEXT_PEOPLE = "Email";
 
 	private static final String TEXT_CAR = "Placa";
-
+	// declaración de componentes
 	private JLabel lbImagen;
 	private JLabel lbPeople;
 	private JLabel lbCar;
@@ -69,10 +77,12 @@ public class TicketGui extends JPanel implements IObserver {
 
 	private JCheckBox cbxLoseTicket;
 
+	// constructor sin parámetros
 	public TicketGui() {
 		createGui();
-	}
+	}// cierre constructor
 
+	// Método que crea la vista
 	private void createGui() {
 
 		this.setLayout(new BorderLayout());
@@ -132,7 +142,6 @@ public class TicketGui extends JPanel implements IObserver {
 		cbxLoseTicket = new JCheckBox();
 		cbxLoseTicket.setBackground(ResourcesGui.COLOR.getSecondColor());
 
-	
 		contentForm.add(lbLoseTicket);
 		contentForm.add(cbxLoseTicket);
 
@@ -153,7 +162,7 @@ public class TicketGui extends JPanel implements IObserver {
 
 		contentButtons = new JPanel();
 		contentButtons.setLayout(new GridLayout(GRID_BTN_ROWS, GRID_BTN_COLS, BORDER_BTNS_H, BORDER_BTNS_V));
-		
+
 		contentButtons.setBackground(ResourcesGui.COLOR.getSecondColor());
 
 		btnAdd = new JButton(BTN_ADD);
@@ -175,13 +184,14 @@ public class TicketGui extends JPanel implements IObserver {
 
 		this.add(contentMain, BorderLayout.CENTER);
 
-	}
+	}// cierre método createGui
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 	}
 
+	// getters
 	public JButton getBtnAdd() {
 		return btnAdd;
 	}
@@ -198,6 +208,7 @@ public class TicketGui extends JPanel implements IObserver {
 		return btnCar;
 	}
 
+	// métodos reset
 	public void resetBtnSelect() {
 		btnCar.setText(TEXT_CAR_SELECT);
 		btnPeople.setText(TEXT_PEOPLE_SELECT);
@@ -207,6 +218,7 @@ public class TicketGui extends JPanel implements IObserver {
 		btnAdd.setText(BTN_ADD);
 	}
 
+	// métodos get
 	public JCheckBox getCbxLoseTicket() {
 		return cbxLoseTicket;
 	}
@@ -222,7 +234,5 @@ public class TicketGui extends JPanel implements IObserver {
 	public JLabel getLbLoseTicket() {
 		return lbLoseTicket;
 	}
-	
-	
 
-}
+}// cierre clase TicketGui
