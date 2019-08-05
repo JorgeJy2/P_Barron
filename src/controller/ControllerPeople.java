@@ -425,7 +425,7 @@ public class ControllerPeople extends ControllerWindow{
 	}
 
 	public String getParametro() { 
-		return JOptionPane.showInputDialog(null, "Ingresa Párametro de Busqueda");
+		return JOptionPane.showInputDialog(null, "Ingresa Digitos de una placa para búsqueda");
 	}
 
 }
