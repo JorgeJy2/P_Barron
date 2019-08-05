@@ -16,8 +16,15 @@ import javax.swing.JPanel;
 
 import gui.resource.ResourcesGui;
 
+/**
+ * Archivo: Messages.java contiene la definición de la clase Messages
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+ * @version 1.0
+ *
+ */
 public class Messages {
-
+	// declaración de atributos
 	private static final String PATH_IMG_ERR = "imgs/aversion.png";
 	private static final String TITLE_ERR = "¡Lo sentimos ocurrió un error!";
 	private static final String I_UNDESTAND = "Entiendo";
@@ -25,6 +32,11 @@ public class Messages {
 	private static final String PATH_IMG_INFO = "imgs/como.png";
 	private static final String TITLE_INFO = "Información";
 
+	/**
+	 * Método showMessage
+	 * 
+	 * @param msg valor de tipo String
+	 */
 	public static void showMessage(String msg) {
 
 		JDialog dialog = new JDialog(new JFrame(), TITLE_INFO);
@@ -72,8 +84,13 @@ public class Messages {
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 
-	}
+	}// cierre método showMessage
 
+	/**
+	 * Método showError
+	 * 
+	 * @param msg valor de tipo String
+	 */
 	public static void showError(String msg) {
 
 		JDialog dialog = new JDialog(new JFrame(), TITLE_ERR);
@@ -121,6 +138,6 @@ public class Messages {
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 
-	}
+	}// cierre método showError
 
-}
+}// cierre clase Messages

@@ -6,17 +6,15 @@ import observer.Observable;
  * Archivo: DtoPeople.java
  * 
  * Objetivo: Representa la estructura de una persona en el mundo real.
- *  
- * @author jorge
+ * 
+ * @author Jorge Jacobo, Marcos Moreno, Gabriel Garcia, Amanda Franco
+ * @version 1.0
  *
  */
 
-public class DtoPeople extends Observable{
-	
-	//Atributos
-	
-	//Atributos de clase
-	
+public class DtoPeople extends Observable {
+
+	// Atributos de clase
 	private int id;
 	private String name;
 	private String firstName;
@@ -24,32 +22,40 @@ public class DtoPeople extends Observable{
 	private String telephone;
 	private String email;
 
-	//Constructores
-	
-	//Sin parametros
-	
+	// Constructores
+
+	// Sin parametros
+
 	public DtoPeople() {
-		id 			= 1;
-		name 		= "Juan";
-		firstName 	= "Pedro";
-		lastName 	= "Gutierrez";
-		telephone 	= "(55)- 66-11-22-12";
-		email 		= "pedro@gmail.com";
+		id = 1;
+		name = "Juan";
+		firstName = "Pedro";
+		lastName = "Gutierrez";
+		telephone = "(55)- 66-11-22-12";
+		email = "pedro@gmail.com";
 
-	}
+	}// cierre constructor
 
-	// Con parametros
+	/**
+	 * Construtor con parámetros
+	 * 
+	 * @param id        valor de tipo entero
+	 * @param name      valor de tipo String
+	 * @param firstName valor de tipo String
+	 * @param lastName  valor de tipo String
+	 * @param telephone valor de tipo String
+	 * @param email     valor de tipo String
+	 */
 	public DtoPeople(int id, String name, String firstName, String lastName, String telephone, String email) {
-		this.id 		= id;
-		this.name 		= name;
-		this.firstName 	= firstName;
-		this.lastName 	= lastName;
-		this.telephone 	= telephone;
-		this.email 		= email;
-	}
+		this.id = id;
+		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.telephone = telephone;
+		this.email = email;
+	}// cierre constructor
 
-	// Manejadores
-
+	// Manejadores getters y setters
 	public int getId() {
 		return id;
 	}
@@ -104,13 +110,12 @@ public class DtoPeople extends Observable{
 		this.notifyIObservers();
 	}
 
-
 	/**
 	 * toString
 	 * 
 	 * Proporciona una vista del estado de la clase.
 	 * 
-	 * @return valores de los atributos que almacena la instancia. 
+	 * @return valores de los atributos que almacena la instancia.
 	 */
 
 	@Override
@@ -119,4 +124,4 @@ public class DtoPeople extends Observable{
 				+ ", telephone=" + telephone + ", email=" + email + "]";
 	}
 
-}// Fin de la clase
+}// Cierre clase DtoPeople
