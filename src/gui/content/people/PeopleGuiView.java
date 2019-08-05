@@ -12,7 +12,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
- 
+
+import controller.ControllerPeople;
 import gui.resource.ResourcesGui;
 
 import observer.IObserver;

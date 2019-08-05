@@ -9,13 +9,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.concurrent.Executor;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
  
-import javax.swing.JScrollBar; 
 import gui.content.people.PeopleContainerMainGui; 
 import gui.dialogs.Messages; 
 import model.dto.DtoPeople; 
 import model.list.ListPeople; 
 import model.list.interador.Interator;
+import report.FormatReport;
+import report.ReportPeople;
+import report.decoratorComponent.ReportFilterPeople;
 
 public class ControllerPeople extends ControllerWindow{
 
@@ -35,12 +41,10 @@ public class ControllerPeople extends ControllerWindow{
 	public ControllerPeople(PeopleContainerMainGui view) {
 		this.view = view;
 		listPeople = ListPeople.getInstance();
-		scrollableTable = new ScrollableTable(this);
-		
-		
-		
+		scrollableTable = new ScrollableTable(this); 
+		view.getPeopleGuiView().getTable().addMouseListener(new MauseClickedOnTable(this));
 		addScrollTable();
-		
+		addListener();
 		if(listPeople.sizeDtos() > 0 ) {
 			System.out.println("Contiene datos...");
 		}else {
@@ -50,15 +54,10 @@ public class ControllerPeople extends ControllerWindow{
 			}catch (ClassNotFoundException | SQLException e) {
 				Messages.showError("  "+e.getMessage());
 				
-			}  
-			
-		}
-		
+			}   
+		} 
 		reloadData();
-	}
-
-
-	
+	}  
 	public boolean reloadDataList() { 
         	String[][] data= new String[listPeople.sizeDtos()][5]; 
             Interator<DtoPeople> inte =  listPeople.getAll(); 
@@ -184,32 +183,32 @@ public class ControllerPeople extends ControllerWindow{
 			if (validateFieldText(view.getPeopleGui().getTxtName().getText())) {
 				dtoPeople.setName(view.getPeopleGui().getTxtName().getText());
 			}else {
-				Messages.showError("  Campo Nombre invï¿½lido");
+				Messages.showError("  Campo Nombre inválido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtFirsName().getText())) {
 				dtoPeople.setFirstName(view.getPeopleGui().getTxtFirsName().getText());
 			}else {
-				Messages.showError("  Campo Apellido Paterno invï¿½lido");
+				Messages.showError("  Campo Apellido Paterno inválido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtLastName().getText())) {
 				dtoPeople.setLastName(view.getPeopleGui().getTxtLastName().getText());
 			}else {
-				Messages.showError("  Campo Apellido Materno invï¿½lido");
+				Messages.showError("  Campo Apellido Materno inválido");
 				return false;
 			}
 			
 			if (validateFieldText(view.getPeopleGui().getTxtEmail().getText())) {
 				dtoPeople.setEmail(view.getPeopleGui().getTxtEmail().getText());
 			}else {
-				Messages.showError("  Campo  Correo invï¿½lido");
+				Messages.showError("  Campo  Correo inválido¿½lido");
 				return false;
 			}
 			if (validateFieldText(view.getPeopleGui().getTxtTelephone().getText())) {
 				dtoPeople.setTelephone(view.getPeopleGui().getTxtTelephone().getText());
 			}else {
-				Messages.showError("  Campo Tï¿½lefono invï¿½lido");
+				Messages.showError("  Campo Télefono inválido");
 				return false;
 			} 
 			return true;
@@ -292,7 +291,7 @@ public class ControllerPeople extends ControllerWindow{
     }
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) { 
 		if (e.getSource() == view.getPeopleGuiView().getBtnFilter()) {
 			 filter();
 		} else if(e.getSource() == view.getPeopleGui().getBtnCancel()) {
@@ -314,15 +313,38 @@ public class ControllerPeople extends ControllerWindow{
 				Messages.showMessage(" Eliminado");
 			} 	
 		}else if(e.getSource() == view.getPeopleGui().getBtnInforme()) {
-			try {
-				((ListPeople) listPeople).getReport("personas.jasper");
-			} catch (ClassNotFoundException e1) {
-				Messages.showError(" "+e1.getMessage());
-			} catch (SQLException e1) {
-				Messages.showError(" "+e1.getMessage());
-			}
+			searchReport();
 		}
 	}
+
+	private void searchReport() {
+		String[] reportOption = { "Reporte Simple", "Reporte(Mediante Busqueda Avanzada)"};
+		JFrame frame = new JFrame();
+		
+	    String index = (String) JOptionPane.showInputDialog(frame,"Qué reporte deseas ver?","Formato de Reporte",
+		        JOptionPane.QUESTION_MESSAGE, null, reportOption, reportOption[0]);
+	    
+	    FormatReport format = null;
+	    boolean execute = false;
+	    if (index.equalsIgnoreCase("Reporte Simple")) {
+	    	format = new ReportPeople();
+	    	execute = true;
+		}else {
+			format = new ReportFilterPeople(this, new ReportPeople());
+			execute = true;
+		} 
+	    if (execute) {
+	    	try {
+				((ListPeople) listPeople).getReport(format);
+			} catch (ClassNotFoundException e1) { 
+				e1.printStackTrace();
+			} catch (SQLException e1) { 
+				e1.printStackTrace();
+			} 
+		} 
+	}
+
+
 
 	@Override
 	public boolean addListener() {
@@ -399,8 +421,11 @@ public class ControllerPeople extends ControllerWindow{
 	                	controller.loadNextCars();
 	                }
 	            }
-		}
-		
+		} 
+	}
+
+	public String getParametro() { 
+		return JOptionPane.showInputDialog(null, "Ingresa Digitos de una placa para búsqueda");
 	}
 
 }

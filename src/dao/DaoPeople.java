@@ -4,15 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Format;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JOptionPane;
-
-import connection.PoolConnection;
-import model.dto.DtoCar;
+import java.util.List; 
+import connection.PoolConnection;  
 import model.dto.DtoPeople;
-import report.CompileReporte;
+import report.FormatReport;
+import report.Report;
+import report.ReportPeople;
 
 public class DaoPeople implements DaoInterface<DtoPeople> {
 
@@ -202,9 +201,12 @@ public class DaoPeople implements DaoInterface<DtoPeople> {
 		return list;
 	}
 	
-	public void generateReport(String name_report) throws ClassNotFoundException, SQLException { 
-		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
-		CompileReporte.excecuteReport(connectionPostgresql,name_report);
+	public void generateReport(FormatReport format) throws ClassNotFoundException, SQLException { 
+		FormatReport reportPeople = format; 
+		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
+		reportPeople.obtenerInforme();
+		reportPeople.compilarInforme();
+		reportPeople.MuestraInforme();
 	}
 }
 

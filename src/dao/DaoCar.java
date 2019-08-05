@@ -9,7 +9,8 @@ import java.util.List;
 
 import connection.PoolConnection;
 import model.dto.DtoCar;
-import report.CompileReporte;
+import report.FormatReport;
+import report.ReportCar;
 
 public class DaoCar implements DaoInterface<DtoCar> {
 
@@ -185,9 +186,12 @@ public class DaoCar implements DaoInterface<DtoCar> {
 		return list;
 	}
 	
-	public void generateReport(String name_report) throws ClassNotFoundException, SQLException { 
-		Connection connectionPostgresql = PoolConnection.getInstancePool().getConnectionToPoll();
-		CompileReporte.excecuteReport(connectionPostgresql,name_report);
+	public void generateReport(FormatReport format) throws ClassNotFoundException, SQLException { 
+		FormatReport reportPeople = format; 
+		reportPeople.setConexion(PoolConnection.getInstancePool().getConnectionToPoll());
+		reportPeople.obtenerInforme();
+		reportPeople.compilarInforme();
+		reportPeople.MuestraInforme();
 	}
 
 }
